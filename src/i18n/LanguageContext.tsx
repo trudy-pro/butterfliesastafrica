@@ -21,8 +21,8 @@ export const useLanguage = () => {
 const translations: Record<Language, Record<string, string>> = {
   en: {
     // Header
-    "header.title": "Butterflies of East Africa",
-    "header.subtitle": "An archive exploring natural selection in Color, Pattern, Shape, and Form — documenting butterfly species across East Africa.",
+    "header.title": "Butterflies of\nEast Africa Archive",
+    "header.subtitle": "Natural history research portal",
     // Toolbar
     "toolbar.filter": "Filter",
     "toolbar.compare": "Compare",
@@ -166,8 +166,8 @@ const translations: Record<Language, Record<string, string>> = {
     "family.Hesperiidae": "Hesperiidae",
   },
   de: {
-    "header.title": "Schmetterlinge Ostafrikas",
-    "header.subtitle": "Ein Archiv zur Erforschung der natürlichen Selektion in Farbe, Muster, Form und Gestalt — Dokumentation von Schmetterlingsarten in Ostafrika.",
+    "header.title": "Schmetterlinge\nOstafrika-Archiv",
+    "header.subtitle": "Naturhistorisches Forschungsportal",
     "toolbar.filter": "Filter",
     "toolbar.compare": "Vergleichen",
     "toolbar.info": "Info",
