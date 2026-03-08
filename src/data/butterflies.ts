@@ -696,7 +696,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "plexippus",
     image: danausPlexippus,
     colors: ["Orange", "Black", "White"],
-    pattern: "Veined",
+    pattern: "Warning Coloration",
     wingShape: "Rounded Broad",
     habitat: "Coastal",
     region: "Kenya, Tanzania",
