@@ -237,6 +237,16 @@ const Index = () => {
       {showInfo && <InfoPanel onClose={() => setShowInfo(false)} />}
       {showCompare && <ComparisonView onClose={() => setShowCompare(false)} />}
       {showIdentify && <IdentifyPanel onClose={() => setShowIdentify(false)} />}
+      {browseCategory && (
+        <CategoryBrowseModal
+          category={browseCategory}
+          onClose={() => setBrowseCategory(null)}
+          onSelect={(cat, value) => {
+            setSearchCategory(cat);
+            setSearchQuery(value);
+          }}
+        />
+      )}
     </div>
   );
 };
