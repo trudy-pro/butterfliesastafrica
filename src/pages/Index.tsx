@@ -157,8 +157,8 @@ const Index = () => {
         </h1>
       </header>
 
-      {/* Toolbar */}
-      <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
+      {/* Toolbar + Search */}
+      <div className="sticky top-0 z-[60] bg-background/90 backdrop-blur-md border-b border-border">
         <div className="flex items-center justify-end px-6 py-3">
           <div className="flex items-center gap-4">
             <button
@@ -182,10 +182,19 @@ const Index = () => {
             </button>
           </div>
         </div>
+        <div className="pb-4">
+          <SearchBar
+            query={searchQuery}
+            onQueryChange={setSearchQuery}
+            activeCategory={searchCategory}
+            onCategoryChange={setSearchCategory}
+            onCategoryBrowse={(cat) => setBrowseCategory(cat)}
+          />
+        </div>
       </div>
 
       {/* Specimen Grid */}
-      <main className="flex-1 py-6 pb-40">
+      <main className="flex-1 py-6">
         {filtered.length === 0 ? (
           <div className="text-center py-20 px-3">
             <p className="text-sm font-body text-muted-foreground">{t("empty.noMatch")}</p>
@@ -200,17 +209,6 @@ const Index = () => {
           <ScrollableGrid filtered={filtered} onSelect={setSelectedSpecimen} />
         )}
       </main>
-
-      {/* Search Bar — fixed at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 z-[60] bg-background/90 backdrop-blur-md border-t border-border py-4">
-        <SearchBar
-          query={searchQuery}
-          onQueryChange={setSearchQuery}
-          activeCategory={searchCategory}
-          onCategoryChange={setSearchCategory}
-          onCategoryBrowse={(cat) => setBrowseCategory(cat)}
-        />
-      </div>
 
       {/* Panels */}
       {showFilters && (
