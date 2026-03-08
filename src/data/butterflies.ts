@@ -1020,7 +1020,7 @@ export const specimens: ButterflySpecimen[] = [
     image: axiocersesTjoane,
     colors: ["Red", "Orange", "Black"],
     pattern: "Solid",
-    wingShape: "Tailed",
+    wingShape: "Small Tailed",
     habitat: "Woodland",
     region: "Tanzania",
     migration: "Resident",
