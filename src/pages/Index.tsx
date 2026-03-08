@@ -131,9 +131,15 @@ const Index = () => {
         <h1 className="text-4xl md:text-5xl font-display italic text-foreground mb-4">
           Lepidoptera East Africa
         </h1>
-        <p className="max-w-xl mx-auto text-sm font-body text-muted-foreground leading-relaxed">
+        <p className="max-w-xl mx-auto text-sm font-body text-muted-foreground leading-relaxed mb-8">
           An archive exploring natural selection in Color, Pattern, Shape, and Form — documenting butterfly species across East Africa.
         </p>
+        <SearchBar
+          query={searchQuery}
+          onQueryChange={setSearchQuery}
+          activeCategory={searchCategory}
+          onCategoryChange={setSearchCategory}
+        />
       </header>
 
       {/* Toolbar */}
