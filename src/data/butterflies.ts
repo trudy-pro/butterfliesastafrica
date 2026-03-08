@@ -601,7 +601,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "zetes",
     image: acraeaZetes,
     colors: ["Orange", "Black"],
-    pattern: "Spotted",
+    pattern: "Spotted Banded",
     wingShape: "Elongated Narrow",
     habitat: "Savanna",
     region: "Kenya, Tanzania, Uganda, Ethiopia",
