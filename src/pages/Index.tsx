@@ -1,6 +1,9 @@
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Camera } from "lucide-react";
+import { ChevronLeft, ChevronRight, Camera, LogIn, LogOut } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import type { User } from "@supabase/supabase-js";
 import { specimens, ButterflySpecimen, WingColor, WingPattern, WingShape, Habitat, Migration, Family } from "@/data/butterflies";
 import SpecimenCard from "@/components/SpecimenCard";
 import SpecimenDetail from "@/components/SpecimenDetail";
@@ -82,6 +85,8 @@ const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[];
 
 const Index = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
+  const [user, setUser] = useState<User | null>(null);
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
@@ -99,6 +104,16 @@ const Index = () => {
     family: null,
     country: null,
   });
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   const filtered = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
@@ -180,6 +195,23 @@ const Index = () => {
             >
               {t("toolbar.info")}
             </button>
+            {user ? (
+              <button
+                onClick={async () => { await supabase.auth.signOut(); }}
+                className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
+              >
+                <LogOut size={14} />
+                Sign Out
+              </button>
+            ) : (
+              <button
+                onClick={() => navigate("/auth")}
+                className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
+              >
+                <LogIn size={14} />
+                Contribute
+              </button>
+            )}
           </div>
         </div>
       </div>
