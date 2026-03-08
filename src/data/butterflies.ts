@@ -201,7 +201,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "misippus",
     image: hypolimnasMisippus,
     colors: ["Black", "White", "Iridescent"],
-    pattern: "Spotted",
+    pattern: "Polymorphic Mimicry",
     wingShape: "Rounded Broad",
     habitat: "Savanna",
     region: "Kenya, Tanzania, Uganda",
