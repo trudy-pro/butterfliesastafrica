@@ -333,6 +333,14 @@ const specimenTranslations: Record<string, Record<string, { commonName: string; 
     "bo-060": { commonName: "Ockerfarbenes Buschbraun", description: "Ein Satyrinae aus Angolas Serra de Namba-Wäldern.", evolutionaryTrait: "Phänotypische Plastizität — Augenfleckgrösse variiert mit Umweltbedingungen" },
     "ar-061": { commonName: "Rotgeringelter Haarschwanz", description: "Ein winziger Lycaenide mit markanten rotgeringelten Markierungen.", evolutionaryTrait: "Rote Randringe — einzigartiges Pigmentierungsmuster in der Gattung Anthene" },
     "ac-062": { commonName: "Canopus-Dickkopffalter", description: "Ein auffällig gezeichneter Dickkopffalter mit kontrastreichem braun-weissem Fleckenmuster.", evolutionaryTrait: "Dämmerungsfütterung — angepasst an Nahrungsaufnahme in der Dämmerung" },
+    "js-063": { commonName: "Kleiner Kommodore", description: "Ein kleiner, widerstandsfähiger Pansyfalter der trockenen Savannen des Südsudan und Nordugandas.", evolutionaryTrait: "Trockenzonenanpassung — gedeiht in trockener Savanne" },
+    "pc-064": { commonName: "Konstantins Schwalbenschwanz", description: "Ein spektakulärer Schwalbenschwanz aus den Bergwäldern des Albertine-Grabens.", evolutionaryTrait: "Albertine-Graben-Endemit — in Bergwäldern isoliert entwickelt" },
+    "cpro-065": { commonName: "Rote Spitze", description: "Ein zarter Weissling der trockenen Savannen von Südsudan und Norduganda.", evolutionaryTrait: "Trockenzeitkryptik — Unterseite imitiert trockene Grashalme" },
+    "ap-066": { commonName: "Montane Acraea", description: "Ein Albertine-Graben-Spezialist aus den Bergwäldern von Nyungwe und Kibira.", evolutionaryTrait: "Montanspezialisierung — auf Hochlandwaldlichtungen beschränkt" },
+    "ce-067": { commonName: "Dämon-Charaxes", description: "Ein kraftvoller Kronendachflieger mit atemberaubenden blaugrünen Irisierungsflecken.", evolutionaryTrait: "Irisierende Flecken — Strukturfarben für intraspezifische Signalgebung" },
+    "bc-068": { commonName: "Kalypso-Weissling", description: "Ein häufiger Waldweissling, der beeindruckende Wanderschwärme über Südsudan bildet.", evolutionaryTrait: "Massenwanderung — bildet grosse saisonale Schwärme" },
+    "nn-069": { commonName: "Fleckensegler", description: "Ein anmutiger Gleiter der Albertine-Graben-Wälder von Burundi und Ruanda.", evolutionaryTrait: "Gleitflug — energieeffizientes Gleiten durch den Waldunterwuchs" },
+    "eb-070": { commonName: "Barombe-Nymphe", description: "Eine geheimnisvolle Waldnymphe aus den Tropenwäldern des Südsudan und Ugandas.", evolutionaryTrait: "Waldbodenspezialisierung — ernährt sich von faulendem Obst" },
   },
 };
 
