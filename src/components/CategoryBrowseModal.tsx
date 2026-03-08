@@ -127,49 +127,65 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
         </div>
       </div>
 
-      {/* Table Content */}
-      <div className="flex-1 overflow-y-auto px-8 py-4">
-        {filteredSections.map((section, sectionIdx) => {
-          const cat = categoryForItem(section.title);
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto px-8 py-6">
+        <div className={`grid gap-12 ${filteredSections.length > 1 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" : "grid-cols-1"}`}>
+          {filteredSections.map((section, sectionIdx) => {
+            const cat = categoryForItem(section.title);
+            const useLetterGroups = cat === "species";
+            const letterGroups = useLetterGroups ? getLetterGroups(section.items) : [];
 
-          return (
-            <motion.div
-              key={section.title}
-              className="mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 + sectionIdx * 0.05 }}
-            >
-              {/* Table header */}
-              <div className="flex items-center border-b-2 border-primary px-2 py-2 mb-0">
-                <span className="flex-1 text-xs font-body text-muted-foreground uppercase tracking-widest">
-                  Name / Title ↓
-                </span>
-                <span className="text-xs font-body text-muted-foreground uppercase tracking-widest w-40 text-right">
+            return (
+              <motion.div
+                key={section.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + sectionIdx * 0.05 }}
+              >
+                <h3 className="text-xs font-body font-medium text-muted-foreground uppercase tracking-widest mb-4">
                   {section.title}
-                </span>
-              </div>
-
-              {/* Table rows */}
-              <div className="divide-y divide-border">
-                {section.items.map((item) => (
-                  <button
-                    key={item.name}
-                    onClick={() => { onSelect(cat, item.name); onClose(); }}
-                    className="flex items-center w-full px-2 py-2.5 text-left hover:bg-secondary/60 transition-colors cursor-pointer group"
-                  >
-                    <span className="flex-1 text-sm font-body text-foreground group-hover:text-primary transition-colors">
-                      {item.name}
-                    </span>
-                    <span className="text-sm font-body text-muted-foreground w-40 text-right">
-                      {item.count}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          );
-        })}
+                </h3>
+                {useLetterGroups ? (
+                  <div className="space-y-4">
+                    {letterGroups.map(([letter, items]) => (
+                      <div key={letter}>
+                        <p className="text-xs font-body font-semibold text-primary mb-2">{letter}</p>
+                        <div className="flex flex-wrap gap-2">
+                          {items.map((item) => (
+                            <motion.button
+                              key={item.name}
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.97 }}
+                              onClick={() => { onSelect(cat, item.name); onClose(); }}
+                              className="px-3.5 py-2 text-sm font-body text-foreground bg-background border border-border rounded-md hover:bg-secondary transition-colors cursor-pointer uppercase tracking-wide inline-flex items-center gap-2"
+                            >
+                              {item.name}
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex flex-wrap gap-2">
+                    {section.items.map((item) => (
+                      <motion.button
+                        key={item.name}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.97 }}
+                        onClick={() => { onSelect(cat, item.name); onClose(); }}
+                        className="px-3.5 py-2 text-sm font-body text-foreground bg-background border border-border rounded-md hover:bg-secondary transition-colors cursor-pointer uppercase tracking-wide inline-flex items-center gap-2"
+                      >
+                        {item.name}
+                        <span className="text-xs text-muted-foreground font-normal">{item.count}</span>
+                      </motion.button>
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+            );
+          })}
+        </div>
 
         {filteredSections.length === 0 && (
           <p className="text-sm font-body text-muted-foreground text-center py-12">No results found.</p>
