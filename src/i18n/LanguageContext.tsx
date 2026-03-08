@@ -95,6 +95,16 @@ const translations: Record<Language, Record<string, string>> = {
     // Empty state
     "empty.noMatch": "No specimens match the current filters.",
     "empty.reset": "Reset filters",
+    // Identify
+    "identify.title": "Identify Butterfly",
+    "identify.subtitle": "Upload a photo to analyze its color, pattern, shape, and form.",
+    "identify.dropzone": "Drop an image here, or click to browse",
+    "identify.formats": "JPG, PNG, WEBP — max 10 MB",
+    "identify.analyze": "Analyze Butterfly",
+    "identify.analyzing": "Analyzing specimen…",
+    "identify.notFound": "No butterfly detected in this image.",
+    "identify.tryAnother": "Try another image",
+    "toolbar.identify": "Identify",
     // Colors
     "color.Orange": "Orange",
     "color.Yellow": "Yellow",
