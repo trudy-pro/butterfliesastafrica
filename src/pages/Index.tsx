@@ -6,7 +6,7 @@ import SpecimenDetail from "@/components/SpecimenDetail";
 import FilterPanel, { FilterState } from "@/components/FilterPanel";
 import InfoPanel from "@/components/InfoPanel";
 import ComparisonView from "@/components/ComparisonView";
-
+import SearchBar, { SearchCategory } from "@/components/SearchBar";
 
 const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -72,6 +72,8 @@ const Index = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [showCompare, setShowCompare] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchCategory, setSearchCategory] = useState<SearchCategory>("all");
   const [filters, setFilters] = useState<FilterState>({
     color: null,
     pattern: null,
@@ -82,6 +84,7 @@ const Index = () => {
   });
 
   const filtered = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
     return specimens.filter((s) => {
       if (filters.color && !s.colors.includes(filters.color)) return false;
       if (filters.pattern && s.pattern !== filters.pattern) return false;
@@ -89,9 +92,35 @@ const Index = () => {
       if (filters.habitat && s.habitat !== filters.habitat) return false;
       if (filters.migration && s.migration !== filters.migration) return false;
       if (filters.family && s.family !== filters.family) return false;
+      if (q) {
+        let haystack = "";
+        switch (searchCategory) {
+          case "species":
+            haystack = `${s.commonName} ${s.scientificName}`.toLowerCase();
+            break;
+          case "families":
+            haystack = `${s.family} ${s.genus}`.toLowerCase();
+            break;
+          case "regions":
+            haystack = s.region.toLowerCase();
+            break;
+          case "habitats":
+            haystack = s.habitat.toLowerCase();
+            break;
+          case "patterns":
+            haystack = s.pattern.toLowerCase();
+            break;
+          case "colors":
+            haystack = s.colors.join(" ").toLowerCase();
+            break;
+          default:
+            haystack = `${s.commonName} ${s.scientificName} ${s.region} ${s.family} ${s.genus} ${s.habitat} ${s.pattern} ${s.colors.join(" ")}`.toLowerCase();
+        }
+        if (!haystack.includes(q)) return false;
+      }
       return true;
     });
-  }, [filters]);
+  }, [filters, searchQuery, searchCategory]);
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
 
@@ -102,9 +131,15 @@ const Index = () => {
         <h1 className="text-4xl md:text-5xl font-display italic text-foreground mb-4">
           Lepidoptera East Africa
         </h1>
-        <p className="max-w-xl mx-auto text-sm font-body text-muted-foreground leading-relaxed">
+        <p className="max-w-xl mx-auto text-sm font-body text-muted-foreground leading-relaxed mb-8">
           An archive exploring natural selection in Color, Pattern, Shape, and Form — documenting butterfly species across East Africa.
         </p>
+        <SearchBar
+          query={searchQuery}
+          onQueryChange={setSearchQuery}
+          activeCategory={searchCategory}
+          onCategoryChange={setSearchCategory}
+        />
       </header>
 
       {/* Toolbar */}

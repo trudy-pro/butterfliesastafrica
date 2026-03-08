@@ -50,6 +50,10 @@
     --filter-active-fg: 40 20% 96%;
     --specimen-overlay: 30 10% 15%;
 
+    --search-bar-bg: 25 30% 45%;
+    --search-bar-btn: 25 25% 52%;
+    --search-cat: 25 30% 40%;
+
     --font-display: 'Instrument Serif', serif;
     --font-body: 'DM Sans', sans-serif;
   }
@@ -86,6 +90,10 @@
     --filter-active: 40 15% 90%;
     --filter-active-fg: 30 10% 8%;
     --specimen-overlay: 30 10% 8%;
+
+    --search-bar-bg: 25 25% 30%;
+    --search-bar-btn: 25 20% 38%;
+    --search-cat: 25 25% 55%;
   }
 }
 
