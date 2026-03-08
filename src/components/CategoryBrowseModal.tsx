@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import { X } from "lucide-react";
+import { useMemo, useState } from "react";
+import { X, Search } from "lucide-react";
 import { motion } from "framer-motion";
 import { specimens } from "@/data/butterflies";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -13,6 +13,9 @@ interface CategoryBrowseModalProps {
 
 const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModalProps) => {
   const { t } = useLanguage();
+  const [searchFilter, setSearchFilter] = useState("");
+
+  const isSpeciesView = category === "species";
 
   const sections = useMemo(() => {
     const result: { title: string; items: { name: string; count: number }[] }[] = [];
@@ -52,6 +55,28 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
     return result;
   }, [category, t]);
 
+  const filteredSections = useMemo(() => {
+    if (!searchFilter.trim()) return sections;
+    const q = searchFilter.toLowerCase();
+    return sections.map((section) => ({
+      ...section,
+      items: section.items.filter((item) => item.name.toLowerCase().includes(q)),
+    })).filter((section) => section.items.length > 0);
+  }, [sections, searchFilter]);
+
+  // Group species items by first letter for A-Z navigation
+  const alphabetGroups = useMemo(() => {
+    if (!isSpeciesView || filteredSections.length === 0) return null;
+    const items = filteredSections[0].items;
+    const groups: Record<string, typeof items> = {};
+    items.forEach((item) => {
+      const letter = item.name[0].toUpperCase();
+      if (!groups[letter]) groups[letter] = [];
+      groups[letter].push(item);
+    });
+    return groups;
+  }, [isSpeciesView, filteredSections]);
+
   const categoryForItem = (sectionTitle: string): SearchCategory => {
     if (sectionTitle === t("search.species")) return "species";
     if (sectionTitle === t("search.families")) return "families";
@@ -89,42 +114,93 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
         </button>
       </motion.div>
 
+      {/* Search input for species */}
+      {isSpeciesView && (
+        <div className="px-8 pt-4 pb-2">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <input
+              type="text"
+              value={searchFilter}
+              onChange={(e) => setSearchFilter(e.target.value)}
+              placeholder={t("search.placeholder")}
+              className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background font-body text-sm text-foreground outline-none placeholder:text-muted-foreground focus:ring-1 focus:ring-primary"
+              autoFocus
+            />
+          </div>
+        </div>
+      )}
+
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-8 py-8">
-        <div className={`grid gap-12 ${sections.length > 1 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" : "grid-cols-1"}`}>
-          {sections.map((section, sectionIdx) => (
-            <motion.div
-              key={section.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 + sectionIdx * 0.05 }}
-            >
-              <h3 className="text-xs font-body font-medium text-muted-foreground uppercase tracking-widest mb-4">
-                {section.title}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {section.items.map((item, itemIdx) => (
-                  <motion.button
-                    key={item.name}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.15 + sectionIdx * 0.05 + itemIdx * 0.015 }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => {
-                      onSelect(categoryForItem(section.title), item.name);
-                      onClose();
-                    }}
-                    className="px-3.5 py-2 text-sm font-body text-foreground bg-background border border-border rounded-md hover:bg-secondary transition-colors cursor-pointer uppercase tracking-wide inline-flex items-center gap-2"
-                  >
-                    {item.name}
-                    <span className="text-xs text-muted-foreground font-normal">{item.count}</span>
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        {isSpeciesView && alphabetGroups ? (
+          <div className="space-y-8">
+            {Object.keys(alphabetGroups).sort().map((letter, letterIdx) => (
+              <motion.div
+                key={letter}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.05 + letterIdx * 0.02 }}
+              >
+                <h3 className="text-2xl font-display italic text-foreground mb-3 border-b border-border pb-1">
+                  {letter}
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1">
+                  {alphabetGroups[letter].map((item) => (
+                    <button
+                      key={item.name}
+                      onClick={() => {
+                        onSelect("species", item.name);
+                        onClose();
+                      }}
+                      className="text-left px-3 py-2 text-sm font-body text-foreground hover:bg-secondary rounded-md transition-colors cursor-pointer"
+                    >
+                      {item.name}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+            {Object.keys(alphabetGroups).length === 0 && (
+              <p className="text-sm text-muted-foreground text-center py-8">No species found</p>
+            )}
+          </div>
+        ) : (
+          <div className={`grid gap-12 ${filteredSections.length > 1 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" : "grid-cols-1"}`}>
+            {filteredSections.map((section, sectionIdx) => (
+              <motion.div
+                key={section.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + sectionIdx * 0.05 }}
+              >
+                <h3 className="text-xs font-body font-medium text-muted-foreground uppercase tracking-widest mb-4">
+                  {section.title}
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {section.items.map((item, itemIdx) => (
+                    <motion.button
+                      key={item.name}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.15 + sectionIdx * 0.05 + itemIdx * 0.015 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => {
+                        onSelect(categoryForItem(section.title), item.name);
+                        onClose();
+                      }}
+                      className="px-3.5 py-2 text-sm font-body text-foreground bg-background border border-border rounded-md hover:bg-secondary transition-colors cursor-pointer uppercase tracking-wide inline-flex items-center gap-2"
+                    >
+                      {item.name}
+                      <span className="text-xs text-muted-foreground font-normal">{item.count}</span>
+                    </motion.button>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </motion.div>
   );
