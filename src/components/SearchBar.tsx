@@ -127,34 +127,35 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
         </button>
       </div>
 
-      {/* Horizontal category tabs */}
-      <div className="flex items-end gap-0 mt-3 overflow-x-auto scrollbar-hide border-b border-border">
-        {categories.map((cat) => {
-          const isActive = activeCategory === cat.key;
-          return (
-            <button
-              key={cat.key}
-              onClick={() => {
-                onCategoryChange(cat.key);
-                if (cat.key !== "all" && onCategoryBrowse) {
-                  onCategoryBrowse(cat.key);
-                }
-              }}
-              className={`relative flex flex-col items-start px-4 py-3 font-body text-sm whitespace-nowrap transition-colors cursor-pointer bg-transparent border-none ${
-                isActive
-                  ? "text-primary font-medium"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <span>{cat.label}</span>
-              <span className="font-semibold text-xs">{cat.count.toLocaleString()}</span>
-              {isActive && (
-                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary rounded-t" />
-              )}
-            </button>
-          );
-        })}
-      </div>
+      {isBrowseOpen && (
+        <div className="flex items-end gap-0 mt-3 overflow-x-auto scrollbar-hide border-b border-border">
+          {categories.map((cat) => {
+            const isActive = activeCategory === cat.key;
+            return (
+              <button
+                key={cat.key}
+                onClick={() => {
+                  onCategoryChange(cat.key);
+                  if (cat.key !== "all" && onCategoryBrowse) {
+                    onCategoryBrowse(cat.key);
+                  }
+                }}
+                className={`relative flex flex-col items-start px-4 py-3 font-body text-sm whitespace-nowrap transition-colors cursor-pointer bg-transparent border-none ${
+                  isActive
+                    ? "text-primary font-medium"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <span>{cat.label}</span>
+                <span className="font-semibold text-xs">{cat.count.toLocaleString()}</span>
+                {isActive && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary rounded-t" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
