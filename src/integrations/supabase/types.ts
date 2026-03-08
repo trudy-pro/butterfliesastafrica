@@ -14,7 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      submissions: {
+        Row: {
+          colors: Json | null
+          common_name: string | null
+          confidence: string | null
+          created_at: string
+          description: string | null
+          family: string | null
+          habitat: string | null
+          id: string
+          image_path: string
+          pattern: string | null
+          scientific_name: string | null
+          status: string
+          user_id: string
+          wing_shape: string | null
+        }
+        Insert: {
+          colors?: Json | null
+          common_name?: string | null
+          confidence?: string | null
+          created_at?: string
+          description?: string | null
+          family?: string | null
+          habitat?: string | null
+          id?: string
+          image_path: string
+          pattern?: string | null
+          scientific_name?: string | null
+          status?: string
+          user_id: string
+          wing_shape?: string | null
+        }
+        Update: {
+          colors?: Json | null
+          common_name?: string | null
+          confidence?: string | null
+          created_at?: string
+          description?: string | null
+          family?: string | null
+          habitat?: string | null
+          id?: string
+          image_path?: string
+          pattern?: string | null
+          scientific_name?: string | null
+          status?: string
+          user_id?: string
+          wing_shape?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
