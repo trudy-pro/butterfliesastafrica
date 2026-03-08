@@ -162,7 +162,7 @@ const translations: Record<Language, Record<string, string>> = {
     "search.everything": "Alles",
     "search.species": "Arten",
     "search.families": "Familien",
-    "search.regions": "Regionen",
+    "search.regions": "Länder",
     "search.habitats": "Lebensräume",
     "search.patterns": "Muster",
     "search.colors": "Farben",

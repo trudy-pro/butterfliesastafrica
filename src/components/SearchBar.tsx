@@ -40,7 +40,7 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
     return {
       species: specimens.length,
       families: families.size,
-      regions: regions.size,
+      regions: countriesWithSpecimens.length,
       habitats: habitats.size,
       patterns: patterns.size,
       colors: colors.size,

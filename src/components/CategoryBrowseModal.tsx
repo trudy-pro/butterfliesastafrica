@@ -30,8 +30,8 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
       result.push({ title: t("search.families"), items: families.map((v) => ({ name: v, count: countBy((s) => s.family === v) })) });
     }
     if (category === "regions" || category === "all") {
-      const regions = [...new Set(specimens.flatMap((s) => s.region.split(", ").map((r) => r.trim())))].sort();
-      result.push({ title: t("search.regions"), items: regions.map((v) => ({ name: v, count: countBy((s) => s.region.split(", ").map((r) => r.trim()).includes(v)) })) });
+      const countries = ["Burundi", "Kenya", "Rwanda", "South Sudan", "Tanzania", "Uganda"];
+      result.push({ title: t("search.regions"), items: countries.map((v) => ({ name: v, count: countBy((s) => s.region.toLowerCase().includes(v.toLowerCase())) })).filter((item) => item.count > 0) });
     }
     if (category === "habitats" || category === "all") {
       const habitats = [...new Set(specimens.map((s) => s.habitat))].sort();
