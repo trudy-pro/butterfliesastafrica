@@ -1,5 +1,6 @@
 import { ButterflySpecimen } from "@/data/butterflies";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { getSpecimenTypography } from "@/lib/specimenTypography";
 
 interface SpecimenCardProps {
   specimen: ButterflySpecimen;
@@ -10,6 +11,7 @@ interface SpecimenCardProps {
 const SpecimenCard = ({ specimen, onClick, index }: SpecimenCardProps) => {
   const { tSpecimen } = useLanguage();
   const displayName = tSpecimen(specimen.id, "commonName") ?? specimen.commonName;
+  const typo = getSpecimenTypography(specimen);
 
   return (
     <button
@@ -28,7 +30,19 @@ const SpecimenCard = ({ specimen, onClick, index }: SpecimenCardProps) => {
       </div>
       <div className="mt-2 px-0.5">
         <p className="text-xs font-body text-muted-foreground tracking-wide">{specimen.id.toUpperCase()}</p>
-        <p className="text-sm font-body text-foreground mt-0.5 leading-tight">{displayName}</p>
+        <p
+          className="text-sm text-foreground mt-0.5 leading-tight"
+          style={{
+            fontFamily: "'Fraunces', serif",
+            fontWeight: typo.fontWeight,
+            letterSpacing: typo.letterSpacing,
+            fontStyle: typo.fontStyle,
+            transform: typo.style.transform,
+            display: "inline-block",
+          }}
+        >
+          {displayName}
+        </p>
         <p className="text-xs font-body italic text-muted-foreground mt-0.5">{specimen.scientificName}</p>
       </div>
     </button>

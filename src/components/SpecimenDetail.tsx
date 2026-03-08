@@ -1,6 +1,7 @@
 import { ButterflySpecimen } from "@/data/butterflies";
 import { X } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { getSpecimenTypography } from "@/lib/specimenTypography";
 
 interface SpecimenDetailProps {
   specimen: ButterflySpecimen;
@@ -20,6 +21,7 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
   const displayName = tSpecimen(specimen.id, "commonName") ?? specimen.commonName;
   const displayDesc = tSpecimen(specimen.id, "description") ?? specimen.description;
   const displayTrait = tSpecimen(specimen.id, "evolutionaryTrait") ?? specimen.evolutionaryTrait;
+  const typo = getSpecimenTypography(specimen);
 
   return (
     <div className="fixed inset-0 z-50 flex">
@@ -38,7 +40,19 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
           <div className="flex items-start justify-between mb-6">
             <div>
               <p className="text-xs font-body text-muted-foreground tracking-widest mb-1">{specimen.id.toUpperCase()}</p>
-              <h2 className="text-2xl font-display italic text-foreground leading-tight">{displayName}</h2>
+              <h2
+                className="text-2xl leading-tight"
+                style={{
+                  fontFamily: "'Fraunces', serif",
+                  fontWeight: typo.fontWeight,
+                  letterSpacing: typo.letterSpacing,
+                  fontStyle: typo.fontStyle,
+                  transform: typo.style.transform,
+                  display: "inline-block",
+                }}
+              >
+                {displayName}
+              </h2>
               <p className="text-sm font-body italic text-muted-foreground mt-1">{specimen.scientificName}</p>
             </div>
             <button onClick={onClose} className="p-1 text-muted-foreground hover:text-foreground transition-colors">
