@@ -185,7 +185,7 @@ const Index = () => {
       </div>
 
       {/* Specimen Grid */}
-      <main className="flex-1 py-6">
+      <main className="flex-1 py-6 pb-40">
         {filtered.length === 0 ? (
           <div className="text-center py-20 px-3">
             <p className="text-sm font-body text-muted-foreground">{t("empty.noMatch")}</p>
@@ -202,7 +202,7 @@ const Index = () => {
       </main>
 
       {/* Search Bar — fixed at bottom */}
-      <div className="sticky bottom-0 z-40 bg-background/90 backdrop-blur-md border-t border-border py-4">
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-background/90 backdrop-blur-md border-t border-border py-4">
         <SearchBar
           query={searchQuery}
           onQueryChange={setSearchQuery}
