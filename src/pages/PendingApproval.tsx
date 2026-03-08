@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Clock, ShieldCheck, X, LogOut, ArrowRight } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Clock, ShieldCheck, X, LogOut, ArrowRight, Loader2, UserPlus } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 
 type ApprovalStatus = "none" | "pending" | "approved" | "rejected" | "admin";
@@ -10,7 +11,9 @@ type ApprovalStatus = "none" | "pending" | "approved" | "rejected" | "admin";
 const PendingApproval = () => {
   const [user, setUser] = useState<User | null>(null);
   const [status, setStatus] = useState<ApprovalStatus>("none");
+  const [requesting, setRequesting] = useState(false);
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const checkStatus = useCallback(async (userId: string) => {
     const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", userId);
@@ -46,6 +49,25 @@ const PendingApproval = () => {
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     navigate("/");
+  };
+
+  const requestApproval = async () => {
+    if (!user) return;
+    setRequesting(true);
+    try {
+      const { error } = await supabase.from("contributor_approvals").insert({
+        user_id: user.id,
+        email: user.email || "",
+        display_name: user.user_metadata?.full_name || user.email,
+      });
+      if (error) throw error;
+      setStatus("pending");
+      toast({ title: "Request submitted", description: "An admin will review your request shortly." });
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    } finally {
+      setRequesting(false);
+    }
   };
 
   if (!user) return null;
@@ -94,10 +116,18 @@ const PendingApproval = () => {
         )}
 
         <div className="pt-4 flex flex-col gap-3">
-          <Button onClick={() => navigate("/contribute")} className="w-full font-body">
-            Go to Contribute Flow
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
+          {status === "none" && (
+            <Button onClick={requestApproval} disabled={requesting} className="w-full font-body">
+              {requesting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <UserPlus className="w-4 h-4 mr-2" />}
+              {requesting ? "Submitting..." : "Request Contributor Access"}
+            </Button>
+          )}
+          {status === "pending" && (
+            <Button onClick={() => navigate("/contribute")} className="w-full font-body">
+              Go to Contribute Flow
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          )}
           <Button variant="outline" onClick={handleSignOut} className="w-full font-body">
             <LogOut className="w-4 h-4 mr-2" />
             Sign out & browse archive
