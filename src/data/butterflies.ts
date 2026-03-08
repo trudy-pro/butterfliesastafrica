@@ -144,7 +144,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "antheus",
     image: graphiumAntheus,
     colors: ["Green", "Black"],
-    pattern: "Striped",
+    pattern: "Striped Translucent",
     wingShape: "Elongated Swordtail",
     habitat: "Tropical Forest",
     region: "Tanzania, Kenya, Uganda",
