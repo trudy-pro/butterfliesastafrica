@@ -60,6 +60,14 @@ import mylothrisGabela from "@/assets/specimens/mylothris-gabela.jpg";
 import brakefieldiaOchracea from "@/assets/specimens/brakefieldia-ochracea.jpg";
 import antheneRubricinctus from "@/assets/specimens/anthene-rubricinctus.jpg";
 import abantisCanopus from "@/assets/specimens/abantis-canopus.jpg";
+import junoniaSophia from "@/assets/specimens/junonia-sophia.jpg";
+import papilioConstantinus from "@/assets/specimens/papilio-constantinus.jpg";
+import colotisProtomedia from "@/assets/specimens/colotis-protomedia.jpg";
+import acraeaPeneleos from "@/assets/specimens/acraea-peneleos.jpg";
+import charaxesEtheocles from "@/assets/specimens/charaxes-etheocles.jpg";
+import belenoisCalypso from "@/assets/specimens/belenois-calypso.jpg";
+import neptisNemetes from "@/assets/specimens/neptis-nemetes.jpg";
+import euripheneBarombina from "@/assets/specimens/euriphene-barombina.jpg";
 
 export type WingShape = "Rounded" | "Elongated" | "Tailed" | "Angular" | "Broad";
 export type WingPattern = "Solid" | "Striped" | "Spotted" | "Eyespot" | "Banded" | "Veined" | "Mottled";
