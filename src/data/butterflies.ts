@@ -1096,7 +1096,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "collinsi",
     image: axiocersesCollinsi,
     colors: ["Orange", "Brown"],
-    pattern: "Spotted",
+    pattern: "Spotted Marginal",
     wingShape: "Small Rounded",
     habitat: "Coastal",
     region: "Kenya",
