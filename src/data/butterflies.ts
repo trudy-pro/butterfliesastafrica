@@ -716,7 +716,7 @@ export const specimens: ButterflySpecimen[] = [
     image: papilioAntimachus,
     colors: ["Orange", "Brown", "Black"],
     pattern: "Banded",
-    wingShape: "Elongated",
+    wingShape: "Elongated Narrow",
     habitat: "Tropical Forest",
     region: "Uganda, DRC, Rwanda",
     migration: "Resident",
