@@ -830,7 +830,7 @@ export const specimens: ButterflySpecimen[] = [
     image: graphiumColonna,
     colors: ["Black", "Green", "Yellow"],
     pattern: "Spotted",
-    wingShape: "Tailed",
+    wingShape: "Elongated Tailed",
     habitat: "Woodland",
     region: "Tanzania",
     migration: "Resident",
