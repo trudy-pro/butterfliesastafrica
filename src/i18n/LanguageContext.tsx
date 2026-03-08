@@ -147,6 +147,7 @@ const translations: Record<Language, Record<string, string>> = {
     "family.Pieridae": "Pieridae",
     "family.Lycaenidae": "Lycaenidae",
     "family.Satyrinae": "Satyrinae",
+    "family.Hesperiidae": "Hesperiidae",
   },
   de: {
     "header.title": "Schmetterlinge Ostafrikas",
