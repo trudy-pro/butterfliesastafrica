@@ -182,7 +182,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "brutus",
     image: charaxesBrutus,
     colors: ["Orange", "White", "Brown"],
-    pattern: "Banded",
+    pattern: "Bold Banded",
     wingShape: "Broad Angular",
     habitat: "Tropical Forest",
     region: "Uganda, Kenya, Tanzania",
