@@ -1,12 +1,116 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useMemo } from "react";
+import { specimens, ButterflySpecimen, WingColor, WingPattern, WingShape, Habitat, Migration, Family } from "@/data/butterflies";
+import SpecimenCard from "@/components/SpecimenCard";
+import SpecimenDetail from "@/components/SpecimenDetail";
+import FilterPanel, { FilterState } from "@/components/FilterPanel";
+import InfoPanel from "@/components/InfoPanel";
 
 const Index = () => {
+  const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
+  const [filters, setFilters] = useState<FilterState>({
+    color: null,
+    pattern: null,
+    wingShape: null,
+    habitat: null,
+    migration: null,
+    family: null,
+  });
+
+  const filtered = useMemo(() => {
+    return specimens.filter((s) => {
+      if (filters.color && !s.colors.includes(filters.color)) return false;
+      if (filters.pattern && s.pattern !== filters.pattern) return false;
+      if (filters.wingShape && s.wingShape !== filters.wingShape) return false;
+      if (filters.habitat && s.habitat !== filters.habitat) return false;
+      if (filters.migration && s.migration !== filters.migration) return false;
+      if (filters.family && s.family !== filters.family) return false;
+      return true;
+    });
+  }, [filters]);
+
+  const activeFilterCount = Object.values(filters).filter(Boolean).length;
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="text-center pt-16 pb-12 px-6">
+        <h1 className="text-4xl md:text-5xl font-display italic text-foreground mb-4">
+          Lepidoptera East Africa
+        </h1>
+        <p className="text-sm font-body text-muted-foreground mb-2">
+          {filtered.length} specimen{filtered.length !== 1 ? "s" : ""}
+        </p>
+        <p className="max-w-xl mx-auto text-sm font-body text-muted-foreground leading-relaxed">
+          An archive exploring natural selection in Color, Pattern, Shape, and Form — documenting butterfly species across East Africa.
+        </p>
+      </header>
+
+      {/* Toolbar */}
+      <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
+        <div className="flex items-center justify-between px-6 py-3">
+          <button
+            onClick={() => setShowFilters(true)}
+            className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-2"
+          >
+            Filter
+            {activeFilterCount > 0 && (
+              <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] bg-filter-active text-filter-active-fg rounded-full">
+                {activeFilterCount}
+              </span>
+            )}
+          </button>
+          <button
+            onClick={() => setShowInfo(true)}
+            className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors"
+          >
+            Info
+          </button>
+        </div>
       </div>
+
+      {/* Specimen Grid */}
+      <main className="px-3 py-6">
+        {filtered.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-sm font-body text-muted-foreground">No specimens match the current filters.</p>
+            <button
+              onClick={() => setFilters({ color: null, pattern: null, wingShape: null, habitat: null, migration: null, family: null })}
+              className="mt-4 text-sm font-body text-foreground underline hover:text-muted-foreground transition-colors"
+            >
+              Reset filters
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-2">
+            {filtered.map((specimen, i) => (
+              <SpecimenCard
+                key={specimen.id}
+                specimen={specimen}
+                onClick={setSelectedSpecimen}
+                index={i}
+              />
+            ))}
+          </div>
+        )}
+      </main>
+
+      {/* Panels */}
+      {showFilters && (
+        <FilterPanel
+          filters={filters}
+          onFilterChange={setFilters}
+          onClose={() => setShowFilters(false)}
+        />
+      )}
+      {selectedSpecimen && (
+        <SpecimenDetail
+          specimen={selectedSpecimen}
+          onClose={() => setSelectedSpecimen(null)}
+        />
+      )}
+      {showInfo && <InfoPanel onClose={() => setShowInfo(false)} />}
     </div>
   );
 };
