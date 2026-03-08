@@ -164,7 +164,7 @@ export const specimens: ButterflySpecimen[] = [
     image: bicyclusAnynana,
     colors: ["Brown", "Orange"],
     pattern: "Eyespot",
-    wingShape: "Rounded",
+    wingShape: "Rounded Compact",
     habitat: "Woodland",
     region: "Kenya, Tanzania",
     migration: "Resident",
