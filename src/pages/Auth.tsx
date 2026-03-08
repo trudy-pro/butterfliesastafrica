@@ -45,8 +45,8 @@ const Auth = () => {
         if (approvalError) throw approvalError;
 
         if (!approved) {
-          await supabase.auth.signOut();
-          throw new Error("Your account is not approved yet. Request contributor access first.");
+          navigate("/pending-approval");
+          return;
         }
 
         navigate("/");

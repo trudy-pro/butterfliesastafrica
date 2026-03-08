@@ -136,16 +136,15 @@ const Index = () => {
 
     if (!approved) {
       setUser(null);
-      await supabase.auth.signOut();
       if (!blockedToastShownRef.current) {
         toast({
           title: "Approval required",
-          description: "Your account is not approved yet. Request contributor access first.",
+          description: "Your account is not approved yet.",
           variant: "destructive",
         });
         blockedToastShownRef.current = true;
       }
-      navigate("/auth");
+      navigate("/pending-approval");
       return;
     }
 
