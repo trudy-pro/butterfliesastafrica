@@ -963,7 +963,7 @@ export const specimens: ButterflySpecimen[] = [
     image: appiasEpaphia,
     colors: ["White", "Yellow"],
     pattern: "Solid",
-    wingShape: "Rounded",
+    wingShape: "Rounded Medium",
     habitat: "Woodland",
     region: "Tanzania",
     migration: "Migratory",
