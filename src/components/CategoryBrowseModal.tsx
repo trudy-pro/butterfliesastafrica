@@ -88,7 +88,7 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex flex-col bg-background"
+      className="fixed inset-0 z-50 flex flex-col bg-background pb-36"
       initial={{ y: "100%" }}
       animate={{ y: 0 }}
       exit={{ y: "100%" }}
