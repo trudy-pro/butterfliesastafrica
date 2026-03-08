@@ -753,7 +753,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "mechowianus",
     image: papilioMechowianus,
     colors: ["Green", "Black", "Iridescent"],
-    pattern: "Banded",
+    pattern: "Banded Iridescent",
     wingShape: "Tailed Swallowtail",
     habitat: "Montane Forest",
     region: "DRC, Uganda, Burundi",
