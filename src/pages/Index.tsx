@@ -185,7 +185,7 @@ const Index = () => {
       </div>
 
       {/* Specimen Grid */}
-      <main className="flex-1 py-6 pb-40">
+      <main className="flex-1 py-6">
         {filtered.length === 0 ? (
           <div className="text-center py-20 px-3">
             <p className="text-sm font-body text-muted-foreground">{t("empty.noMatch")}</p>
