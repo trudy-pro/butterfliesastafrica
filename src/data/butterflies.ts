@@ -791,7 +791,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "encedon",
     image: acraeaEncedon,
     colors: ["Orange", "Yellow", "Black"],
-    pattern: "Veined",
+    pattern: "Veined Translucent",
     wingShape: "Elongated Narrow",
     habitat: "Grassland",
     region: "Ethiopia, Kenya, Uganda, Rwanda",
