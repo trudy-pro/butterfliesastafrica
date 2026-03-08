@@ -1191,7 +1191,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "gabela",
     image: mylothrisGabela,
     colors: ["White", "Yellow", "Orange"],
-    pattern: "Veined",
+    pattern: "Veined Translucent",
     wingShape: "Rounded Medium",
     habitat: "Montane Forest",
     region: "Angola",
