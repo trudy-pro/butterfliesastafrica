@@ -240,7 +240,7 @@ export const specimens: ButterflySpecimen[] = [
     image: acraeaAcerata,
     colors: ["Orange"],
     pattern: "Veined",
-    wingShape: "Elongated",
+    wingShape: "Elongated Narrow",
     habitat: "Savanna",
     region: "Kenya, Uganda, Ethiopia",
     migration: "Seasonal",
