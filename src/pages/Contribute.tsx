@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Upload, Camera, Loader2, Check, X, Trash2 } from "lucide-react";
+import { ArrowLeft, Upload, Camera, Loader2, X, Trash2, Clock, ShieldCheck } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 
 interface Submission {
@@ -22,29 +22,58 @@ interface Submission {
   created_at: string;
 }
 
+type ApprovalStatus = "none" | "pending" | "approved" | "rejected" | "admin";
+
 const Contribute = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [dragOver, setDragOver] = useState(false);
+  const [approvalStatus, setApprovalStatus] = useState<ApprovalStatus>("none");
+  const [requesting, setRequesting] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const checkApprovalStatus = useCallback(async (userId: string) => {
+    // Check if admin
+    const { data: roles } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId);
+    if (roles?.some((r: any) => r.role === "admin")) {
+      setApprovalStatus("admin");
+      return;
+    }
+    // Check contributor approval
+    const { data: approval } = await supabase
+      .from("contributor_approvals")
+      .select("status")
+      .eq("user_id", userId)
+      .maybeSingle();
+    if (!approval) {
+      setApprovalStatus("none");
+    } else {
+      setApprovalStatus(approval.status as ApprovalStatus);
+    }
+  }, []);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       const u = session?.user ?? null;
       setUser(u);
       if (!u) navigate("/auth");
+      else checkApprovalStatus(u.id);
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
       const u = session?.user ?? null;
       setUser(u);
-      if (!u) navigate("/auth");
+      if (!u) { navigate("/auth"); return; }
+      checkApprovalStatus(u.id);
       setLoading(false);
     });
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, checkApprovalStatus]);
 
   const fetchSubmissions = useCallback(async () => {
     const { data, error } = await supabase
@@ -55,8 +84,27 @@ const Contribute = () => {
   }, []);
 
   useEffect(() => {
-    if (user) fetchSubmissions();
-  }, [user, fetchSubmissions]);
+    if (user && (approvalStatus === "approved" || approvalStatus === "admin")) fetchSubmissions();
+  }, [user, approvalStatus, fetchSubmissions]);
+
+  const requestApproval = async () => {
+    if (!user) return;
+    setRequesting(true);
+    try {
+      const { error } = await supabase.from("contributor_approvals").insert({
+        user_id: user.id,
+        email: user.email || "",
+        display_name: user.user_metadata?.full_name || user.email,
+      });
+      if (error) throw error;
+      setApprovalStatus("pending");
+      toast({ title: "Request submitted", description: "An admin will review your request." });
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    } finally {
+      setRequesting(false);
+    }
+  };
 
   const getPublicUrl = (path: string) => {
     const { data } = supabase.storage.from("specimen-photos").getPublicUrl(path);
@@ -76,7 +124,6 @@ const Contribute = () => {
 
     setUploading(true);
     try {
-      // Upload to storage
       const ext = file.name.split(".").pop();
       const filePath = `${user.id}/${Date.now()}.${ext}`;
       const { error: uploadError } = await supabase.storage
@@ -84,7 +131,6 @@ const Contribute = () => {
         .upload(filePath, file);
       if (uploadError) throw uploadError;
 
-      // Create submission record
       const { data: submission, error: insertError } = await supabase
         .from("submissions")
         .insert({ user_id: user.id, image_path: filePath, status: "analyzing" })
@@ -92,10 +138,8 @@ const Contribute = () => {
         .single();
       if (insertError) throw insertError;
 
-      // Refresh list immediately to show "analyzing" state
       await fetchSubmissions();
 
-      // Convert to base64 for AI analysis
       const reader = new FileReader();
       reader.onload = async () => {
         try {
@@ -104,10 +148,8 @@ const Contribute = () => {
             "identify-butterfly",
             { body: { imageBase64: base64 } }
           );
-
           if (fnError) throw fnError;
 
-          // Update submission with results
           const updateData: Record<string, unknown> = {
             status: result.identified ? "completed" : "failed",
             common_name: result.commonName,
@@ -172,9 +214,11 @@ const Contribute = () => {
     );
   }
 
+  const canUpload = approvalStatus === "approved" || approvalStatus === "admin";
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <div className="p-6">
+      <div className="p-6 flex items-center justify-between">
         <button
           onClick={() => navigate("/")}
           className="text-sm font-body text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
@@ -182,6 +226,15 @@ const Contribute = () => {
           <ArrowLeft size={14} />
           Back to archive
         </button>
+        {approvalStatus === "admin" && (
+          <button
+            onClick={() => navigate("/admin")}
+            className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
+          >
+            <ShieldCheck size={14} />
+            Admin Panel
+          </button>
+        )}
       </div>
 
       <div className="flex-1 px-6 pb-20 max-w-3xl mx-auto w-full">
@@ -197,141 +250,203 @@ const Contribute = () => {
           </p>
         </div>
 
-        {/* Upload zone */}
-        <div
-          onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-          onDragLeave={() => setDragOver(false)}
-          onDrop={handleDrop}
-          className={`relative border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
-            dragOver
-              ? "border-accent bg-accent/5"
-              : "border-border hover:border-muted-foreground"
-          }`}
-        >
-          {uploading ? (
-            <div className="flex flex-col items-center gap-3">
-              <Loader2 className="w-8 h-8 animate-spin text-accent" />
-              <p className="text-sm font-body text-muted-foreground">
-                Uploading & analyzing...
-              </p>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center">
-                <Camera className="w-5 h-5 text-secondary-foreground" />
-              </div>
-              <div>
-                <p className="text-sm font-body text-foreground font-medium">
-                  Drop a photo here or click to browse
-                </p>
-                <p className="text-xs font-body text-muted-foreground mt-1">
-                  JPG, PNG, or WebP — max 10MB
-                </p>
-              </div>
-              <label>
-                <Button variant="outline" size="sm" className="font-body text-xs cursor-pointer" asChild>
-                  <span>
-                    <Upload size={12} className="mr-1" />
-                    Choose File
-                  </span>
-                </Button>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileInput}
-                  className="hidden"
-                />
-              </label>
-            </div>
-          )}
-        </div>
-
-        {/* Submissions list */}
-        {submissions.length > 0 && (
-          <div className="mt-12">
-            <h2 className="text-lg font-display text-foreground mb-4">
-              Your Submissions
-            </h2>
-            <div className="space-y-3">
-              {submissions.map((sub) => (
-                <div
-                  key={sub.id}
-                  className="flex gap-4 p-4 rounded-lg bg-card border border-border"
-                >
-                  <img
-                    src={getPublicUrl(sub.image_path)}
-                    alt={sub.common_name || "Specimen"}
-                    className="w-20 h-20 object-cover rounded-md flex-shrink-0"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2">
-                      <div>
-                        {sub.status === "analyzing" && (
-                          <div className="flex items-center gap-1.5 text-xs font-body text-muted-foreground">
-                            <Loader2 size={12} className="animate-spin" />
-                            Analyzing...
-                          </div>
-                        )}
-                        {sub.status === "completed" && (
-                          <>
-                            <p className="text-sm font-body font-medium text-foreground">
-                              {sub.common_name || "Unknown"}
-                            </p>
-                            <p className="text-xs font-body text-muted-foreground italic">
-                              {sub.scientific_name}
-                            </p>
-                          </>
-                        )}
-                        {sub.status === "failed" && (
-                          <div className="flex items-center gap-1.5 text-xs font-body text-destructive">
-                            <X size={12} />
-                            Could not identify
-                          </div>
-                        )}
-                        {sub.status === "pending" && (
-                          <p className="text-xs font-body text-muted-foreground">Pending</p>
-                        )}
-                      </div>
-                      <button
-                        onClick={() => handleDelete(sub)}
-                        className="text-muted-foreground hover:text-destructive transition-colors p-1"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                    {sub.status === "completed" && (
-                      <div className="mt-2 flex flex-wrap gap-1.5">
-                        {sub.family && (
-                          <span className="text-[10px] font-body px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
-                            {sub.family}
-                          </span>
-                        )}
-                        {sub.pattern && (
-                          <span className="text-[10px] font-body px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
-                            {sub.pattern}
-                          </span>
-                        )}
-                        {sub.confidence && (
-                          <span className={`text-[10px] font-body px-2 py-0.5 rounded-full ${
-                            sub.confidence === "high"
-                              ? "bg-accent/10 text-accent"
-                              : "bg-secondary text-secondary-foreground"
-                          }`}>
-                            {sub.confidence} confidence
-                          </span>
-                        )}
-                      </div>
-                    )}
-                    {sub.description && sub.status === "completed" && (
-                      <p className="mt-2 text-xs font-body text-muted-foreground line-clamp-2">
-                        {sub.description}
-                      </p>
-                    )}
-                  </div>
+        {/* Approval gate */}
+        {!canUpload && (
+          <div className="border border-border rounded-lg p-8 text-center space-y-4">
+            {approvalStatus === "none" && (
+              <>
+                <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center mx-auto">
+                  <ShieldCheck className="w-5 h-5 text-secondary-foreground" />
                 </div>
-              ))}
-            </div>
+                <div>
+                  <p className="text-sm font-body font-medium text-foreground">
+                    Contributor access required
+                  </p>
+                  <p className="text-xs font-body text-muted-foreground mt-1">
+                    Request access to upload and analyze butterfly specimens. An admin will review your request.
+                  </p>
+                </div>
+                <Button
+                  onClick={requestApproval}
+                  disabled={requesting}
+                  className="font-body text-sm"
+                >
+                  {requesting ? "Submitting..." : "Request Contributor Access"}
+                </Button>
+              </>
+            )}
+            {approvalStatus === "pending" && (
+              <>
+                <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center mx-auto">
+                  <Clock className="w-5 h-5 text-secondary-foreground" />
+                </div>
+                <div>
+                  <p className="text-sm font-body font-medium text-foreground">
+                    Request pending
+                  </p>
+                  <p className="text-xs font-body text-muted-foreground mt-1">
+                    Your contributor request is being reviewed by an admin. You'll be able to upload once approved.
+                  </p>
+                </div>
+              </>
+            )}
+            {approvalStatus === "rejected" && (
+              <>
+                <div className="w-12 h-12 rounded-full bg-destructive/10 flex items-center justify-center mx-auto">
+                  <X className="w-5 h-5 text-destructive" />
+                </div>
+                <div>
+                  <p className="text-sm font-body font-medium text-foreground">
+                    Request declined
+                  </p>
+                  <p className="text-xs font-body text-muted-foreground mt-1">
+                    Your contributor access request was not approved. Please contact the archive administrator.
+                  </p>
+                </div>
+              </>
+            )}
           </div>
+        )}
+
+        {/* Upload zone — only for approved */}
+        {canUpload && (
+          <>
+            <div
+              onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+              onDragLeave={() => setDragOver(false)}
+              onDrop={handleDrop}
+              className={`relative border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
+                dragOver
+                  ? "border-accent bg-accent/5"
+                  : "border-border hover:border-muted-foreground"
+              }`}
+            >
+              {uploading ? (
+                <div className="flex flex-col items-center gap-3">
+                  <Loader2 className="w-8 h-8 animate-spin text-accent" />
+                  <p className="text-sm font-body text-muted-foreground">
+                    Uploading & analyzing...
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center">
+                    <Camera className="w-5 h-5 text-secondary-foreground" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-body text-foreground font-medium">
+                      Drop a photo here or click to browse
+                    </p>
+                    <p className="text-xs font-body text-muted-foreground mt-1">
+                      JPG, PNG, or WebP — max 10MB
+                    </p>
+                  </div>
+                  <label>
+                    <Button variant="outline" size="sm" className="font-body text-xs cursor-pointer" asChild>
+                      <span>
+                        <Upload size={12} className="mr-1" />
+                        Choose File
+                      </span>
+                    </Button>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileInput}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+              )}
+            </div>
+
+            {/* Submissions list */}
+            {submissions.length > 0 && (
+              <div className="mt-12">
+                <h2 className="text-lg font-display text-foreground mb-4">
+                  Your Submissions
+                </h2>
+                <div className="space-y-3">
+                  {submissions.map((sub) => (
+                    <div
+                      key={sub.id}
+                      className="flex gap-4 p-4 rounded-lg bg-card border border-border"
+                    >
+                      <img
+                        src={getPublicUrl(sub.image_path)}
+                        alt={sub.common_name || "Specimen"}
+                        className="w-20 h-20 object-cover rounded-md flex-shrink-0"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-2">
+                          <div>
+                            {sub.status === "analyzing" && (
+                              <div className="flex items-center gap-1.5 text-xs font-body text-muted-foreground">
+                                <Loader2 size={12} className="animate-spin" />
+                                Analyzing...
+                              </div>
+                            )}
+                            {sub.status === "completed" && (
+                              <>
+                                <p className="text-sm font-body font-medium text-foreground">
+                                  {sub.common_name || "Unknown"}
+                                </p>
+                                <p className="text-xs font-body text-muted-foreground italic">
+                                  {sub.scientific_name}
+                                </p>
+                              </>
+                            )}
+                            {sub.status === "failed" && (
+                              <div className="flex items-center gap-1.5 text-xs font-body text-destructive">
+                                <X size={12} />
+                                Could not identify
+                              </div>
+                            )}
+                            {sub.status === "pending" && (
+                              <p className="text-xs font-body text-muted-foreground">Pending</p>
+                            )}
+                          </div>
+                          <button
+                            onClick={() => handleDelete(sub)}
+                            className="text-muted-foreground hover:text-destructive transition-colors p-1"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                        {sub.status === "completed" && (
+                          <div className="mt-2 flex flex-wrap gap-1.5">
+                            {sub.family && (
+                              <span className="text-[10px] font-body px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
+                                {sub.family}
+                              </span>
+                            )}
+                            {sub.pattern && (
+                              <span className="text-[10px] font-body px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
+                                {sub.pattern}
+                              </span>
+                            )}
+                            {sub.confidence && (
+                              <span className={`text-[10px] font-body px-2 py-0.5 rounded-full ${
+                                sub.confidence === "high"
+                                  ? "bg-accent/10 text-accent"
+                                  : "bg-secondary text-secondary-foreground"
+                              }`}>
+                                {sub.confidence} confidence
+                              </span>
+                            )}
+                          </div>
+                        )}
+                        {sub.description && sub.status === "completed" && (
+                          <p className="mt-2 text-xs font-body text-muted-foreground line-clamp-2">
+                            {sub.description}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
