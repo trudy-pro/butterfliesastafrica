@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useCallback } from "react";
+import { useState, useMemo, useRef, useCallback, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Camera } from "lucide-react";
 import { specimens, ButterflySpecimen, WingColor, WingPattern, WingShape, Habitat, Migration, Family } from "@/data/butterflies";
 import SpecimenCard from "@/components/SpecimenCard";
@@ -28,6 +28,15 @@ const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[];
     const amount = el.clientWidth * 0.7;
     el.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
   }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") { e.preventDefault(); scroll("left"); }
+      else if (e.key === "ArrowRight") { e.preventDefault(); scroll("right"); }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [scroll]);
 
   return (
     <div className="relative group/scroll">
