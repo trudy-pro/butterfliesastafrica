@@ -69,7 +69,7 @@ import belenoisCalypso from "@/assets/specimens/belenois-calypso.jpg";
 import neptisNemetes from "@/assets/specimens/neptis-nemetes.jpg";
 import euripheneBarombina from "@/assets/specimens/euriphene-barombina.jpg";
 
-export type WingShape = "Rounded" | "Elongated" | "Tailed" | "Angular" | "Broad";
+export type WingShape = "Broad Angular" | "Broad Rounded" | "Broad Scalloped" | "Broad Swallowtail" | "Broad Tailless" | "Compact Robust" | "Compact Triangular" | "Elongated Narrow" | "Elongated Swordtail" | "Elongated Tailed" | "Falcate (Sickle-shaped)" | "Robust Double-tailed" | "Rounded Broad" | "Rounded Compact" | "Rounded Medium" | "Rounded with Scalloped Edges" | "Small Rounded" | "Small Tailed" | "Tailed Swallowtail" | "Variable (Mimicry-dependent)";
 export type WingPattern = "Solid" | "Striped" | "Spotted" | "Eyespot" | "Banded" | "Veined" | "Mottled";
 export type WingColor = "Orange" | "Yellow" | "Green" | "Blue" | "Red" | "Brown" | "Black" | "White" | "Iridescent";
 export type Habitat = "Savanna" | "Montane Forest" | "Coastal" | "Woodland" | "Grassland" | "Tropical Forest";
