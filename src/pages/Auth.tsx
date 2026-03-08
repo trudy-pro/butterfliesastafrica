@@ -33,8 +33,22 @@ const Auth = () => {
           description: "We sent you a verification link to confirm your account.",
         });
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
+
+        const userId = data.user?.id;
+        if (!userId) throw new Error("Unable to verify your account status.");
+
+        const { data: approved, error: approvalError } = await supabase.rpc("is_approved_contributor", {
+          _user_id: userId,
+        });
+        if (approvalError) throw approvalError;
+
+        if (!approved) {
+          await supabase.auth.signOut();
+          throw new Error("Your account is not approved yet. Request contributor access first.");
+        }
+
         navigate("/");
       }
     } catch (error: any) {
@@ -194,3 +208,4 @@ const Auth = () => {
 };
 
 export default Auth;
+
