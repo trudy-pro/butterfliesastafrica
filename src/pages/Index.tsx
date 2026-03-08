@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useCallback } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Camera } from "lucide-react";
 import { specimens, ButterflySpecimen, WingColor, WingPattern, WingShape, Habitat, Migration, Family } from "@/data/butterflies";
 import SpecimenCard from "@/components/SpecimenCard";
 import SpecimenDetail from "@/components/SpecimenDetail";
@@ -7,6 +7,7 @@ import FilterPanel, { FilterState } from "@/components/FilterPanel";
 import InfoPanel from "@/components/InfoPanel";
 import ComparisonView from "@/components/ComparisonView";
 import SearchBar, { SearchCategory } from "@/components/SearchBar";
+import IdentifyPanel from "@/components/IdentifyPanel";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void }) => {
@@ -74,6 +75,7 @@ const Index = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [showCompare, setShowCompare] = useState(false);
+  const [showIdentify, setShowIdentify] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState<SearchCategory>("all");
   const [filters, setFilters] = useState<FilterState>({
@@ -159,6 +161,13 @@ const Index = () => {
           </div>
           <div className="flex items-center gap-4">
             <button
+              onClick={() => setShowIdentify(true)}
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
+            >
+              <Camera size={14} />
+              {t("toolbar.identify")}
+            </button>
+            <button
               onClick={() => setShowCompare(true)}
               className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors"
             >
@@ -217,11 +226,8 @@ const Index = () => {
         />
       )}
       {showInfo && <InfoPanel onClose={() => setShowInfo(false)} />}
-      {showCompare && (
-        <ComparisonView
-          onClose={() => setShowCompare(false)}
-        />
-      )}
+      {showCompare && <ComparisonView onClose={() => setShowCompare(false)} />}
+      {showIdentify && <IdentifyPanel onClose={() => setShowIdentify(false)} />}
     </div>
   );
 };
