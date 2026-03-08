@@ -214,7 +214,6 @@ const Index = () => {
           activeCategory={searchCategory}
           onCategoryChange={setSearchCategory}
           onCategoryBrowse={(cat) => setBrowseCategory(cat)}
-          isBrowseOpen={!!browseCategory}
         />
       </div>
 
