@@ -7,6 +7,7 @@ import FilterPanel, { FilterState } from "@/components/FilterPanel";
 import InfoPanel from "@/components/InfoPanel";
 import ComparisonView from "@/components/ComparisonView";
 import SearchBar, { SearchCategory } from "@/components/SearchBar";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -68,6 +69,7 @@ const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[];
 };
 
 const Index = () => {
+  const { t } = useLanguage();
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
@@ -129,10 +131,10 @@ const Index = () => {
       {/* Header */}
       <header className="text-center pt-16 pb-4 px-6">
         <h1 className="text-4xl md:text-5xl font-display italic text-foreground mb-4">
-          Lepidoptera East Africa
+          {t("header.title")}
         </h1>
         <p className="max-w-xl mx-auto text-sm font-body text-muted-foreground leading-relaxed">
-          An archive exploring natural selection in Color, Pattern, Shape, and Form — documenting butterfly species across East Africa.
+          {t("header.subtitle")}
         </p>
       </header>
 
@@ -144,7 +146,7 @@ const Index = () => {
               onClick={() => setShowFilters(true)}
               className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-2"
             >
-              Filter
+              {t("toolbar.filter")}
               {activeFilterCount > 0 && (
                 <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] bg-filter-active text-filter-active-fg rounded-full">
                   {activeFilterCount}
@@ -152,7 +154,7 @@ const Index = () => {
               )}
             </button>
             <span className="text-xs font-body text-muted-foreground">
-              {filtered.length} result{filtered.length !== 1 ? "s" : ""}
+              {filtered.length} {filtered.length !== 1 ? t("toolbar.results") : t("toolbar.result")}
             </span>
           </div>
           <div className="flex items-center gap-4">
@@ -160,13 +162,13 @@ const Index = () => {
               onClick={() => setShowCompare(true)}
               className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors"
             >
-              Compare
+              {t("toolbar.compare")}
             </button>
             <button
               onClick={() => setShowInfo(true)}
               className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors"
             >
-              Info
+              {t("toolbar.info")}
             </button>
           </div>
         </div>
@@ -176,12 +178,12 @@ const Index = () => {
       <main className="flex-1 py-6">
         {filtered.length === 0 ? (
           <div className="text-center py-20 px-3">
-            <p className="text-sm font-body text-muted-foreground">No specimens match the current filters.</p>
+            <p className="text-sm font-body text-muted-foreground">{t("empty.noMatch")}</p>
             <button
               onClick={() => setFilters({ color: null, pattern: null, wingShape: null, habitat: null, migration: null, family: null })}
               className="mt-4 text-sm font-body text-foreground underline hover:text-muted-foreground transition-colors"
             >
-              Reset filters
+              {t("empty.reset")}
             </button>
           </div>
         ) : (
