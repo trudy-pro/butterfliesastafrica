@@ -11,9 +11,10 @@ interface SearchBarProps {
   activeCategory: SearchCategory;
   onCategoryChange: (cat: SearchCategory) => void;
   onCategoryBrowse?: (cat: SearchCategory) => void;
+  isBrowseOpen?: boolean;
 }
 
-const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onCategoryBrowse }: SearchBarProps) => {
+const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onCategoryBrowse, isBrowseOpen }: SearchBarProps) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { lang, setLang, t } = useLanguage();
