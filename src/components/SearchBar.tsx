@@ -3,7 +3,7 @@ import { specimens } from "@/data/butterflies";
 import { ChevronDown } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
-type SearchCategory = "all" | "species" | "families" | "regions" | "habitats" | "patterns" | "colors";
+type SearchCategory = "all" | "species" | "families" | "regions" | "habitats" | "patterns" | "colors" | "wingShapes";
 
 interface SearchBarProps {
   query: string;
