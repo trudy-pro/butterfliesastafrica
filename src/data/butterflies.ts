@@ -47,7 +47,7 @@ import appiasEpaphia from "@/assets/specimens/appias-epaphia.jpg";
 import hamanumidaDaedalus from "@/assets/specimens/hamanumida-daedalus.jpg";
 import euryphuraChalcis from "@/assets/specimens/euryphura-chalcis.jpg";
 import axiocersesTjoane from "@/assets/specimens/axiocerses-tjoane.jpg";
-import pharmacophagusAntenor from "@/assets/specimens/pharmacophagus-antenor.jpg";
+
 import melanitisLeda from "@/assets/specimens/melanitis-leda.jpg";
 import antheneDefinita from "@/assets/specimens/anthene-definita.jpg";
 import charaxesDruceanus from "@/assets/specimens/charaxes-druceanus.jpg";
