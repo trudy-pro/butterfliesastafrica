@@ -82,7 +82,6 @@ const Index = () => {
   });
 
   const filtered = useMemo(() => {
-    const q = searchQuery.toLowerCase().trim();
     return specimens.filter((s) => {
       if (filters.color && !s.colors.includes(filters.color)) return false;
       if (filters.pattern && s.pattern !== filters.pattern) return false;
@@ -90,26 +89,9 @@ const Index = () => {
       if (filters.habitat && s.habitat !== filters.habitat) return false;
       if (filters.migration && s.migration !== filters.migration) return false;
       if (filters.family && s.family !== filters.family) return false;
-      if (q) {
-        let haystack = "";
-        switch (searchCategory) {
-          case "species":
-            haystack = `${s.commonName} ${s.scientificName}`.toLowerCase();
-            break;
-          case "taxonomy":
-            haystack = `${s.family} ${s.genus}`.toLowerCase();
-            break;
-          case "geography":
-            haystack = `${s.region} ${s.habitat}`.toLowerCase();
-            break;
-          default:
-            haystack = `${s.commonName} ${s.scientificName} ${s.region} ${s.family} ${s.genus}`.toLowerCase();
-        }
-        if (!haystack.includes(q)) return false;
-      }
       return true;
     });
-  }, [filters, searchQuery, searchCategory]);
+  }, [filters]);
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
 
@@ -120,17 +102,9 @@ const Index = () => {
         <h1 className="text-4xl md:text-5xl font-display italic text-foreground mb-4">
           Lepidoptera East Africa
         </h1>
-        <p className="max-w-xl mx-auto text-sm font-body text-muted-foreground leading-relaxed mb-8">
+        <p className="max-w-xl mx-auto text-sm font-body text-muted-foreground leading-relaxed">
           An archive exploring natural selection in Color, Pattern, Shape, and Form — documenting butterfly species across East Africa.
         </p>
-        <SearchBar
-          query={searchQuery}
-          onQueryChange={setSearchQuery}
-          totalSpecimens={specimens.length}
-          filteredCount={filtered.length}
-          activeCategory={searchCategory}
-          onCategoryChange={setSearchCategory}
-        />
       </header>
 
       {/* Toolbar */}
