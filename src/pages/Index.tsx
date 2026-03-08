@@ -96,9 +96,9 @@ const Index = () => {
       </div>
 
       {/* Specimen Grid */}
-      <main className="px-3 py-6">
+      <main className="py-6">
         {filtered.length === 0 ? (
-          <div className="text-center py-20">
+          <div className="text-center py-20 px-3">
             <p className="text-sm font-body text-muted-foreground">No specimens match the current filters.</p>
             <button
               onClick={() => setFilters({ color: null, pattern: null, wingShape: null, habitat: null, migration: null, family: null })}
@@ -108,15 +108,17 @@ const Index = () => {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-2">
-            {filtered.map((specimen, i) => (
-              <SpecimenCard
-                key={specimen.id}
-                specimen={specimen}
-                onClick={setSelectedSpecimen}
-                index={i}
-              />
-            ))}
+          <div className="overflow-x-auto scrollbar-hide px-3">
+            <div className="grid grid-rows-2 grid-flow-col gap-2 auto-cols-[140px] sm:auto-cols-[160px] md:auto-cols-[180px]">
+              {filtered.map((specimen, i) => (
+                <SpecimenCard
+                  key={specimen.id}
+                  specimen={specimen}
+                  onClick={setSelectedSpecimen}
+                  index={i}
+                />
+              ))}
+            </div>
           </div>
         )}
       </main>
