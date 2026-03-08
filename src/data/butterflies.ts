@@ -411,7 +411,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "demodocus",
     image: papilioDemodocus,
     colors: ["Yellow", "Black"],
-    pattern: "Spotted",
+    pattern: "Spotted Checkerboard",
     wingShape: "Broad Swallowtail",
     habitat: "Savanna",
     region: "Kenya, Tanzania",
