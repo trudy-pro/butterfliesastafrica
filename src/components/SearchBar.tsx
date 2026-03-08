@@ -1,6 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { specimens } from "@/data/butterflies";
 import { ChevronDown } from "lucide-react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 type SearchCategory = "all" | "species" | "families" | "regions" | "habitats" | "patterns" | "colors";
 
@@ -14,6 +15,7 @@ interface SearchBarProps {
 const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange }: SearchBarProps) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { lang, setLang, t } = useLanguage();
 
   const counts = useMemo(() => {
     const families = new Set<string>();
@@ -42,13 +44,13 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange }: S
   }, []);
 
   const categories: { key: SearchCategory; label: string; count: number }[] = [
-    { key: "all", label: "Everything", count: counts.all },
-    { key: "species", label: "Species", count: counts.species },
-    { key: "families", label: "Families", count: counts.families },
-    { key: "regions", label: "Regions", count: counts.regions },
-    { key: "habitats", label: "Habitats", count: counts.habitats },
-    { key: "patterns", label: "Patterns", count: counts.patterns },
-    { key: "colors", label: "Colors", count: counts.colors },
+    { key: "all", label: t("search.everything"), count: counts.all },
+    { key: "species", label: t("search.species"), count: counts.species },
+    { key: "families", label: t("search.families"), count: counts.families },
+    { key: "regions", label: t("search.regions"), count: counts.regions },
+    { key: "habitats", label: t("search.habitats"), count: counts.habitats },
+    { key: "patterns", label: t("search.patterns"), count: counts.patterns },
+    { key: "colors", label: t("search.colors"), count: counts.colors },
   ];
 
   useEffect(() => {
@@ -61,7 +63,9 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange }: S
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const activeLabel = categories.find((c) => c.key === activeCategory)?.label ?? "Everything";
+  const activeLabel = categories.find((c) => c.key === activeCategory)?.label ?? t("search.everything");
+
+  const toggleLang = () => setLang(lang === "en" ? "de" : "en");
 
   return (
     <div className="w-[90%] mx-auto">
@@ -100,14 +104,17 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange }: S
           type="text"
           value={query}
           onChange={(e) => onQueryChange(e.target.value)}
-          placeholder="Search..."
+          placeholder={t("search.placeholder")}
           className="flex-1 px-5 py-4 rounded-lg border-none font-body text-xl text-foreground bg-background outline-none placeholder:text-muted-foreground"
         />
 
-        {/* Language badge */}
-        <div className="w-11 h-11 rounded-full bg-background border-2 border-search-bar flex items-center justify-center font-body font-bold text-sm text-foreground shrink-0">
-          en
-        </div>
+        {/* Language toggle */}
+        <button
+          onClick={toggleLang}
+          className="w-11 h-11 rounded-full bg-background border-2 border-search-bar flex items-center justify-center font-body font-bold text-sm text-foreground shrink-0 hover:opacity-80 transition-opacity cursor-pointer"
+        >
+          {lang}
+        </button>
       </div>
 
       {/* Categories row */}
