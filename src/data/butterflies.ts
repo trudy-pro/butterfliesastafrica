@@ -1040,7 +1040,7 @@ export const specimens: ButterflySpecimen[] = [
     image: melanitisLeda,
     colors: ["Brown", "Orange"],
     pattern: "Eyespot",
-    wingShape: "Angular",
+    wingShape: "Falcate (Sickle-shaped)",
     habitat: "Woodland",
     region: "Kenya, Tanzania, Ethiopia",
     migration: "Resident",
