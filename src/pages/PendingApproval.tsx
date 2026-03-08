@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Clock, ShieldCheck, X, LogOut, ArrowRight } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Clock, ShieldCheck, X, LogOut, ArrowRight, Loader2, UserPlus } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 
 type ApprovalStatus = "none" | "pending" | "approved" | "rejected" | "admin";
@@ -10,7 +11,9 @@ type ApprovalStatus = "none" | "pending" | "approved" | "rejected" | "admin";
 const PendingApproval = () => {
   const [user, setUser] = useState<User | null>(null);
   const [status, setStatus] = useState<ApprovalStatus>("none");
+  const [requesting, setRequesting] = useState(false);
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const checkStatus = useCallback(async (userId: string) => {
     const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", userId);
