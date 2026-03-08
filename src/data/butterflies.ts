@@ -868,7 +868,7 @@ export const specimens: ButterflySpecimen[] = [
     image: colotisIone,
     colors: ["White", "Red"],
     pattern: "Solid",
-    wingShape: "Rounded",
+    wingShape: "Small Rounded",
     habitat: "Savanna",
     region: "Ethiopia, Kenya",
     migration: "Seasonal",
