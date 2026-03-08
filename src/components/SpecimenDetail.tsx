@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 interface SpecimenDetailProps {
   specimen: ButterflySpecimen;
   onClose: () => void;
+  onCompare?: (specimen: ButterflySpecimen) => void;
 }
 
 const DetailRow = ({ label, value }: { label: string; value: string }) => (
