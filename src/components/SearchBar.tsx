@@ -20,15 +20,17 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
 
   const counts = useMemo(() => {
     const families = new Set<string>();
-    const regions = new Set<string>();
     const habitats = new Set<string>();
     const patterns = new Set<string>();
     const colors = new Set<string>();
     const wingShapes = new Set<string>();
+    const countryList = ["Burundi", "Kenya", "Rwanda", "South Sudan", "Tanzania", "Uganda"];
+    const countriesWithSpecimens = countryList.filter((c) =>
+      specimens.some((s) => s.region.toLowerCase().includes(c.toLowerCase()))
+    );
 
     specimens.forEach((s) => {
       families.add(s.family);
-      s.region.split(", ").forEach((c) => regions.add(c.trim()));
       habitats.add(s.habitat);
       patterns.add(s.pattern);
       s.colors.forEach((c) => colors.add(c));
@@ -38,7 +40,7 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
     return {
       species: specimens.length,
       families: families.size,
-      regions: regions.size,
+      regions: countriesWithSpecimens.length,
       habitats: habitats.size,
       patterns: patterns.size,
       colors: colors.size,
