@@ -125,7 +125,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "dardanus",
     image: papilioDardanus,
     colors: ["Yellow", "Black"],
-    pattern: "Banded",
+    pattern: "Polymorphic Mimicry",
     wingShape: "Tailed Swallowtail",
     habitat: "Tropical Forest",
     region: "Kenya, Tanzania, Ethiopia",
