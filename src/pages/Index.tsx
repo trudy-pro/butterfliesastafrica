@@ -14,6 +14,7 @@ import SearchBar, { SearchCategory } from "@/components/SearchBar";
 import IdentifyPanel from "@/components/IdentifyPanel";
 import CategoryBrowseModal from "@/components/CategoryBrowseModal";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useToast } from "@/hooks/use-toast";
 
 const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -85,6 +86,7 @@ const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[];
 
 const Index = () => {
   const { t } = useLanguage();
+  const { toast } = useToast();
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
@@ -95,6 +97,7 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState<SearchCategory>("all");
   const [browseCategory, setBrowseCategory] = useState<SearchCategory | null>(null);
+  const blockedToastShownRef = useRef(false);
   const [filters, setFilters] = useState<FilterState>({
     color: null,
     pattern: null,
@@ -105,15 +108,62 @@ const Index = () => {
     country: null,
   });
 
+  const enforceApproval = useCallback(async (u: User | null) => {
+    if (!u) {
+      setUser(null);
+      blockedToastShownRef.current = false;
+      return;
+    }
+
+    const { data: approved, error } = await supabase.rpc("is_approved_contributor", {
+      _user_id: u.id,
+    });
+
+    if (error) {
+      setUser(null);
+      await supabase.auth.signOut();
+      if (!blockedToastShownRef.current) {
+        toast({
+          title: "Access check failed",
+          description: "Please sign in again.",
+          variant: "destructive",
+        });
+        blockedToastShownRef.current = true;
+      }
+      navigate("/auth");
+      return;
+    }
+
+    if (!approved) {
+      setUser(null);
+      await supabase.auth.signOut();
+      if (!blockedToastShownRef.current) {
+        toast({
+          title: "Approval required",
+          description: "Your account is not approved yet. Request contributor access first.",
+          variant: "destructive",
+        });
+        blockedToastShownRef.current = true;
+      }
+      navigate("/auth");
+      return;
+    }
+
+    blockedToastShownRef.current = false;
+    setUser(u);
+  }, [navigate, toast]);
+
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+      void enforceApproval(session?.user ?? null);
     });
+
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
+      void enforceApproval(session?.user ?? null);
     });
+
     return () => subscription.unsubscribe();
-  }, []);
+  }, [enforceApproval]);
 
   const filtered = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
@@ -288,3 +338,4 @@ const Index = () => {
 };
 
 export default Index;
+
