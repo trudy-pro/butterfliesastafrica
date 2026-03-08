@@ -450,7 +450,7 @@ export const specimens: ButterflySpecimen[] = [
     image: amaurisNiavius,
     colors: ["Black", "White"],
     pattern: "Banded",
-    wingShape: "Broad",
+    wingShape: "Broad Rounded",
     habitat: "Tropical Forest",
     region: "Uganda, Kenya, Tanzania, Rwanda",
     migration: "Resident",
