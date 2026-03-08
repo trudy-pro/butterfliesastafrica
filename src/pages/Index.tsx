@@ -109,6 +109,7 @@ const Index = () => {
       if (filters.habitat && s.habitat !== filters.habitat) return false;
       if (filters.migration && s.migration !== filters.migration) return false;
       if (filters.family && s.family !== filters.family) return false;
+      if (filters.country && !s.region.toLowerCase().includes(filters.country.toLowerCase())) return false;
       if (q) {
         let haystack = "";
         switch (searchCategory) {
