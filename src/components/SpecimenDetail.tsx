@@ -14,7 +14,7 @@ const DetailRow = ({ label, value }: { label: string; value: string }) => (
   </div>
 );
 
-const SpecimenDetail = ({ specimen, onClose }: SpecimenDetailProps) => {
+const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) => {
   return (
     <div className="fixed inset-0 z-50 flex">
       <div className="absolute inset-0 bg-specimen-overlay/30 backdrop-blur-sm" onClick={onClose} />
