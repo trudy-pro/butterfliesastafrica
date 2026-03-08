@@ -106,7 +106,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "chrysippus",
     image: danausChrysippus,
     colors: ["Orange", "Black"],
-    pattern: "Solid",
+    pattern: "Warning Coloration",
     wingShape: "Rounded Medium",
     habitat: "Savanna",
     region: "Kenya, Tanzania, Uganda",
