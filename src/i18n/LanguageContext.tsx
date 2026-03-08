@@ -1,0 +1,301 @@
+import { createContext, useContext, useState, ReactNode } from "react";
+
+export type Language = "en" | "de";
+
+interface LanguageContextType {
+  lang: Language;
+  setLang: (lang: Language) => void;
+  t: (key: string) => string;
+  tSpecimen: (id: string, field: "commonName" | "description" | "evolutionaryTrait") => string | undefined;
+}
+
+const LanguageContext = createContext<LanguageContextType | null>(null);
+
+export const useLanguage = () => {
+  const ctx = useContext(LanguageContext);
+  if (!ctx) throw new Error("useLanguage must be used within LanguageProvider");
+  return ctx;
+};
+
+// UI translations
+const translations: Record<Language, Record<string, string>> = {
+  en: {
+    // Header
+    "header.title": "Lepidoptera East Africa",
+    "header.subtitle": "An archive exploring natural selection in Color, Pattern, Shape, and Form — documenting butterfly species across East Africa.",
+    // Toolbar
+    "toolbar.filter": "Filter",
+    "toolbar.compare": "Compare",
+    "toolbar.info": "Info",
+    "toolbar.results": "results",
+    "toolbar.result": "result",
+    // Search
+    "search.placeholder": "Search...",
+    "search.everything": "Everything",
+    "search.species": "Species",
+    "search.families": "Families",
+    "search.regions": "Regions",
+    "search.habitats": "Habitats",
+    "search.patterns": "Patterns",
+    "search.colors": "Colors",
+    // Filter panel
+    "filter.title": "Filter",
+    "filter.reset": "Reset",
+    "filter.close": "Close",
+    "filter.all": "All",
+    "filter.wingColor": "Wing Color",
+    "filter.wingPattern": "Wing Pattern",
+    "filter.wingShape": "Wing Shape",
+    "filter.habitat": "Habitat",
+    "filter.migration": "Migration",
+    "filter.family": "Family",
+    "filter.viewResults": "View Results",
+    // Specimen detail
+    "detail.taxonomic": "Taxonomic Classification",
+    "detail.family": "Family",
+    "detail.genus": "Genus",
+    "detail.species": "Species",
+    "detail.geographic": "Geographic Origin & Habitat",
+    "detail.region": "Region",
+    "detail.habitat": "Habitat",
+    "detail.migration": "Migration",
+    "detail.colorSpectrum": "Wing Color Spectrum",
+    "detail.patternGeometry": "Pattern Geometry & Symmetry",
+    "detail.pattern": "Pattern",
+    "detail.symmetry": "Symmetry",
+    "detail.morphological": "Morphological Measurements",
+    "detail.wingspan": "Wingspan",
+    "detail.wingShape": "Wing Shape",
+    "detail.evolutionaryTrait": "Evolutionary Trait",
+    "detail.notes": "Notes",
+    "detail.compare": "Compare with another specimen",
+    // Comparison
+    "compare.title": "Compare Specimens",
+    "compare.select": "Select",
+    "compare.change": "Change",
+    "compare.cancel": "Cancel",
+    "compare.colors": "Colors",
+    // Info panel
+    "info.title": "About",
+    "info.mission": "Mission",
+    "info.missionText": "An archive dedicated to exploring natural selection in Color, Pattern, Shape, and Form — documenting butterfly species across East Africa. This project combines scientific research, specimen preservation, and public exhibition.",
+    "info.variation": "Natural Selection & Variation",
+    "info.variationText": "Butterflies display diverse colors, patterns, and wing shapes due to environmental pressures. Key influences include predation, climate, vegetation, and mimicry. The archive organizes species by both taxonomy and visual evolutionary traits.",
+    "info.spatial": "Spatial Organization",
+    "info.collection": "Collection & Preservation Zone",
+    "info.collectionDesc": "Climate-controlled storage for specimens.",
+    "info.comparative": "Comparative Study Zone",
+    "info.comparativeDesc": "Research area for analyzing color, wing shapes, patterns, and forms.",
+    "info.interpretation": "Interpretation & Exhibition Zone",
+    "info.interpretationDesc": "Public displays explaining evolutionary processes.",
+    "info.documentation": "Documentation",
+    "info.documentationText": "Each specimen is documented with taxonomic classification, geographic origin and habitat, wing color spectrum, pattern geometry and symmetry, and morphological measurements. Physical specimens are supported by digital scanning and databases.",
+    "info.purpose": "Purpose",
+    "info.purposeText": "The archive acts as both a scientific repository and an educational space. Storage and displays encourage visual comparison between species. The project reveals how natural selection shapes biodiversity in East Africa.",
+    // Empty state
+    "empty.noMatch": "No specimens match the current filters.",
+    "empty.reset": "Reset filters",
+    // Colors
+    "color.Orange": "Orange",
+    "color.Yellow": "Yellow",
+    "color.Green": "Green",
+    "color.Blue": "Blue",
+    "color.Red": "Red",
+    "color.Brown": "Brown",
+    "color.Black": "Black",
+    "color.White": "White",
+    "color.Iridescent": "Iridescent",
+    // Patterns
+    "pattern.Solid": "Solid",
+    "pattern.Striped": "Striped",
+    "pattern.Spotted": "Spotted",
+    "pattern.Eyespot": "Eyespot",
+    "pattern.Banded": "Banded",
+    "pattern.Veined": "Veined",
+    "pattern.Mottled": "Mottled",
+    // Wing shapes
+    "wingShape.Rounded": "Rounded",
+    "wingShape.Elongated": "Elongated",
+    "wingShape.Tailed": "Tailed",
+    "wingShape.Angular": "Angular",
+    "wingShape.Broad": "Broad",
+    // Habitats
+    "habitat.Savanna": "Savanna",
+    "habitat.Montane Forest": "Montane Forest",
+    "habitat.Coastal": "Coastal",
+    "habitat.Woodland": "Woodland",
+    "habitat.Grassland": "Grassland",
+    "habitat.Tropical Forest": "Tropical Forest",
+    // Migration
+    "migration.Migratory": "Migratory",
+    "migration.Resident": "Resident",
+    "migration.Seasonal": "Seasonal",
+    // Families
+    "family.Nymphalidae": "Nymphalidae",
+    "family.Papilionidae": "Papilionidae",
+    "family.Pieridae": "Pieridae",
+    "family.Lycaenidae": "Lycaenidae",
+    "family.Satyrinae": "Satyrinae",
+  },
+  de: {
+    "header.title": "Lepidoptera Ostafrika",
+    "header.subtitle": "Ein Archiv zur Erforschung der natürlichen Selektion in Farbe, Muster, Form und Gestalt — Dokumentation von Schmetterlingsarten in Ostafrika.",
+    "toolbar.filter": "Filter",
+    "toolbar.compare": "Vergleichen",
+    "toolbar.info": "Info",
+    "toolbar.results": "Ergebnisse",
+    "toolbar.result": "Ergebnis",
+    "search.placeholder": "Suchen...",
+    "search.everything": "Alles",
+    "search.species": "Arten",
+    "search.families": "Familien",
+    "search.regions": "Regionen",
+    "search.habitats": "Lebensräume",
+    "search.patterns": "Muster",
+    "search.colors": "Farben",
+    "filter.title": "Filter",
+    "filter.reset": "Zurücksetzen",
+    "filter.close": "Schliessen",
+    "filter.all": "Alle",
+    "filter.wingColor": "Flügelfarbe",
+    "filter.wingPattern": "Flügelmuster",
+    "filter.wingShape": "Flügelform",
+    "filter.habitat": "Lebensraum",
+    "filter.migration": "Wanderung",
+    "filter.family": "Familie",
+    "filter.viewResults": "Ergebnisse anzeigen",
+    "detail.taxonomic": "Taxonomische Klassifikation",
+    "detail.family": "Familie",
+    "detail.genus": "Gattung",
+    "detail.species": "Art",
+    "detail.geographic": "Geografische Herkunft & Lebensraum",
+    "detail.region": "Region",
+    "detail.habitat": "Lebensraum",
+    "detail.migration": "Wanderung",
+    "detail.colorSpectrum": "Flügelfarbspektrum",
+    "detail.patternGeometry": "Mustergeometrie & Symmetrie",
+    "detail.pattern": "Muster",
+    "detail.symmetry": "Symmetrie",
+    "detail.morphological": "Morphologische Messungen",
+    "detail.wingspan": "Flügelspannweite",
+    "detail.wingShape": "Flügelform",
+    "detail.evolutionaryTrait": "Evolutionsmerkmal",
+    "detail.notes": "Anmerkungen",
+    "detail.compare": "Mit einem anderen Exemplar vergleichen",
+    "compare.title": "Exemplare vergleichen",
+    "compare.select": "Auswählen",
+    "compare.change": "Ändern",
+    "compare.cancel": "Abbrechen",
+    "compare.colors": "Farben",
+    "info.title": "Über",
+    "info.mission": "Mission",
+    "info.missionText": "Ein Archiv zur Erforschung der natürlichen Selektion in Farbe, Muster, Form und Gestalt — Dokumentation von Schmetterlingsarten in Ostafrika. Dieses Projekt verbindet wissenschaftliche Forschung, Exemplarerhaltung und öffentliche Ausstellung.",
+    "info.variation": "Natürliche Selektion & Variation",
+    "info.variationText": "Schmetterlinge zeigen vielfältige Farben, Muster und Flügelformen aufgrund von Umwelteinflüssen. Wichtige Faktoren sind Räuber, Klima, Vegetation und Mimikry. Das Archiv ordnet Arten sowohl nach Taxonomie als auch nach visuellen Evolutionsmerkmalen.",
+    "info.spatial": "Räumliche Organisation",
+    "info.collection": "Sammlungs- & Erhaltungszone",
+    "info.collectionDesc": "Klimatisierte Lagerung für Exemplare.",
+    "info.comparative": "Vergleichende Studienzone",
+    "info.comparativeDesc": "Forschungsbereich zur Analyse von Farben, Flügelformen, Mustern und Gestalten.",
+    "info.interpretation": "Interpretations- & Ausstellungszone",
+    "info.interpretationDesc": "Öffentliche Ausstellungen zur Erklärung evolutionärer Prozesse.",
+    "info.documentation": "Dokumentation",
+    "info.documentationText": "Jedes Exemplar wird dokumentiert mit taxonomischer Klassifikation, geografischer Herkunft und Lebensraum, Flügelfarbspektrum, Mustergeometrie und Symmetrie sowie morphologischen Messungen. Physische Exemplare werden durch digitales Scannen und Datenbanken unterstützt.",
+    "info.purpose": "Zweck",
+    "info.purposeText": "Das Archiv dient sowohl als wissenschaftliches Repositorium als auch als Bildungsraum. Lagerung und Ausstellungen fördern den visuellen Vergleich zwischen Arten. Das Projekt zeigt, wie natürliche Selektion die Biodiversität in Ostafrika formt.",
+    "empty.noMatch": "Keine Exemplare entsprechen den aktuellen Filtern.",
+    "empty.reset": "Filter zurücksetzen",
+    "color.Orange": "Orange",
+    "color.Yellow": "Gelb",
+    "color.Green": "Grün",
+    "color.Blue": "Blau",
+    "color.Red": "Rot",
+    "color.Brown": "Braun",
+    "color.Black": "Schwarz",
+    "color.White": "Weiss",
+    "color.Iridescent": "Schillernd",
+    "pattern.Solid": "Einfarbig",
+    "pattern.Striped": "Gestreift",
+    "pattern.Spotted": "Gefleckt",
+    "pattern.Eyespot": "Augenfleck",
+    "pattern.Banded": "Gebändert",
+    "pattern.Veined": "Geädert",
+    "pattern.Mottled": "Marmoriert",
+    "wingShape.Rounded": "Abgerundet",
+    "wingShape.Elongated": "Langgestreckt",
+    "wingShape.Tailed": "Geschwänzt",
+    "wingShape.Angular": "Eckig",
+    "wingShape.Broad": "Breit",
+    "habitat.Savanna": "Savanne",
+    "habitat.Montane Forest": "Bergwald",
+    "habitat.Coastal": "Küste",
+    "habitat.Woodland": "Waldland",
+    "habitat.Grassland": "Grasland",
+    "habitat.Tropical Forest": "Tropenwald",
+    "migration.Migratory": "Wandernd",
+    "migration.Resident": "Standvogel",
+    "migration.Seasonal": "Saisonal",
+    "family.Nymphalidae": "Nymphalidae",
+    "family.Papilionidae": "Papilionidae",
+    "family.Pieridae": "Pieridae",
+    "family.Lycaenidae": "Lycaenidae",
+    "family.Satyrinae": "Satyrinae",
+  },
+};
+
+// Specimen-specific translations (German common names, descriptions, evolutionary traits)
+const specimenTranslations: Record<string, Record<string, { commonName: string; description: string; evolutionaryTrait: string }>> = {
+  de: {
+    "dc-001": { commonName: "Afrikanischer Monarch", description: "Einer der am weitesten verbreiteten Schmetterlinge Afrikas. Seine leuchtend orange Färbung signalisiert Toxizität, die von Seidenpflanzen-Wirtspflanzen stammt. Eine Schlüsselart in Mimikry-Studien.", evolutionaryTrait: "Müllersche Mimikry — toxische Färbung warnt Fressfeinde" },
+    "pd-002": { commonName: "Afrikanischer Schwalbenschwanz", description: "Zeigt aussergewöhnlichen weiblichen Polymorphismus. Männchen behalten ein konsistentes gelb-schwarzes Muster bei, während Weibchen diverse Formen entwickeln, die ungeniessbare Arten nachahmen.", evolutionaryTrait: "Weiblich begrenzter Polymorphismus — Weibchen ahmen toxische Arten nach" },
+    "ga-003": { commonName: "Grosser Gestreifter Schwertträger", description: "Ein schneller Waldflieger mit auffälligen grün-schwarzen Streifen. Die schwertartigen Schwanzverlängerungen dienen möglicherweise als falsche Antennen, um Fressfeinde zu verwirren.", evolutionaryTrait: "Kryptische Färbung — grüne Bänder passen zum Waldkronendach" },
+    "ba-004": { commonName: "Schielendes Buschbraun", description: "Ein Modellorganismus zur Untersuchung phänotypischer Plastizität. Regenzeit-Formen haben grosse Augenflecken zur Ablenkung von Fressfeinden; Trockenzeit-Formen sind kryptisch.", evolutionaryTrait: "Saisonaler Polyphänismus — Regen-/Trockenzeit-Formen unterscheiden sich in der Augenfleckgrösse" },
+    "cb-005": { commonName: "Weissgestreifter Kaiser", description: "Ein grosser, kraftvoller Flieger im Kronendach der Wälder. Der weisse Streifen auf dunklen Flügeln dient vermutlich der Artenerkennung und der territorialen Zurschaustellung.", evolutionaryTrait: "Robuste Flügelform — angepasst für kraftvollen territorialen Flug" },
+    "hm-006": { commonName: "Diadem", description: "Männchen zeigen schillernde schwarz-weisse Muster, während Weibchen polymorphe Nachahmer des toxischen Afrikanischen Monarchen sind. Ein Lehrbuchbeispiel der Bates'schen Mimikry.", evolutionaryTrait: "Bates'sche Mimikry — Weibchen ahmt toxischen Danaus chrysippus nach" },
+    "jo-007": { commonName: "Blaues Pfauenauge", description: "Lebhafte blaue Färbung durch lichtbrechende Nanostrukturen statt Pigment erzeugt. Augenflecken lenken Fressfeindangriffe vom Körper weg.", evolutionaryTrait: "Strukturfärbung — Blau durch Flügelschuppen-Nanostruktur" },
+    "aa-008": { commonName: "Kleine Orange Acraea", description: "Durchscheinende orange Flügel mit dunklen Adern erzeugen ein markantes Erscheinungsbild. Chemische Abwehrstoffe aus Larven-Wirtspflanzen machen sie ungeniessbar.", evolutionaryTrait: "Aposematische Färbung — leuchtendes Orange warnt vor Toxizität" },
+    "cd-009": { commonName: "Karminspitze", description: "Zarte weisse Flügel mit karminroten Spitzen. Männchen zeigen hellere Markierungen zur Partnerwerbung, was sexuelle Selektion bei der Flügelfärbung demonstriert.", evolutionaryTrait: "Geschlechtsdimorphismus — Männchen haben leuchtendere Karminspitzen" },
+    "po-010": { commonName: "Prächtige Commodore", description: "Eines der auffälligsten Beispiele für saisonalen Polyphänismus. Regenzeit-Form ist lebhaft rot-blau; Trockenzeit-Form ist gedämpft blattähnlich braun.", evolutionaryTrait: "Saisonaler Polyphänismus — dramatischer Farbwechsel zwischen Regen-/Trockenzeit" },
+    "eh-011": { commonName: "Gemeines Grasgelb", description: "Erscheint für Menschen einheitlich gelb, aber UV-Muster, die für andere Schmetterlinge sichtbar sind, dienen der Partnererkennung und Artidentifikation.", evolutionaryTrait: "UV-Reflexion — Flügelmuster für Schmetterlinge sichtbar, aber nicht für Menschen" },
+    "pn-012": { commonName: "Schmalband-Grüner Schwalbenschwanz", description: "Das brillante grüne Band wird durch photonische Kristallstrukturen in den Flügelschuppen erzeugt. Diese Irideszenz ändert sich mit dem Betrachtungswinkel.", evolutionaryTrait: "Strukturfärbung — schillerndes Grün durch photonische Kristalle" },
+    "bau-013": { commonName: "Pionierweissling", description: "Bildet massive Wanderschwärme über Ostafrika. Das Flügelader-Muster hilft bei der Thermoregulation während Langstreckenflügen.", evolutionaryTrait: "Massenmigration — eine der grossen Schmetterlingswanderungen Afrikas" },
+    "cc-014": { commonName: "Riesiger Charaxes", description: "Einer der grössten Schmetterlinge Afrikas. Kraftvoller Flug und grosse Körpergrösse entwickelt für territoriale Verteidigung und Langstreckenwanderung.", evolutionaryTrait: "Grosse Körpergrösse — angepasst für aggressive territoriale Luftverteidigung" },
+    "sp-015": { commonName: "Wald-Perlmutterfalter", description: "Flügel schimmern mit perlmuttartigem Schillern durch Dünnfilm-Interferenz in den Flügelschuppen. Die Unterseite ahmt ein totes Blatt zur Tarnung nach.", evolutionaryTrait: "Perlmuttartiges Schillern — Strukturfarbe durch Dünnfilm-Interferenz" },
+    "cs-016": { commonName: "Blutroter Gleiter", description: "Männchen zeigen lebhaft blutrote Flügel zur Partnerwerbung, während Weibchen getarnt braun sind. Einer der am stärksten sexuell dichromatischen afrikanischen Schmetterlinge.", evolutionaryTrait: "Geschlechtsdichromatismus — Männchen lebhaft rot, Weibchen kryptisch braun" },
+    "pdm-017": { commonName: "Zitrus-Schwalbenschwanz", description: "Einer der grössten und häufigsten Schwalbenschwänze in Ostafrika. In der Nähe von Zitrusplantagen zu finden. Raupen zeigen bemerkenswerte Tarnung als Vogelkot.", evolutionaryTrait: "Larvenmimikry — Raupen ähneln Vogelkot zur Tarnung" },
+    "cf-018": { commonName: "Afrikanischer Wanderfalter", description: "Benannt nach seinem aussergewöhnlichen Wanderverhalten, das Regenfronten über Ostafrika folgt. Blassgrüne Färbung bietet Tarnung beim Ruhen.", evolutionaryTrait: "Langstreckenwanderung — folgt saisonalen Regenfällen über die Savanne" },
+    "an-019": { commonName: "Mönch", description: "Teil eines komplexen Mimikry-Rings in ostafrikanischen Wäldern. Sein kühnes schwarz-weisses Muster signalisiert Toxizität für Fressfeinde.", evolutionaryTrait: "Müllersche Mimikry-Ring — Co-Mimikry mit anderen toxischen Danainae" },
+    "gp-020": { commonName: "Kleiner Gestreifter Schwertträger", description: "Ein kleinerer Verwandter des Grossen Gestreiften Schwertträgers. Männchen sammeln sich an schlammigen Flussufern, um Mineralien zu extrahieren.", evolutionaryTrait: "Schlammpüddeln — Männchen extrahieren Natrium aus nassem Boden für die Fortpflanzung" },
+    "en-021": { commonName: "Goldband-Förster", description: "Ein Waldbodenspezialist, der sich von faulendem Obst statt Nektar ernährt. Das goldene Band über dunklen Flügeln hilft bei der Artenerkennung.", evolutionaryTrait: "Fruchtfress-Spezialisierung — entwickelter Rüssel für gärendes Obst" },
+    "ma-022": { commonName: "Gemeiner Punktrand", description: "In Bergwäldern des Albertine-Rifts und der Eastern-Arc-Berge zu finden. Orange-gespitzte Männchen patrouillieren an Waldrändern.", evolutionaryTrait: "Höhenwanderung — bewegt sich zwischen Waldzonen bei saisonalen Verschiebungen" },
+    "pp-023": { commonName: "Gemeiner Leopard", description: "Benannt nach seinem leopardenartigen Fleckenmuster. Die kühnen schwarzen Flecken auf orangen Flügeln dienen einer disruptiven Funktion.", evolutionaryTrait: "Disruptive Färbung — Leopardenflecken brechen die Flügelkontur auf" },
+    "vc-024": { commonName: "Distelfalter", description: "Unternimmt die längste bekannte Insektenwanderung, bis zu 15.000 km zwischen Europa und Subsahara-Afrika. Ostafrikanische Populationen sind Teil dieses globalen Wandernetzes.", evolutionaryTrait: "Transkontinentale Wanderung — längste bekannte Schmetterlingswanderungsroute" },
+    "cv-025": { commonName: "Perlen-Charaxes", description: "Ein Waldlandspezialist in Tsavo- und Selous-Reservaten. Die perlenweissen Hinterflügel kontrastieren mit braunen Vorderflügeln.", evolutionaryTrait: "Schnellflug-Anpassung — Flügelform optimiert für Wendigkeit in der Luft" },
+    "poph-026": { commonName: "Kaiser-Schwalbenschwanz", description: "Einer der grössten Schwalbenschwänze Afrikas, in Bergwäldern des Eastern Arc und Albertine Rift. Seine Raupe zeigt bemerkenswerte Schlangenkopf-Mimikry.", evolutionaryTrait: "Schlangenmimikry — Raupenkopf ähnelt einer Schlange zur Verteidigung" },
+    "az-027": { commonName: "Gross Gefleckte Acraea", description: "Einer der giftigsten Schmetterlinge Ostafrikas. Grosse schwarze Flecken auf orangen Flügeln warnen Fressfeinde vor cyanidbasierten Abwehrstoffen.", evolutionaryTrait: "Chemische Verteidigung — cyanogene Glykoside machen ihn für Vögel giftig" },
+    "cj-028": { commonName: "Zweischwänziger Pascha", description: "Der einzige Charaxes entlang der ostafrikanischen Küste. Populationen bei Diani Beach und Sansibar zeigen Variationen im Flügelmuster.", evolutionaryTrait: "Küstenanpassung — Populationen zeigen Flügelfarbvariation in Meeresnähe" },
+    "ns-029": { commonName: "Madagassischer Segler", description: "Ein anmutiger Gleiter ostafrikanischer Wälder, benannt nach seinem segelnden Flugstil. Die weissen Diagonalstreifen können Lufträuber verwirren.", evolutionaryTrait: "Gleitflug — Flügelform für energieeffizienten Waldflug entwickelt" },
+    "ce-030": { commonName: "Rauchige Orangenspitze", description: "Verbreitet in den Savannenlandschaften von Amboseli und Tsavo. Die rauchigen orangen Flügelspitzen variieren in der Intensität zwischen den Jahreszeiten.", evolutionaryTrait: "Trockenzeit-Kryptik — Flügelunterseite ahmt trockene Vegetation nach" },
+    "lp-031": { commonName: "Gemeines Zebrablau", description: "Einer der kleinsten Schmetterlinge im Archiv. Männchen zeigen schillerndes Blau, während die zebragestreifte Unterseite Tarnung bietet.", evolutionaryTrait: "Ameisen-Mutualismus — Larven produzieren Honigtau für Ameisenschutz" },
+    "dp-032": { commonName: "Monarch", description: "Eine etablierte Population an der ostafrikanischen Küste. Teilt die Seidenpflanzen-Toxin-Verteidigungsstrategie mit seinem afrikanischen Verwandten, Danaus chrysippus.", evolutionaryTrait: "Cardenolid-Sequestrierung — speichert Pflanzentoxine zur Fressfeindabschreckung" },
+  },
+};
+
+export const LanguageProvider = ({ children }: { children: ReactNode }) => {
+  const [lang, setLang] = useState<Language>("en");
+
+  const t = (key: string): string => {
+    return translations[lang]?.[key] ?? translations.en[key] ?? key;
+  };
+
+  const tSpecimen = (id: string, field: "commonName" | "description" | "evolutionaryTrait"): string | undefined => {
+    if (lang === "en") return undefined; // use original data
+    return specimenTranslations[lang]?.[id]?.[field];
+  };
+
+  return (
+    <LanguageContext.Provider value={{ lang, setLang, t, tSpecimen }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+};
