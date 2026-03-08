@@ -1305,7 +1305,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "protomedia",
     image: colotisProtomedia,
     colors: ["White", "Red", "Orange"],
-    pattern: "Spotted",
+    pattern: "Apical Flash",
     wingShape: "Small Rounded",
     habitat: "Savanna",
     region: "South Sudan, Uganda, Kenya, Ethiopia",
