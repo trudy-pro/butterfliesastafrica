@@ -97,6 +97,7 @@ const Index = () => {
     habitat: null,
     migration: null,
     family: null,
+    country: null,
   });
 
   const filtered = useMemo(() => {
