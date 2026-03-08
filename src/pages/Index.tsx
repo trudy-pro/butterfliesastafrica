@@ -226,11 +226,8 @@ const Index = () => {
         />
       )}
       {showInfo && <InfoPanel onClose={() => setShowInfo(false)} />}
-      {showCompare && (
-        <ComparisonView
-          onClose={() => setShowCompare(false)}
-        />
-      )}
+      {showCompare && <ComparisonView onClose={() => setShowCompare(false)} />}
+      {showIdentify && <IdentifyPanel onClose={() => setShowIdentify(false)} />}
     </div>
   );
 };
