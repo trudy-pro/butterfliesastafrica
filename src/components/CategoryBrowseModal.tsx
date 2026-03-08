@@ -118,7 +118,9 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
                     className="px-3.5 py-2 text-sm font-body text-foreground bg-background border border-border rounded-md hover:bg-secondary transition-colors cursor-pointer uppercase tracking-wide inline-flex items-center gap-2"
                   >
                     {item.name}
-                    <span className="text-xs text-muted-foreground font-normal">{item.count}</span>
+                    {categoryForItem(section.title) !== "species" && (
+                      <span className="text-xs text-muted-foreground font-normal">{item.count}</span>
+                    )}
                   </motion.button>
                 ))}
               </div>
