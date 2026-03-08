@@ -640,7 +640,7 @@ export const specimens: ButterflySpecimen[] = [
     image: neptisSaclava,
     colors: ["Black", "White"],
     pattern: "Banded",
-    wingShape: "Broad",
+    wingShape: "Broad Tailless",
     habitat: "Tropical Forest",
     region: "Tanzania, Kenya",
     migration: "Resident",
