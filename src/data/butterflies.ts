@@ -1325,7 +1325,7 @@ export const specimens: ButterflySpecimen[] = [
     image: acraeaPeneleos,
     colors: ["Orange", "Black"],
     pattern: "Veined",
-    wingShape: "Elongated",
+    wingShape: "Elongated Narrow",
     habitat: "Montane Forest",
     region: "Rwanda, Burundi, Uganda",
     migration: "Resident",
