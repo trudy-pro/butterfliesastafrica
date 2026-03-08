@@ -148,7 +148,7 @@ const translations: Record<Language, Record<string, string>> = {
     "family.Satyrinae": "Satyrinae",
   },
   de: {
-    "header.title": "Lepidoptera Ostafrika",
+    "header.title": "Schmetterlinge Ostafrikas",
     "header.subtitle": "Ein Archiv zur Erforschung der natürlichen Selektion in Farbe, Muster, Form und Gestalt — Dokumentation von Schmetterlingsarten in Ostafrika.",
     "toolbar.filter": "Filter",
     "toolbar.compare": "Vergleichen",
