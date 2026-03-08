@@ -1,1 +1,4 @@
 project_id = "ahcipfyqjfarpbbxryjx"
+
+[functions.identify-butterfly]
+verify_jwt = false
