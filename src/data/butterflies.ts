@@ -1116,7 +1116,7 @@ export const specimens: ButterflySpecimen[] = [
     image: acraeaVestalis,
     colors: ["Orange", "White", "Black"],
     pattern: "Veined",
-    wingShape: "Rounded",
+    wingShape: "Rounded Medium",
     habitat: "Tropical Forest",
     region: "Angola, DRC",
     migration: "Resident",
