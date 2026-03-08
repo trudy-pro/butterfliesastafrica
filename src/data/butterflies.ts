@@ -1401,7 +1401,7 @@ export const specimens: ButterflySpecimen[] = [
     image: euripheneBarombina,
     colors: ["Brown", "Orange", "Black"],
     pattern: "Banded",
-    wingShape: "Broad",
+    wingShape: "Broad Rounded",
     habitat: "Tropical Forest",
     region: "South Sudan, Uganda, DRC",
     migration: "Resident",
