@@ -159,6 +159,16 @@ const Auth = () => {
                 />
               </div>
             </div>
+            {!isSignUp && (
+              <div className="text-right">
+                <Link
+                  to="/forgot-password"
+                  className="text-xs font-body text-muted-foreground hover:text-foreground underline transition-colors"
+                >
+                  Forgot password?
+                </Link>
+              </div>
+            )}
             <Button
               type="submit"
               className="w-full h-12 font-body text-sm"
