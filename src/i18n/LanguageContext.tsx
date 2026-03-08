@@ -321,6 +321,16 @@ const specimenTranslations: Record<string, Record<string, { commonName: string; 
     "phan-050": { commonName: "Madagassischer Riesenschwalbenschwanz", description: "Endemisch in Madagaskar, einer der ikonischsten Insekten der Insel.", evolutionaryTrait: "Insel-Gigantismus — isolierte Evolution auf Madagaskar erzeugte einzigartige Grossform" },
     "ml-051": { commonName: "Gemeines Abenbraun", description: "Hauptsächlich in der Dämmerung aktiv, ruht tagsüber mit geschlossenen Flügeln.", evolutionaryTrait: "Dämmerungsaktivität — angepasst für Fliegen bei schwachem Licht" },
     "ad-052": { commonName: "Gemeiner Haarschwanz", description: "Ein winziger, juwelenartiger Lycaenide mit zarter blau-violetter Oberseite.", evolutionaryTrait: "Ameisenassoziation — Larven werden von Camponotus-Ameisen gepflegt" },
+    "cd-053": { commonName: "Druces Charaxes", description: "Ein auffälliger Charaxes aus den Wäldern Zentral- und Westafrikas.", evolutionaryTrait: "Schnellflug-Anpassung — kräftige Thoraxmuskulatur für Kronendach-Verfolgung" },
+    "ac-054": { commonName: "Collins Aschblau", description: "Ein seltener Lycaenide, endemisch an Kenias Küste.", evolutionaryTrait: "Küstenwald-Spezialisierung — beschränkt auf ostafrikanische Küstenlebensräume" },
+    "av-055": { commonName: "Kongolesische Glasflügel-Acraea", description: "Eine zarte Acraea mit halbtransparenten Flügeln aus angolanischen Steilhangwäldern.", evolutionaryTrait: "Flügeltransparenz — reduzierte Schuppendichte erzeugt glasartiges Aussehen" },
+    "ms-056": { commonName: "Gemeiner Feigenbaum-Bläuling", description: "Ein atemberaubender Schwanz-Lycaenide mit schillernden blauen Oberseiten.", evolutionaryTrait: "Feigenbaum-Obligat — Larven fressen ausschliesslich an Ficus-Arten" },
+    "st-057": { commonName: "Elfendickkopffalter", description: "Ein kleiner Hesperiide aus Liberias Nimba-Bergen.", evolutionaryTrait: "Bergland-Isolation — Populationen fragmentiert über westafrikanische Hochländer" },
+    "pa-058": { commonName: "Dunklerer Kommodore", description: "Zeigt auffällige saisonale Variation mit verschiedenen Trocken- und Regenzeitformen.", evolutionaryTrait: "Saisonaler Polyphenismus — Trocken- und Regenzeitformen unterscheiden sich dramatisch" },
+    "mg-059": { commonName: "Gabela-Pünktchenrand", description: "Ein angolanischer endemischer Pieriden-Falter, beschränkt auf Steilhangwälder.", evolutionaryTrait: "Angolanischer Endemit — in Isolation in Serra de Namba Steilhangwäldern entstanden" },
+    "bo-060": { commonName: "Ockerfarbenes Buschbraun", description: "Ein Satyrinae aus Angolas Serra de Namba-Wäldern.", evolutionaryTrait: "Phänotypische Plastizität — Augenfleckgrösse variiert mit Umweltbedingungen" },
+    "ar-061": { commonName: "Rotgeringelter Haarschwanz", description: "Ein winziger Lycaenide mit markanten rotgeringelten Markierungen.", evolutionaryTrait: "Rote Randringe — einzigartiges Pigmentierungsmuster in der Gattung Anthene" },
+    "ac-062": { commonName: "Canopus-Dickkopffalter", description: "Ein auffällig gezeichneter Dickkopffalter mit kontrastreichem braun-weissem Fleckenmuster.", evolutionaryTrait: "Dämmerungsfütterung — angepasst an Nahrungsaufnahme in der Dämmerung" },
   },
 };
 
