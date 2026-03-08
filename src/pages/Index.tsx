@@ -4,11 +4,13 @@ import SpecimenCard from "@/components/SpecimenCard";
 import SpecimenDetail from "@/components/SpecimenDetail";
 import FilterPanel, { FilterState } from "@/components/FilterPanel";
 import InfoPanel from "@/components/InfoPanel";
+import ComparisonView from "@/components/ComparisonView";
 
 const Index = () => {
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [showCompare, setShowCompare] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     color: null,
     pattern: null,
