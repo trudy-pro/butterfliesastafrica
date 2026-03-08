@@ -1154,7 +1154,7 @@ export const specimens: ButterflySpecimen[] = [
     image: sarangesaTertullianus,
     colors: ["Brown", "White"],
     pattern: "Mottled",
-    wingShape: "Broad",
+    wingShape: "Compact Robust",
     habitat: "Montane Forest",
     region: "Liberia, Guinea, Sierra Leone",
     migration: "Resident",
