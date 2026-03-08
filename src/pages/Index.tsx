@@ -29,6 +29,15 @@ const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[];
     el.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") { e.preventDefault(); scroll("left"); }
+      else if (e.key === "ArrowRight") { e.preventDefault(); scroll("right"); }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [scroll]);
+
   return (
     <div className="relative group/scroll">
       {canScrollLeft && (
