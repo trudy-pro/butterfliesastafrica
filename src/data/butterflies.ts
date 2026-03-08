@@ -957,7 +957,7 @@ export const specimens: ButterflySpecimen[] = [
     pattern: "Solid",
     wingShape: "Rounded",
     habitat: "Woodland",
-    region: "Malawi, Zambia, Tanzania, Mozambique",
+    region: "Tanzania",
     migration: "Migratory",
     wingspan: "45–55 mm",
     symmetry: "Bilateral, high",
