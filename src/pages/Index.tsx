@@ -125,21 +125,15 @@ const Index = () => {
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="text-center pt-16 pb-8 px-6">
+      <header className="text-center pt-16 pb-4 px-6">
         <h1 className="text-4xl md:text-5xl font-display italic text-foreground mb-4">
           Lepidoptera East Africa
         </h1>
-        <p className="max-w-xl mx-auto text-sm font-body text-muted-foreground leading-relaxed mb-8">
+        <p className="max-w-xl mx-auto text-sm font-body text-muted-foreground leading-relaxed">
           An archive exploring natural selection in Color, Pattern, Shape, and Form — documenting butterfly species across East Africa.
         </p>
-        <SearchBar
-          query={searchQuery}
-          onQueryChange={setSearchQuery}
-          activeCategory={searchCategory}
-          onCategoryChange={setSearchCategory}
-        />
       </header>
 
       {/* Toolbar */}
@@ -179,7 +173,7 @@ const Index = () => {
       </div>
 
       {/* Specimen Grid */}
-      <main className="py-6">
+      <main className="flex-1 py-6">
         {filtered.length === 0 ? (
           <div className="text-center py-20 px-3">
             <p className="text-sm font-body text-muted-foreground">No specimens match the current filters.</p>
@@ -194,6 +188,16 @@ const Index = () => {
           <ScrollableGrid filtered={filtered} onSelect={setSelectedSpecimen} />
         )}
       </main>
+
+      {/* Search Bar — fixed at bottom */}
+      <div className="sticky bottom-0 z-40 bg-background/90 backdrop-blur-md border-t border-border py-4">
+        <SearchBar
+          query={searchQuery}
+          onQueryChange={setSearchQuery}
+          activeCategory={searchCategory}
+          onCategoryChange={setSearchCategory}
+        />
+      </div>
 
       {/* Panels */}
       {showFilters && (
