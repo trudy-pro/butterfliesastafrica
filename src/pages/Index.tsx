@@ -157,8 +157,8 @@ const Index = () => {
         </h1>
       </header>
 
-      {/* Toolbar */}
-      <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
+      {/* Toolbar + Search */}
+      <div className="sticky top-0 z-[60] bg-background/90 backdrop-blur-md border-b border-border">
         <div className="flex items-center justify-end px-6 py-3">
           <div className="flex items-center gap-4">
             <button
@@ -181,6 +181,15 @@ const Index = () => {
               {t("toolbar.info")}
             </button>
           </div>
+        </div>
+        <div className="pb-4">
+          <SearchBar
+            query={searchQuery}
+            onQueryChange={setSearchQuery}
+            activeCategory={searchCategory}
+            onCategoryChange={setSearchCategory}
+            onCategoryBrowse={(cat) => setBrowseCategory(cat)}
+          />
         </div>
       </div>
 
