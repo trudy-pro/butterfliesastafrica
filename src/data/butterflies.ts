@@ -1343,7 +1343,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "etheocles",
     image: charaxesEtheocles,
     colors: ["Brown", "Iridescent", "Blue"],
-    pattern: "Banded",
+    pattern: "Banded Iridescent",
     wingShape: "Broad Angular",
     habitat: "Tropical Forest",
     region: "Uganda, Rwanda, Burundi, DRC",
