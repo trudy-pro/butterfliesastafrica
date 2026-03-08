@@ -1058,7 +1058,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "definita",
     image: antheneDefinita,
     colors: ["Blue", "Brown", "White"],
-    pattern: "Striped",
+    pattern: "Striped Translucent",
     wingShape: "Small Rounded",
     habitat: "Woodland",
     region: "Ethiopia, Kenya, Tanzania",
