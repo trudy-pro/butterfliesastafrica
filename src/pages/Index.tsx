@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useCallback } from "react";
+import { useState, useMemo, useRef, useCallback, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Camera } from "lucide-react";
 import { specimens, ButterflySpecimen, WingColor, WingPattern, WingShape, Habitat, Migration, Family } from "@/data/butterflies";
 import SpecimenCard from "@/components/SpecimenCard";
