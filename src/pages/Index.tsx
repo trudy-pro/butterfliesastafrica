@@ -148,8 +148,11 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="text-center pt-16 pb-4 px-6">
-        <h1 className="text-4xl md:text-5xl font-display italic text-foreground mb-4">
+      <header className="pt-12 pb-4 px-6">
+        <p className="text-sm font-body text-primary tracking-wide mb-1">
+          {t("header.subtitle")}
+        </p>
+        <h1 className="text-4xl md:text-6xl font-display text-foreground leading-tight">
           {t("header.title")}
         </h1>
       </header>
