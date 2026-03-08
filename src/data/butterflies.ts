@@ -469,7 +469,7 @@ export const specimens: ButterflySpecimen[] = [
     image: graphiumPolicenes,
     colors: ["Green", "Black"],
     pattern: "Striped",
-    wingShape: "Tailed",
+    wingShape: "Elongated Swordtail",
     habitat: "Tropical Forest",
     region: "Tanzania, Kenya",
     migration: "Resident",
