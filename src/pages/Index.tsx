@@ -105,6 +105,16 @@ const Index = () => {
     country: null,
   });
 
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
   const filtered = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
     return specimens.filter((s) => {
