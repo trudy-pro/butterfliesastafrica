@@ -152,7 +152,7 @@ const Index = () => {
         <p className="text-sm font-body text-primary tracking-wide mb-1">
           {t("header.subtitle")}
         </p>
-        <h1 className="text-4xl md:text-6xl font-display text-foreground leading-tight">
+        <h1 className="text-4xl md:text-6xl font-display text-foreground leading-tight whitespace-pre-line">
           {t("header.title")}
         </h1>
       </header>
