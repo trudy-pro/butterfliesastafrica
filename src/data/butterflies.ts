@@ -621,7 +621,7 @@ export const specimens: ButterflySpecimen[] = [
     image: charaxesJasius,
     colors: ["Brown", "Orange", "Blue"],
     pattern: "Banded",
-    wingShape: "Tailed",
+    wingShape: "Robust Double-tailed",
     habitat: "Coastal",
     region: "Kenya, Tanzania",
     migration: "Resident",
