@@ -61,7 +61,7 @@ const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[];
       <div
         ref={scrollRef}
         onScroll={updateScrollState}
-        className="overflow-x-auto scrollbar-hide px-3"
+        className="overflow-x-auto scrollbar-hide px-3 scroll-smooth"
       >
         <div className="grid grid-rows-2 grid-flow-col gap-2 auto-cols-[140px] sm:auto-cols-[160px] md:auto-cols-[180px]">
           {filtered.map((specimen, i) => (
