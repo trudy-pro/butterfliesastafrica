@@ -142,7 +142,7 @@ const InfoPanel = ({ onClose }: InfoPanelProps) => {
         {/* Country sections */}
         <div className="space-y-0">
           {countries.map((country, index) => (
-            <div key={country.name}>
+            <div key={country.name} id={`country-${country.name}`} className="scroll-mt-4">
               {index > 0 && <hr className="border-border my-12" />}
               <div className="space-y-4">
                 {/* Large country name */}
