@@ -36,7 +36,6 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
     });
 
     return {
-      all: specimens.length,
       species: specimens.length,
       families: families.size,
       regions: regions.size,
@@ -44,6 +43,9 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
       patterns: patterns.size,
       colors: colors.size,
       wingShapes: wingShapes.size,
+      get all() {
+        return this.species + this.families + this.regions + this.habitats + this.patterns + this.colors + this.wingShapes;
+      },
     };
   }, []);
 
