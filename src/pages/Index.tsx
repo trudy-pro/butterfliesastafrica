@@ -4,11 +4,13 @@ import SpecimenCard from "@/components/SpecimenCard";
 import SpecimenDetail from "@/components/SpecimenDetail";
 import FilterPanel, { FilterState } from "@/components/FilterPanel";
 import InfoPanel from "@/components/InfoPanel";
+import ComparisonView from "@/components/ComparisonView";
 
 const Index = () => {
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [showCompare, setShowCompare] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     color: null,
     pattern: null,
@@ -61,12 +63,20 @@ const Index = () => {
               </span>
             )}
           </button>
-          <button
-            onClick={() => setShowInfo(true)}
-            className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors"
-          >
-            Info
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowCompare(true)}
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors"
+            >
+              Compare
+            </button>
+            <button
+              onClick={() => setShowInfo(true)}
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors"
+            >
+              Info
+            </button>
+          </div>
         </div>
       </div>
 
@@ -108,9 +118,15 @@ const Index = () => {
         <SpecimenDetail
           specimen={selectedSpecimen}
           onClose={() => setSelectedSpecimen(null)}
+          onCompare={(s) => { setSelectedSpecimen(null); setShowCompare(true); }}
         />
       )}
       {showInfo && <InfoPanel onClose={() => setShowInfo(false)} />}
+      {showCompare && (
+        <ComparisonView
+          onClose={() => setShowCompare(false)}
+        />
+      )}
     </div>
   );
 };

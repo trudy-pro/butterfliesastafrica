@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 interface SpecimenDetailProps {
   specimen: ButterflySpecimen;
   onClose: () => void;
+  onCompare?: (specimen: ButterflySpecimen) => void;
 }
 
 const DetailRow = ({ label, value }: { label: string; value: string }) => (
@@ -13,7 +14,7 @@ const DetailRow = ({ label, value }: { label: string; value: string }) => (
   </div>
 );
 
-const SpecimenDetail = ({ specimen, onClose }: SpecimenDetailProps) => {
+const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) => {
   return (
     <div className="fixed inset-0 z-50 flex">
       <div className="absolute inset-0 bg-specimen-overlay/30 backdrop-blur-sm" onClick={onClose} />
@@ -90,6 +91,15 @@ const SpecimenDetail = ({ specimen, onClose }: SpecimenDetailProps) => {
             <h3 className="text-xs font-body uppercase tracking-[0.2em] text-muted-foreground mb-3">Notes</h3>
             <p className="text-sm font-body text-muted-foreground leading-relaxed">{specimen.description}</p>
           </div>
+
+          {onCompare && (
+            <button
+              onClick={() => onCompare(specimen)}
+              className="w-full mt-4 py-3 bg-secondary text-secondary-foreground font-body text-sm tracking-wide rounded-sm hover:bg-muted transition-colors"
+            >
+              Compare with another specimen
+            </button>
+          )}
         </div>
       </div>
     </div>
