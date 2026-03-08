@@ -5,12 +5,14 @@ import SpecimenDetail from "@/components/SpecimenDetail";
 import FilterPanel, { FilterState } from "@/components/FilterPanel";
 import InfoPanel from "@/components/InfoPanel";
 import ComparisonView from "@/components/ComparisonView";
+import SearchBar from "@/components/SearchBar";
 
 const Index = () => {
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [showCompare, setShowCompare] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<FilterState>({
     color: null,
     pattern: null,
@@ -21,6 +23,7 @@ const Index = () => {
   });
 
   const filtered = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
     return specimens.filter((s) => {
       if (filters.color && !s.colors.includes(filters.color)) return false;
       if (filters.pattern && s.pattern !== filters.pattern) return false;
@@ -28,41 +31,53 @@ const Index = () => {
       if (filters.habitat && s.habitat !== filters.habitat) return false;
       if (filters.migration && s.migration !== filters.migration) return false;
       if (filters.family && s.family !== filters.family) return false;
+      if (q) {
+        const haystack = `${s.commonName} ${s.scientificName} ${s.region} ${s.family} ${s.genus}`.toLowerCase();
+        if (!haystack.includes(q)) return false;
+      }
       return true;
     });
-  }, [filters]);
+  }, [filters, searchQuery]);
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
 
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="text-center pt-16 pb-12 px-6">
+      <header className="text-center pt-16 pb-8 px-6">
         <h1 className="text-4xl md:text-5xl font-display italic text-foreground mb-4">
           Lepidoptera East Africa
         </h1>
-        <p className="text-sm font-body text-muted-foreground mb-2">
-          {filtered.length} specimen{filtered.length !== 1 ? "s" : ""}
-        </p>
-        <p className="max-w-xl mx-auto text-sm font-body text-muted-foreground leading-relaxed">
+        <p className="max-w-xl mx-auto text-sm font-body text-muted-foreground leading-relaxed mb-8">
           An archive exploring natural selection in Color, Pattern, Shape, and Form — documenting butterfly species across East Africa.
         </p>
+        <SearchBar
+          query={searchQuery}
+          onQueryChange={setSearchQuery}
+          totalSpecimens={specimens.length}
+          filteredCount={filtered.length}
+        />
       </header>
 
       {/* Toolbar */}
       <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="flex items-center justify-between px-6 py-3">
-          <button
-            onClick={() => setShowFilters(true)}
-            className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-2"
-          >
-            Filter
-            {activeFilterCount > 0 && (
-              <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] bg-filter-active text-filter-active-fg rounded-full">
-                {activeFilterCount}
-              </span>
-            )}
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowFilters(true)}
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-2"
+            >
+              Filter
+              {activeFilterCount > 0 && (
+                <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] bg-filter-active text-filter-active-fg rounded-full">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
+            <span className="text-xs font-body text-muted-foreground">
+              {filtered.length} result{filtered.length !== 1 ? "s" : ""}
+            </span>
+          </div>
           <div className="flex items-center gap-4">
             <button
               onClick={() => setShowCompare(true)}
