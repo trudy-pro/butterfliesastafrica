@@ -96,6 +96,21 @@ const InfoPanel = ({ onClose }: InfoPanelProps) => {
           </button>
         </div>
 
+        {/* Country navigation */}
+        <nav className="flex flex-wrap gap-2 mb-10">
+          {countries.map((country) => (
+            <button
+              key={country.name}
+              onClick={() => {
+                document.getElementById(`country-${country.name}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="text-xs font-body text-muted-foreground hover:text-foreground border border-border px-3 py-1.5 transition-colors hover:bg-muted"
+            >
+              {country.name}
+            </button>
+          ))}
+        </nav>
+
         {/* Original info sections */}
         <div className="space-y-8 font-body text-sm leading-relaxed mb-16">
           <div>
