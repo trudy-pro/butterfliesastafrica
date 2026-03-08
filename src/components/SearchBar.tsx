@@ -20,26 +20,14 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
 
   const total = useMemo(() => specimens.length, []);
 
-    const total = specimens.length;
-    return {
-      all: total,
-      species: total,
-      families: total,
-      habitats: total,
-      patterns: total,
-      colors: total,
-      wingShapes: total,
-    };
-  }, []);
-
   const categories: { key: SearchCategory; label: string; count: number }[] = [
-    { key: "all", label: t("search.everything"), count: counts.all },
-    { key: "species", label: t("search.species"), count: counts.species },
-    { key: "families", label: t("search.families"), count: counts.families },
-    { key: "habitats", label: t("search.habitats"), count: counts.habitats },
-    { key: "patterns", label: t("search.patterns"), count: counts.patterns },
-    { key: "colors", label: t("search.colors"), count: counts.colors },
-    { key: "wingShapes", label: t("search.wingShapes"), count: counts.wingShapes },
+    { key: "all", label: t("search.everything"), count: total },
+    { key: "species", label: t("search.species"), count: total },
+    { key: "families", label: t("search.families"), count: total },
+    { key: "habitats", label: t("search.habitats"), count: total },
+    { key: "patterns", label: t("search.patterns"), count: total },
+    { key: "colors", label: t("search.colors"), count: total },
+    { key: "wingShapes", label: t("search.wingShapes"), count: total },
   ];
 
   useEffect(() => {
