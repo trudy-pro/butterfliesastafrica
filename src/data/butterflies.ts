@@ -678,7 +678,7 @@ export const specimens: ButterflySpecimen[] = [
     image: leptotesPirithous,
     colors: ["Blue", "Brown", "White"],
     pattern: "Striped",
-    wingShape: "Rounded",
+    wingShape: "Small Rounded",
     habitat: "Grassland",
     region: "Kenya, Tanzania, Rwanda, Burundi",
     migration: "Resident",
