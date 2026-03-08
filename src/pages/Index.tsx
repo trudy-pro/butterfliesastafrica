@@ -161,17 +161,6 @@ const Index = () => {
       <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="flex items-center justify-between px-6 py-3">
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => setShowFilters(true)}
-              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-2"
-            >
-              {t("toolbar.filter")}
-              {activeFilterCount > 0 && (
-                <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] bg-filter-active text-filter-active-fg rounded-full">
-                  {activeFilterCount}
-                </span>
-              )}
-            </button>
             <span className="text-xs font-body text-muted-foreground">
               {filtered.length} {filtered.length !== 1 ? t("toolbar.results") : t("toolbar.result")}
             </span>
