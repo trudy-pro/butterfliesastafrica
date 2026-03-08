@@ -123,7 +123,7 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
               <Camera size={28} className="text-muted-foreground" />
             </div>
             <div>
-              <p className="text-sm font-body text-foreground mb-1">Sign in to identify butterflies</p>
+              <p className="text-sm font-body text-foreground mb-1">Register with us to identify butterflies</p>
               <p className="text-xs font-body text-muted-foreground">Upload a photo and our AI will analyze the species.</p>
             </div>
             <button
