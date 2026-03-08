@@ -1,6 +1,9 @@
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Camera } from "lucide-react";
+import { ChevronLeft, ChevronRight, Camera, LogIn, LogOut } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import type { User } from "@supabase/supabase-js";
 import { specimens, ButterflySpecimen, WingColor, WingPattern, WingShape, Habitat, Migration, Family } from "@/data/butterflies";
 import SpecimenCard from "@/components/SpecimenCard";
 import SpecimenDetail from "@/components/SpecimenDetail";
