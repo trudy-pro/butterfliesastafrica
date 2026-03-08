@@ -1172,7 +1172,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "antilope",
     image: precisAntilope,
     colors: ["Brown", "Orange", "Black"],
-    pattern: "Eyespot",
+    pattern: "Seasonal Polyphenism",
     wingShape: "Compact Triangular",
     habitat: "Savanna",
     region: "Ghana, Angola, South Africa",
