@@ -55,6 +55,7 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
     { key: "habitats", label: t("search.habitats"), count: counts.habitats },
     { key: "patterns", label: t("search.patterns"), count: counts.patterns },
     { key: "colors", label: t("search.colors"), count: counts.colors },
+    { key: "wingShapes", label: t("search.wingShapes"), count: counts.wingShapes },
   ];
 
   useEffect(() => {
