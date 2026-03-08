@@ -21,7 +21,7 @@ export const useLanguage = () => {
 const translations: Record<Language, Record<string, string>> = {
   en: {
     // Header
-    "header.title": "Lepidoptera East Africa",
+    "header.title": "Butterflies of East Africa",
     "header.subtitle": "An archive exploring natural selection in Color, Pattern, Shape, and Form — documenting butterfly species across East Africa.",
     // Toolbar
     "toolbar.filter": "Filter",
