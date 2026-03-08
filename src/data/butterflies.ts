@@ -183,7 +183,7 @@ export const specimens: ButterflySpecimen[] = [
     image: charaxesBrutus,
     colors: ["Orange", "White", "Brown"],
     pattern: "Banded",
-    wingShape: "Angular",
+    wingShape: "Broad Angular",
     habitat: "Tropical Forest",
     region: "Uganda, Kenya, Tanzania",
     migration: "Resident",
