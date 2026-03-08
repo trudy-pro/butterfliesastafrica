@@ -10,6 +10,7 @@ interface SearchBarProps {
   onQueryChange: (q: string) => void;
   activeCategory: SearchCategory;
   onCategoryChange: (cat: SearchCategory) => void;
+  onCategoryBrowse?: (cat: SearchCategory) => void;
 }
 
 const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange }: SearchBarProps) => {
