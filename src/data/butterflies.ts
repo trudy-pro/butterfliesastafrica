@@ -315,7 +315,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "nireus",
     image: papilioNireus,
     colors: ["Green", "Black"],
-    pattern: "Banded",
+    pattern: "Banded Iridescent",
     wingShape: "Tailed Swallowtail",
     habitat: "Tropical Forest",
     region: "Kenya, Tanzania, Uganda",
