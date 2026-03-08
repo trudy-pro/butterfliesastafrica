@@ -24,6 +24,7 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
     const habitats = new Set<string>();
     const patterns = new Set<string>();
     const colors = new Set<string>();
+    const wingShapes = new Set<string>();
 
     specimens.forEach((s) => {
       families.add(s.family);
