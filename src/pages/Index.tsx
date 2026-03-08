@@ -43,25 +43,25 @@ const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[];
       {canScrollLeft && (
         <button
           onClick={() => scroll("left")}
-          className="absolute left-0 top-0 bottom-0 z-10 w-12 flex items-center justify-center bg-gradient-to-r from-background to-transparent opacity-0 group-hover/scroll:opacity-100 transition-opacity"
+          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-md flex items-center justify-center opacity-0 group-hover/scroll:opacity-100 transition-all duration-300 hover:scale-110 hover:bg-card"
           aria-label="Scroll left"
         >
-          <ChevronLeft className="w-5 h-5 text-foreground" />
+          <ChevronLeft className="w-4 h-4 text-foreground" />
         </button>
       )}
       {canScrollRight && (
         <button
           onClick={() => scroll("right")}
-          className="absolute right-0 top-0 bottom-0 z-10 w-12 flex items-center justify-center bg-gradient-to-l from-background to-transparent opacity-0 group-hover/scroll:opacity-100 transition-opacity"
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-md flex items-center justify-center opacity-0 group-hover/scroll:opacity-100 transition-all duration-300 hover:scale-110 hover:bg-card"
           aria-label="Scroll right"
         >
-          <ChevronRight className="w-5 h-5 text-foreground" />
+          <ChevronRight className="w-4 h-4 text-foreground" />
         </button>
       )}
       <div
         ref={scrollRef}
         onScroll={updateScrollState}
-        className="overflow-x-auto scrollbar-hide px-3"
+        className="overflow-x-auto scrollbar-hide px-3 scroll-smooth"
       >
         <div className="grid grid-rows-2 grid-flow-col gap-2 auto-cols-[140px] sm:auto-cols-[160px] md:auto-cols-[180px]">
           {filtered.map((specimen, i) => (
