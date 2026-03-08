@@ -36,7 +36,7 @@ export type WingPattern = "Solid" | "Striped" | "Spotted" | "Eyespot" | "Banded"
 export type WingColor = "Orange" | "Yellow" | "Green" | "Blue" | "Red" | "Brown" | "Black" | "White" | "Iridescent";
 export type Habitat = "Savanna" | "Montane Forest" | "Coastal" | "Woodland" | "Grassland" | "Tropical Forest";
 export type Migration = "Migratory" | "Resident" | "Seasonal";
-export type Family = "Nymphalidae" | "Papilionidae" | "Pieridae" | "Lycaenidae" | "Satyrinae";
+export type Family = "Nymphalidae" | "Papilionidae" | "Pieridae" | "Lycaenidae" | "Satyrinae" | "Hesperiidae";
 
 export interface ButterflySpecimen {
   id: string;
