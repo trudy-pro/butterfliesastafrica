@@ -129,6 +129,46 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-8 py-6">
+        {category === "all" ? (() => {
+          // Merge all items into one alphabetical list
+          const allItems = filteredSections.flatMap((section) => {
+            const cat = categoryForItem(section.title);
+            return section.items.map((item) => ({ ...item, cat, sectionTitle: section.title }));
+          });
+          allItems.sort((a, b) => a.name.localeCompare(b.name));
+          const letterGroups = getLetterGroups(allItems.map((i) => ({ name: i.name, count: i.count })));
+          // Build a lookup for category per item name
+          const catLookup: Record<string, SearchCategory> = {};
+          allItems.forEach((i) => { catLookup[i.name] = i.cat; });
+
+          return (
+            <div className="space-y-6">
+              {letterGroups.map(([letter, items]) => (
+                <motion.div
+                  key={letter}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  <p className="text-xs font-body font-semibold text-primary mb-3">{letter}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {items.map((item) => (
+                      <motion.button
+                        key={`${item.name}-${catLookup[item.name]}`}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.97 }}
+                        onClick={() => { onSelect(catLookup[item.name], item.name); onClose(); }}
+                        className="px-3.5 py-2 text-sm font-body text-foreground bg-background border border-border rounded-md hover:bg-secondary transition-colors cursor-pointer uppercase tracking-wide inline-flex items-center gap-2"
+                      >
+                        {item.name}
+                        <span className="text-xs text-muted-foreground font-normal">{item.count}</span>
+                      </motion.button>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          );
+        })() : (
         <div className={`grid gap-12 ${filteredSections.length > 1 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" : "grid-cols-1"}`}>
           {filteredSections.map((section, sectionIdx) => {
             const cat = categoryForItem(section.title);
@@ -186,6 +226,7 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
             );
           })}
         </div>
+        )}
 
         {filteredSections.length === 0 && (
           <p className="text-sm font-body text-muted-foreground text-center py-12">No results found.</p>
