@@ -1382,7 +1382,7 @@ export const specimens: ButterflySpecimen[] = [
     image: neptisNemetes,
     colors: ["Black", "White"],
     pattern: "Banded",
-    wingShape: "Broad",
+    wingShape: "Broad Tailless",
     habitat: "Tropical Forest",
     region: "Burundi, Rwanda, Uganda, DRC",
     migration: "Resident",
