@@ -172,7 +172,43 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
               </button>
             </div>
 
-            {/* Upload area */}
+            {/* Approval gate */}
+            {approvalStatus === "loading" ? (
+              <div className="flex items-center justify-center py-16">
+                <Loader2 size={24} className="animate-spin text-muted-foreground" />
+              </div>
+            ) : approvalStatus === "none" ? (
+              <div className="flex flex-col items-center text-center py-12 space-y-4">
+                <ShieldCheck size={28} className="text-muted-foreground" />
+                <div>
+                  <p className="text-sm font-body text-foreground mb-1">Contributor access required</p>
+                  <p className="text-xs font-body text-muted-foreground">Request access from the Contribute page to use this feature.</p>
+                </div>
+                <button
+                  onClick={() => { onClose(); window.location.href = "/contribute"; }}
+                  className="text-sm font-body text-foreground underline hover:text-muted-foreground transition-colors"
+                >
+                  Request access →
+                </button>
+              </div>
+            ) : approvalStatus === "pending" ? (
+              <div className="flex flex-col items-center text-center py-12 space-y-4">
+                <Clock size={28} className="text-muted-foreground" />
+                <div>
+                  <p className="text-sm font-body text-foreground mb-1">Request pending</p>
+                  <p className="text-xs font-body text-muted-foreground">Your contributor request is being reviewed. You'll be able to identify butterflies once approved.</p>
+                </div>
+              </div>
+            ) : approvalStatus === "rejected" ? (
+              <div className="flex flex-col items-center text-center py-12 space-y-4">
+                <X size={28} className="text-destructive" />
+                <div>
+                  <p className="text-sm font-body text-foreground mb-1">Access declined</p>
+                  <p className="text-xs font-body text-muted-foreground">Your contributor request was not approved.</p>
+                </div>
+              </div>
+            ) : (
+            <>
             {!imagePreview && (
               <div
                 onDragOver={(e) => e.preventDefault()}
