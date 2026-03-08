@@ -88,30 +88,31 @@ const InfoPanel = ({ onClose }: InfoPanelProps) => {
   return (
     <div className="fixed inset-0 z-50 flex">
       <div className="absolute inset-0 bg-specimen-overlay/20 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative ml-auto w-full max-w-lg bg-background overflow-y-auto p-10 animate-slide-in">
-        <div className="flex items-start justify-between mb-10">
-          <h2 className="text-3xl font-display italic text-foreground">{t("info.title")}</h2>
-          <button onClick={onClose} className="p-1 text-muted-foreground hover:text-foreground transition-colors">
-            <X size={18} />
-          </button>
+      <div className="relative ml-auto w-full max-w-lg bg-background overflow-y-auto animate-slide-in">
+        {/* Sticky header with close + nav */}
+        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-10 pt-10 pb-4">
+          <div className="flex items-start justify-between mb-6">
+            <h2 className="text-3xl font-display italic text-foreground">{t("info.title")}</h2>
+            <button onClick={onClose} className="p-1 text-muted-foreground hover:text-foreground transition-colors">
+              <X size={18} />
+            </button>
+          </div>
+          <nav className="flex flex-wrap gap-2">
+            {countries.map((country) => (
+              <button
+                key={country.name}
+                onClick={() => {
+                  document.getElementById(`country-${country.name}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className="text-xs font-body text-muted-foreground hover:text-foreground border border-border px-3 py-1.5 transition-colors hover:bg-muted"
+              >
+                {country.name}
+              </button>
+            ))}
+          </nav>
         </div>
 
-        {/* Country navigation */}
-        <nav className="flex flex-wrap gap-2 mb-10">
-          {countries.map((country) => (
-            <button
-              key={country.name}
-              onClick={() => {
-                document.getElementById(`country-${country.name}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
-              }}
-              className="text-xs font-body text-muted-foreground hover:text-foreground border border-border px-3 py-1.5 transition-colors hover:bg-muted"
-            >
-              {country.name}
-            </button>
-          ))}
-        </nav>
-
-        {/* Original info sections */}
+        <div className="px-10 pt-8 pb-10">
         <div className="space-y-8 font-body text-sm leading-relaxed mb-16">
           <div>
             <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">{t("info.mission")}</h3>
