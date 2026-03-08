@@ -51,7 +51,6 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
   const categoryForItem = (sectionTitle: string): SearchCategory => {
     if (sectionTitle === t("search.species")) return "species";
     if (sectionTitle === t("search.families")) return "families";
-    if (sectionTitle === t("search.regions")) return "regions";
     if (sectionTitle === t("search.habitats")) return "habitats";
     if (sectionTitle === t("search.patterns")) return "patterns";
     if (sectionTitle === t("search.colors")) return "colors";

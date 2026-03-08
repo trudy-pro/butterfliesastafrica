@@ -119,9 +119,6 @@ const Index = () => {
           case "families":
             haystack = `${s.family} ${s.genus}`.toLowerCase();
             break;
-          case "regions":
-            haystack = s.region.toLowerCase();
-            break;
           case "habitats":
             haystack = s.habitat.toLowerCase();
             break;
