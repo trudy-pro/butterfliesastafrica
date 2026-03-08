@@ -1363,7 +1363,7 @@ export const specimens: ButterflySpecimen[] = [
     image: belenoisCalypso,
     colors: ["White", "Yellow", "Black"],
     pattern: "Veined",
-    wingShape: "Broad",
+    wingShape: "Broad Rounded",
     habitat: "Woodland",
     region: "South Sudan, Uganda, Kenya, Rwanda",
     migration: "Migratory",
