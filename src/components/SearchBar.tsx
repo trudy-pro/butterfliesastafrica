@@ -44,7 +44,7 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
       colors: colors.size,
       wingShapes: wingShapes.size,
       get all() {
-        return this.species + this.families + this.regions + this.habitats + this.patterns + this.colors + this.wingShapes;
+        return this.families + this.regions + this.habitats + this.patterns + this.colors + this.wingShapes;
       },
     };
   }, []);
