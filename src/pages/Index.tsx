@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useCallback } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { specimens, ButterflySpecimen, WingColor, WingPattern, WingShape, Habitat, Migration, Family } from "@/data/butterflies";
 import SpecimenCard from "@/components/SpecimenCard";
 import SpecimenDetail from "@/components/SpecimenDetail";
@@ -6,6 +7,65 @@ import FilterPanel, { FilterState } from "@/components/FilterPanel";
 import InfoPanel from "@/components/InfoPanel";
 import ComparisonView from "@/components/ComparisonView";
 import SearchBar from "@/components/SearchBar";
+
+const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void }) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const updateScrollState = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 1);
+  }, []);
+
+  const scroll = useCallback((dir: "left" | "right") => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const amount = el.clientWidth * 0.7;
+    el.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
+  }, []);
+
+  return (
+    <div className="relative group/scroll">
+      {canScrollLeft && (
+        <button
+          onClick={() => scroll("left")}
+          className="absolute left-0 top-0 bottom-0 z-10 w-12 flex items-center justify-center bg-gradient-to-r from-background to-transparent opacity-0 group-hover/scroll:opacity-100 transition-opacity"
+          aria-label="Scroll left"
+        >
+          <ChevronLeft className="w-5 h-5 text-foreground" />
+        </button>
+      )}
+      {canScrollRight && (
+        <button
+          onClick={() => scroll("right")}
+          className="absolute right-0 top-0 bottom-0 z-10 w-12 flex items-center justify-center bg-gradient-to-l from-background to-transparent opacity-0 group-hover/scroll:opacity-100 transition-opacity"
+          aria-label="Scroll right"
+        >
+          <ChevronRight className="w-5 h-5 text-foreground" />
+        </button>
+      )}
+      <div
+        ref={scrollRef}
+        onScroll={updateScrollState}
+        className="overflow-x-auto scrollbar-hide px-3"
+      >
+        <div className="grid grid-rows-2 grid-flow-col gap-2 auto-cols-[140px] sm:auto-cols-[160px] md:auto-cols-[180px]">
+          {filtered.map((specimen, i) => (
+            <SpecimenCard
+              key={specimen.id}
+              specimen={specimen}
+              onClick={onSelect}
+              index={i}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Index = () => {
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
@@ -108,18 +168,7 @@ const Index = () => {
             </button>
           </div>
         ) : (
-          <div className="overflow-x-auto scrollbar-hide px-3">
-            <div className="grid grid-rows-2 grid-flow-col gap-2 auto-cols-[140px] sm:auto-cols-[160px] md:auto-cols-[180px]">
-              {filtered.map((specimen, i) => (
-                <SpecimenCard
-                  key={specimen.id}
-                  specimen={specimen}
-                  onClick={setSelectedSpecimen}
-                  index={i}
-                />
-              ))}
-            </div>
-          </div>
+          <ScrollableGrid filtered={filtered} onSelect={setSelectedSpecimen} />
         )}
       </main>
 
