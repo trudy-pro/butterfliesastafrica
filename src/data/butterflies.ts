@@ -1021,25 +1021,7 @@ export const specimens: ButterflySpecimen[] = [
     evolutionaryTrait: "False head mimicry — tail filaments and hindwing pattern mimic antenna and eyes",
     description: "A fiery scarlet-orange lycaenid with distinctive tail filaments. The false head pattern on the hindwing tricks predators into attacking the wrong end, allowing escape."
   },
-  {
-    id: "phan-050",
-    commonName: "Madagascar Giant Swallowtail",
-    scientificName: "Pharmacophagus antenor",
-    family: "Papilionidae",
-    genus: "Pharmacophagus",
-    species: "antenor",
-    image: pharmacophagusAntenor,
-    colors: ["Black", "Red", "White"],
-    pattern: "Spotted",
-    wingShape: "Tailed",
-    habitat: "Tropical Forest",
-    region: "Madagascar",
-    migration: "Resident",
-    wingspan: "100–120 mm",
-    symmetry: "Bilateral, moderate",
-    evolutionaryTrait: "Island gigantism — isolated evolution on Madagascar produced unique large form",
-    description: "Endemic to Madagascar, this spectacular swallowtail is one of the island's most iconic insects. Its bold red, white, and black pattern warns of toxins sequestered from Aristolochia vines."
-  },
+  
   {
     id: "ml-051",
     commonName: "Common Evening Brown",
