@@ -506,7 +506,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "agathina",
     image: mylothrisAgathina,
     colors: ["White", "Orange"],
-    pattern: "Spotted",
+    pattern: "Spotted Marginal",
     wingShape: "Rounded Medium",
     habitat: "Montane Forest",
     region: "Kenya, Tanzania, Rwanda, Burundi",
