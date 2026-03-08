@@ -70,7 +70,7 @@ import neptisNemetes from "@/assets/specimens/neptis-nemetes.jpg";
 import euripheneBarombina from "@/assets/specimens/euriphene-barombina.jpg";
 
 export type WingShape = "Broad Angular" | "Broad Rounded" | "Broad Scalloped" | "Broad Swallowtail" | "Broad Tailless" | "Compact Robust" | "Compact Triangular" | "Elongated Narrow" | "Elongated Swordtail" | "Elongated Tailed" | "Falcate (Sickle-shaped)" | "Robust Double-tailed" | "Rounded Broad" | "Rounded Compact" | "Rounded Medium" | "Rounded with Scalloped Edges" | "Small Rounded" | "Small Tailed" | "Tailed Swallowtail" | "Variable (Mimicry-dependent)";
-export type WingPattern = "Solid" | "Striped" | "Spotted" | "Eyespot" | "Banded" | "Veined" | "Mottled";
+export type WingPattern = "Solid" | "Striped" | "Spotted" | "Eyespot" | "Banded" | "Veined" | "Mottled" | "Apical Flash" | "Banded Iridescent" | "Bold Banded" | "Bold Warning" | "Complex Banded" | "Cryptic Underwing" | "Cryptic with Flash" | "Eyespot Display" | "Iridescent Pearlescent" | "Leopard-Spotted" | "Polymorphic Mimicry" | "Seasonal Polyphenism" | "Spotted Banded" | "Spotted Checkerboard" | "Spotted Marginal" | "Striped Translucent" | "Veined Translucent" | "Warning Coloration";
 export type WingColor = "Orange" | "Yellow" | "Green" | "Blue" | "Red" | "Brown" | "Black" | "White" | "Iridescent";
 export type Habitat = "Savanna" | "Montane Forest" | "Coastal" | "Woodland" | "Grassland" | "Tropical Forest";
 export type Migration = "Migratory" | "Resident" | "Seasonal";
@@ -1414,7 +1414,7 @@ export const specimens: ButterflySpecimen[] = [
 
 export const filterCategories = {
   colors: ["Orange", "Yellow", "Green", "Blue", "Red", "Brown", "Black", "White", "Iridescent"] as WingColor[],
-  patterns: ["Solid", "Striped", "Spotted", "Eyespot", "Banded", "Veined", "Mottled"] as WingPattern[],
+  patterns: ["Apical Flash", "Banded", "Banded Iridescent", "Bold Banded", "Bold Warning", "Complex Banded", "Cryptic Underwing", "Cryptic with Flash", "Eyespot", "Eyespot Display", "Iridescent Pearlescent", "Leopard-Spotted", "Mottled", "Polymorphic Mimicry", "Seasonal Polyphenism", "Solid", "Spotted", "Spotted Banded", "Spotted Checkerboard", "Spotted Marginal", "Striped", "Striped Translucent", "Veined", "Veined Translucent", "Warning Coloration"] as WingPattern[],
   wingShapes: ["Broad Angular", "Broad Rounded", "Broad Scalloped", "Broad Swallowtail", "Broad Tailless", "Compact Robust", "Compact Triangular", "Elongated Narrow", "Elongated Swordtail", "Elongated Tailed", "Falcate (Sickle-shaped)", "Robust Double-tailed", "Rounded Broad", "Rounded Compact", "Rounded Medium", "Rounded with Scalloped Edges", "Small Rounded", "Small Tailed", "Tailed Swallowtail", "Variable (Mimicry-dependent)"] as WingShape[],
   habitats: ["Savanna", "Montane Forest", "Coastal", "Woodland", "Grassland", "Tropical Forest"] as Habitat[],
   migrations: ["Migratory", "Resident", "Seasonal"] as Migration[],
