@@ -982,7 +982,7 @@ export const specimens: ButterflySpecimen[] = [
     image: hamanumidaDaedalus,
     colors: ["Brown", "White"],
     pattern: "Spotted",
-    wingShape: "Broad",
+    wingShape: "Compact Robust",
     habitat: "Savanna",
     region: "Ethiopia, Kenya, Tanzania",
     migration: "Resident",
