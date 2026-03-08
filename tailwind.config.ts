@@ -56,6 +56,11 @@ export default {
           active: "hsl(var(--filter-active))",
           "active-fg": "hsl(var(--filter-active-fg))",
         },
+        "search-bar": {
+          DEFAULT: "hsl(var(--search-bar-bg))",
+          btn: "hsl(var(--search-bar-btn))",
+        },
+        "search-cat": "hsl(var(--search-cat))",
         specimen: {
           overlay: "hsl(var(--specimen-overlay))",
         },
