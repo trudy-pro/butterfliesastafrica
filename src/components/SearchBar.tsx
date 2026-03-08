@@ -49,7 +49,7 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
     };
   }, []);
 
-  const categories: { key: SearchCategory; label: string; count: number }[] = [
+  const categories: { key: SearchCategory; label: string; count: number | null }[] = [
     { key: "all", label: t("search.everything"), count: counts.all },
     { key: "species", label: t("search.species"), count: null },
     { key: "families", label: t("search.families"), count: counts.families },
