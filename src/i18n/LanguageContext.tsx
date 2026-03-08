@@ -50,6 +50,7 @@ const translations: Record<Language, Record<string, string>> = {
     "filter.habitat": "Habitat",
     "filter.migration": "Migration",
     "filter.family": "Family",
+    "filter.country": "Country",
     "filter.viewResults": "View Results",
     // Specimen detail
     "detail.taxonomic": "Taxonomic Classification",
@@ -176,6 +177,7 @@ const translations: Record<Language, Record<string, string>> = {
     "filter.habitat": "Lebensraum",
     "filter.migration": "Wanderung",
     "filter.family": "Familie",
+    "filter.country": "Land",
     "filter.viewResults": "Ergebnisse anzeigen",
     "detail.taxonomic": "Taxonomische Klassifikation",
     "detail.family": "Familie",

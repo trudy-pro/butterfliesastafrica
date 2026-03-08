@@ -97,6 +97,7 @@ const Index = () => {
     habitat: null,
     migration: null,
     family: null,
+    country: null,
   });
 
   const filtered = useMemo(() => {
@@ -108,6 +109,7 @@ const Index = () => {
       if (filters.habitat && s.habitat !== filters.habitat) return false;
       if (filters.migration && s.migration !== filters.migration) return false;
       if (filters.family && s.family !== filters.family) return false;
+      if (filters.country && !s.region.toLowerCase().includes(filters.country.toLowerCase())) return false;
       if (q) {
         let haystack = "";
         switch (searchCategory) {
@@ -201,7 +203,7 @@ const Index = () => {
           <div className="text-center py-20 px-3">
             <p className="text-sm font-body text-muted-foreground">{t("empty.noMatch")}</p>
             <button
-              onClick={() => setFilters({ color: null, pattern: null, wingShape: null, habitat: null, migration: null, family: null })}
+              onClick={() => setFilters({ color: null, pattern: null, wingShape: null, habitat: null, migration: null, family: null, country: null })}
               className="mt-4 text-sm font-body text-foreground underline hover:text-muted-foreground transition-colors"
             >
               {t("empty.reset")}

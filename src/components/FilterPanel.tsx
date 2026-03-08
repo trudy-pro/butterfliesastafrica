@@ -1,6 +1,9 @@
 import { filterCategories, WingColor, WingPattern, WingShape, Habitat, Migration, Family } from "@/data/butterflies";
 import { useLanguage } from "@/i18n/LanguageContext";
 
+export const COUNTRY_OPTIONS = ["Uganda", "Kenya", "Tanzania", "Rwanda", "Burundi", "South Sudan"] as const;
+export type Country = typeof COUNTRY_OPTIONS[number];
+
 interface FilterState {
   color: WingColor | null;
   pattern: WingPattern | null;
@@ -8,6 +11,7 @@ interface FilterState {
   habitat: Habitat | null;
   migration: Migration | null;
   family: Family | null;
+  country: Country | null;
 }
 
 interface FilterPanelProps {
@@ -37,7 +41,7 @@ const FilterSection = ({
   translatePrefix,
 }: {
   title: string;
-  items: string[];
+  items: readonly string[];
   activeItem: string | null;
   onSelect: (item: string | null) => void;
   showSwatch?: boolean;
@@ -91,6 +95,7 @@ const FilterPanel = ({ filters, onFilterChange, onClose }: FilterPanelProps) => 
       habitat: null,
       migration: null,
       family: null,
+      country: null,
     });
   };
 
@@ -114,6 +119,7 @@ const FilterPanel = ({ filters, onFilterChange, onClose }: FilterPanelProps) => 
           </div>
         </div>
 
+        <FilterSection title={t("filter.country")} items={COUNTRY_OPTIONS} activeItem={filters.country} onSelect={(v) => onFilterChange({ ...filters, country: v as Country | null })} />
         <FilterSection title={t("filter.wingColor")} items={filterCategories.colors} activeItem={filters.color} onSelect={(v) => onFilterChange({ ...filters, color: v as WingColor | null })} showSwatch translatePrefix="color" />
         <FilterSection title={t("filter.wingPattern")} items={filterCategories.patterns} activeItem={filters.pattern} onSelect={(v) => onFilterChange({ ...filters, pattern: v as WingPattern | null })} translatePrefix="pattern" />
         <FilterSection title={t("filter.wingShape")} items={filterCategories.wingShapes} activeItem={filters.wingShape} onSelect={(v) => onFilterChange({ ...filters, wingShape: v as WingShape | null })} translatePrefix="wingShape" />
