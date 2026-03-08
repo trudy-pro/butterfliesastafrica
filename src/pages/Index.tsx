@@ -72,6 +72,8 @@ const Index = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [showCompare, setShowCompare] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchCategory, setSearchCategory] = useState<SearchCategory>("all");
   const [filters, setFilters] = useState<FilterState>({
     color: null,
     pattern: null,
@@ -82,6 +84,7 @@ const Index = () => {
   });
 
   const filtered = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
     return specimens.filter((s) => {
       if (filters.color && !s.colors.includes(filters.color)) return false;
       if (filters.pattern && s.pattern !== filters.pattern) return false;
@@ -89,9 +92,35 @@ const Index = () => {
       if (filters.habitat && s.habitat !== filters.habitat) return false;
       if (filters.migration && s.migration !== filters.migration) return false;
       if (filters.family && s.family !== filters.family) return false;
+      if (q) {
+        let haystack = "";
+        switch (searchCategory) {
+          case "species":
+            haystack = `${s.commonName} ${s.scientificName}`.toLowerCase();
+            break;
+          case "families":
+            haystack = `${s.family} ${s.genus}`.toLowerCase();
+            break;
+          case "regions":
+            haystack = s.region.toLowerCase();
+            break;
+          case "habitats":
+            haystack = s.habitat.toLowerCase();
+            break;
+          case "patterns":
+            haystack = s.pattern.toLowerCase();
+            break;
+          case "colors":
+            haystack = s.colors.join(" ").toLowerCase();
+            break;
+          default:
+            haystack = `${s.commonName} ${s.scientificName} ${s.region} ${s.family} ${s.genus} ${s.habitat} ${s.pattern} ${s.colors.join(" ")}`.toLowerCase();
+        }
+        if (!haystack.includes(q)) return false;
+      }
       return true;
     });
-  }, [filters]);
+  }, [filters, searchQuery, searchCategory]);
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
 
