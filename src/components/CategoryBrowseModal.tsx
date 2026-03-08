@@ -40,6 +40,10 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
       const colors = [...new Set(specimens.flatMap((s) => s.colors))].sort();
       result.push({ title: t("search.colors"), items: colors });
     }
+    if (category === "wingShapes" || category === "all") {
+      const wingShapes = [...new Set(specimens.map((s) => s.wingShape))].sort();
+      result.push({ title: t("search.wingShapes"), items: wingShapes });
+    }
 
     return result;
   }, [category, t]);
