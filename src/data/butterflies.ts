@@ -545,7 +545,7 @@ export const specimens: ButterflySpecimen[] = [
     image: vanessaCardui,
     colors: ["Orange", "Black", "White"],
     pattern: "Mottled",
-    wingShape: "Angular",
+    wingShape: "Compact Triangular",
     habitat: "Grassland",
     region: "Kenya, Tanzania, Ethiopia",
     migration: "Migratory",
