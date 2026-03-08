@@ -220,7 +220,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "oenone",
     image: junoniaOenone,
     colors: ["Blue", "Brown"],
-    pattern: "Eyespot",
+    pattern: "Eyespot Display",
     wingShape: "Rounded Medium",
     habitat: "Grassland",
     region: "Tanzania, Kenya, Rwanda",
