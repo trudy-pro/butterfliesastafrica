@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import { X } from "lucide-react";
+import { useMemo, useState } from "react";
+import { X, Search } from "lucide-react";
 import { motion } from "framer-motion";
 import { specimens } from "@/data/butterflies";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -13,6 +13,7 @@ interface CategoryBrowseModalProps {
 
 const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModalProps) => {
   const { t } = useLanguage();
+  const [query, setQuery] = useState("");
 
   const sections = useMemo(() => {
     const result: { title: string; items: { name: string; count: number }[] }[] = [];
@@ -52,6 +53,17 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
     return result;
   }, [category, t]);
 
+  const filteredSections = useMemo(() => {
+    if (!query.trim()) return sections;
+    const q = query.toLowerCase();
+    return sections
+      .map((section) => ({
+        ...section,
+        items: section.items.filter((item) => item.name.toLowerCase().includes(q)),
+      }))
+      .filter((section) => section.items.length > 0);
+  }, [sections, query]);
+
   const categoryForItem = (sectionTitle: string): SearchCategory => {
     if (sectionTitle === t("search.species")) return "species";
     if (sectionTitle === t("search.families")) return "families";
@@ -61,6 +73,17 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
     if (sectionTitle === t("search.colors")) return "colors";
     if (sectionTitle === t("search.wingShapes")) return "wingShapes";
     return "all";
+  };
+
+  // Group items by first letter for alphabetical navigation
+  const getLetterGroups = (items: { name: string; count: number }[]) => {
+    const groups: Record<string, { name: string; count: number }[]> = {};
+    items.forEach((item) => {
+      const letter = item.name[0].toUpperCase();
+      if (!groups[letter]) groups[letter] = [];
+      groups[letter].push(item);
+    });
+    return Object.entries(groups).sort(([a], [b]) => a.localeCompare(b));
   };
 
   return (
@@ -89,44 +112,72 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
         </button>
       </motion.div>
 
-      {/* Content */}
-      <div className="flex-1 overflow-y-auto px-8 py-8">
-        <div className={`grid gap-12 ${sections.length > 1 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" : "grid-cols-1"}`}>
-          {sections.map((section, sectionIdx) => (
-            <motion.div
-              key={section.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 + sectionIdx * 0.05 }}
-            >
-              <h3 className="text-xs font-body font-medium text-muted-foreground uppercase tracking-widest mb-4">
-                {section.title}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {section.items.map((item, itemIdx) => (
-                  <motion.button
-                    key={item.name}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.15 + sectionIdx * 0.05 + itemIdx * 0.015 }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => {
-                      onSelect(categoryForItem(section.title), item.name);
-                      onClose();
-                    }}
-                    className="px-3.5 py-2 text-sm font-body text-foreground bg-background border border-border rounded-md hover:bg-secondary transition-colors cursor-pointer uppercase tracking-wide inline-flex items-center gap-2"
-                  >
-                    {item.name}
-                    {categoryForItem(section.title) !== "species" && (
-                      <span className="text-xs text-muted-foreground font-normal">{item.count}</span>
-                    )}
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-          ))}
+      {/* Search */}
+      <div className="px-8 pt-6 pb-2">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t("search.placeholder") || "Search..."}
+            className="w-full pl-10 pr-4 py-2.5 text-sm font-body bg-secondary text-foreground rounded-md border border-border focus:outline-none focus:ring-1 focus:ring-primary placeholder:text-muted-foreground"
+            autoFocus
+          />
         </div>
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto px-8 py-6">
+        <div className={`grid gap-12 ${filteredSections.length > 1 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" : "grid-cols-1"}`}>
+          {filteredSections.map((section, sectionIdx) => {
+            const letterGroups = getLetterGroups(section.items);
+            const cat = categoryForItem(section.title);
+
+            return (
+              <motion.div
+                key={section.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + sectionIdx * 0.05 }}
+              >
+                <h3 className="text-xs font-body font-medium text-muted-foreground uppercase tracking-widest mb-4">
+                  {section.title}
+                </h3>
+                <div className="space-y-4">
+                  {letterGroups.map(([letter, items]) => (
+                    <div key={letter}>
+                      <p className="text-xs font-body font-semibold text-primary mb-2">{letter}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {items.map((item) => (
+                          <motion.button
+                            key={item.name}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.97 }}
+                            onClick={() => {
+                              onSelect(cat, item.name);
+                              onClose();
+                            }}
+                            className="px-3.5 py-2 text-sm font-body text-foreground bg-background border border-border rounded-md hover:bg-secondary transition-colors cursor-pointer uppercase tracking-wide inline-flex items-center gap-2"
+                          >
+                            {item.name}
+                            {cat !== "species" && (
+                              <span className="text-xs text-muted-foreground font-normal">{item.count}</span>
+                            )}
+                          </motion.button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {filteredSections.length === 0 && (
+          <p className="text-sm font-body text-muted-foreground text-center py-12">No results found.</p>
+        )}
       </div>
     </motion.div>
   );
