@@ -10,9 +10,10 @@ interface SearchBarProps {
   onQueryChange: (q: string) => void;
   activeCategory: SearchCategory;
   onCategoryChange: (cat: SearchCategory) => void;
+  onCategoryBrowse?: (cat: SearchCategory) => void;
 }
 
-const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange }: SearchBarProps) => {
+const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onCategoryBrowse }: SearchBarProps) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { lang, setLang, t } = useLanguage();
@@ -122,7 +123,12 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange }: S
         {categories.map((cat) => (
           <button
             key={cat.key}
-            onClick={() => onCategoryChange(cat.key)}
+            onClick={() => {
+              onCategoryChange(cat.key);
+              if (cat.key !== "all" && onCategoryBrowse) {
+                onCategoryBrowse(cat.key);
+              }
+            }}
             className={`mr-4 last:mr-0 font-body text-sm transition-colors cursor-pointer bg-transparent border-none text-left ${
               activeCategory === cat.key ? "text-foreground font-medium" : "text-search-cat"
             }`}

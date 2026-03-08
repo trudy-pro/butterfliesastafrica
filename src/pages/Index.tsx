@@ -8,6 +8,7 @@ import InfoPanel from "@/components/InfoPanel";
 import ComparisonView from "@/components/ComparisonView";
 import SearchBar, { SearchCategory } from "@/components/SearchBar";
 import IdentifyPanel from "@/components/IdentifyPanel";
+import CategoryBrowseModal from "@/components/CategoryBrowseModal";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void }) => {
@@ -87,6 +88,7 @@ const Index = () => {
   const [showIdentify, setShowIdentify] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState<SearchCategory>("all");
+  const [browseCategory, setBrowseCategory] = useState<SearchCategory | null>(null);
   const [filters, setFilters] = useState<FilterState>({
     color: null,
     pattern: null,
@@ -213,6 +215,7 @@ const Index = () => {
           onQueryChange={setSearchQuery}
           activeCategory={searchCategory}
           onCategoryChange={setSearchCategory}
+          onCategoryBrowse={(cat) => setBrowseCategory(cat)}
         />
       </div>
 
@@ -234,6 +237,16 @@ const Index = () => {
       {showInfo && <InfoPanel onClose={() => setShowInfo(false)} />}
       {showCompare && <ComparisonView onClose={() => setShowCompare(false)} />}
       {showIdentify && <IdentifyPanel onClose={() => setShowIdentify(false)} />}
+      {browseCategory && (
+        <CategoryBrowseModal
+          category={browseCategory}
+          onClose={() => setBrowseCategory(null)}
+          onSelect={(cat, value) => {
+            setSearchCategory(cat);
+            setSearchQuery(value);
+          }}
+        />
+      )}
     </div>
   );
 };
