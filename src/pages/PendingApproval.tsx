@@ -116,10 +116,18 @@ const PendingApproval = () => {
         )}
 
         <div className="pt-4 flex flex-col gap-3">
-          <Button onClick={() => navigate("/contribute")} className="w-full font-body">
-            Go to Contribute Flow
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
+          {status === "none" && (
+            <Button onClick={requestApproval} disabled={requesting} className="w-full font-body">
+              {requesting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <UserPlus className="w-4 h-4 mr-2" />}
+              {requesting ? "Submitting..." : "Request Contributor Access"}
+            </Button>
+          )}
+          {status === "pending" && (
+            <Button onClick={() => navigate("/contribute")} className="w-full font-body">
+              Go to Contribute Flow
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          )}
           <Button variant="outline" onClick={handleSignOut} className="w-full font-body">
             <LogOut className="w-4 h-4 mr-2" />
             Sign out & browse archive
