@@ -180,6 +180,7 @@ const InfoPanel = ({ onClose }: InfoPanelProps) => {
             </div>
           ))}
         </div>
+        </div>
       </div>
     </div>
   );
