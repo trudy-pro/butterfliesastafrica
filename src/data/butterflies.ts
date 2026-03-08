@@ -335,7 +335,7 @@ export const specimens: ButterflySpecimen[] = [
     image: belenoisAurota,
     colors: ["White", "Black"],
     pattern: "Veined",
-    wingShape: "Broad",
+    wingShape: "Broad Rounded",
     habitat: "Savanna",
     region: "Kenya, Tanzania, Ethiopia",
     migration: "Migratory",
