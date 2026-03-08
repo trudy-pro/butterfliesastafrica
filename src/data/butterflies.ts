@@ -431,7 +431,7 @@ export const specimens: ButterflySpecimen[] = [
     image: catopsiliaFlorella,
     colors: ["White", "Green"],
     pattern: "Solid",
-    wingShape: "Rounded",
+    wingShape: "Rounded Medium",
     habitat: "Savanna",
     region: "Kenya, Tanzania, Ethiopia, Rwanda",
     migration: "Migratory",
