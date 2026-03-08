@@ -487,7 +487,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "neophron",
     image: euphaedraNeophron,
     colors: ["Brown", "Orange"],
-    pattern: "Banded",
+    pattern: "Complex Banded",
     wingShape: "Broad Rounded",
     habitat: "Tropical Forest",
     region: "Uganda, Tanzania, Kenya",
