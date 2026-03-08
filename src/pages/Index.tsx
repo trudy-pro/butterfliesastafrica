@@ -1,5 +1,6 @@
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Camera } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
 import { specimens, ButterflySpecimen, WingColor, WingPattern, WingShape, Habitat, Migration, Family } from "@/data/butterflies";
 import SpecimenCard from "@/components/SpecimenCard";
 import SpecimenDetail from "@/components/SpecimenDetail";
@@ -240,16 +241,18 @@ const Index = () => {
       {showInfo && <InfoPanel onClose={() => setShowInfo(false)} />}
       {showCompare && <ComparisonView onClose={() => setShowCompare(false)} />}
       {showIdentify && <IdentifyPanel onClose={() => setShowIdentify(false)} />}
-      {browseCategory && (
-        <CategoryBrowseModal
-          category={browseCategory}
-          onClose={() => setBrowseCategory(null)}
-          onSelect={(cat, value) => {
-            setSearchCategory(cat);
-            setSearchQuery(value);
-          }}
-        />
-      )}
+      <AnimatePresence>
+        {browseCategory && (
+          <CategoryBrowseModal
+            category={browseCategory}
+            onClose={() => setBrowseCategory(null)}
+            onSelect={(cat, value) => {
+              setSearchCategory(cat);
+              setSearchQuery(value);
+            }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

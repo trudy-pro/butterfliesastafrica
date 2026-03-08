@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { X } from "lucide-react";
+import { motion } from "framer-motion";
 import { specimens } from "@/data/butterflies";
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { SearchCategory } from "@/components/SearchBar";
@@ -60,9 +61,20 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-background">
+    <motion.div
+      className="fixed inset-0 z-50 flex flex-col bg-background"
+      initial={{ y: "100%" }}
+      animate={{ y: 0 }}
+      exit={{ y: "100%" }}
+      transition={{ type: "spring", damping: 30, stiffness: 300 }}
+    >
       {/* Header */}
-      <div className="flex items-center justify-between px-8 py-6 border-b border-border">
+      <motion.div
+        className="flex items-center justify-between px-8 py-6 border-b border-border"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.15 }}
+      >
         <h2 className="text-lg font-display text-foreground">
           {category === "all" ? t("search.everything") : t(`search.${category}`)}
         </h2>
@@ -72,20 +84,30 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
         >
           <X className="w-4 h-4 text-foreground" />
         </button>
-      </div>
+      </motion.div>
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-8 py-8">
         <div className={`grid gap-12 ${sections.length > 1 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" : "grid-cols-1"}`}>
-          {sections.map((section) => (
-            <div key={section.title}>
+          {sections.map((section, sectionIdx) => (
+            <motion.div
+              key={section.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 + sectionIdx * 0.05 }}
+            >
               <h3 className="text-xs font-body font-medium text-muted-foreground uppercase tracking-widest mb-4">
                 {section.title}
               </h3>
               <div className="flex flex-wrap gap-2">
-                {section.items.map((item) => (
-                  <button
+                {section.items.map((item, itemIdx) => (
+                  <motion.button
                     key={item}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.15 + sectionIdx * 0.05 + itemIdx * 0.015 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.97 }}
                     onClick={() => {
                       onSelect(categoryForItem(section.title), item);
                       onClose();
@@ -93,14 +115,14 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
                     className="px-3.5 py-2 text-sm font-body text-foreground bg-background border border-border rounded-md hover:bg-secondary transition-colors cursor-pointer uppercase tracking-wide"
                   >
                     {item}
-                  </button>
+                  </motion.button>
                 ))}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
