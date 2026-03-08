@@ -99,7 +99,7 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
                   }`}
                 >
                   <span>{cat.label}</span>
-                  <span className="font-semibold">{cat.count}</span>
+                  {cat.count !== null && <span className="font-semibold">{cat.count}</span>}
                 </button>
               ))}
             </div>
