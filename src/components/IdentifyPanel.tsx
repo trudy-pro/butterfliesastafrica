@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from "react";
-import { X, Upload, Camera, Loader2, LogIn, LogOut } from "lucide-react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { X, Upload, Camera, Loader2, LogIn, LogOut, ShieldCheck, Clock } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
@@ -31,19 +31,43 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<IdentifyResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [approvalStatus, setApprovalStatus] = useState<"loading" | "none" | "pending" | "approved" | "rejected" | "admin">("loading");
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const checkApproval = useCallback(async (userId: string) => {
+    const { data: roles } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId);
+    if (roles?.some((r: any) => r.role === "admin")) {
+      setApprovalStatus("admin");
+      return;
+    }
+    const { data: approval } = await supabase
+      .from("contributor_approvals")
+      .select("status")
+      .eq("user_id", userId)
+      .maybeSingle();
+    if (!approval) setApprovalStatus("none");
+    else setApprovalStatus(approval.status as any);
+  }, []);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+      const u = session?.user ?? null;
+      setUser(u);
       setAuthLoading(false);
+      if (u) checkApproval(u.id);
+      else setApprovalStatus("loading");
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
+      const u = session?.user ?? null;
+      setUser(u);
       setAuthLoading(false);
+      if (u) checkApproval(u.id);
     });
     return () => subscription.unsubscribe();
-  }, []);
+  }, [checkApproval]);
 
   const handleSignIn = async () => {
     await lovable.auth.signInWithOAuth("google", {
@@ -148,7 +172,43 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
               </button>
             </div>
 
-            {/* Upload area */}
+            {/* Approval gate */}
+            {approvalStatus === "loading" ? (
+              <div className="flex items-center justify-center py-16">
+                <Loader2 size={24} className="animate-spin text-muted-foreground" />
+              </div>
+            ) : approvalStatus === "none" ? (
+              <div className="flex flex-col items-center text-center py-12 space-y-4">
+                <ShieldCheck size={28} className="text-muted-foreground" />
+                <div>
+                  <p className="text-sm font-body text-foreground mb-1">Contributor access required</p>
+                  <p className="text-xs font-body text-muted-foreground">Request access from the Contribute page to use this feature.</p>
+                </div>
+                <button
+                  onClick={() => { onClose(); window.location.href = "/contribute"; }}
+                  className="text-sm font-body text-foreground underline hover:text-muted-foreground transition-colors"
+                >
+                  Request access →
+                </button>
+              </div>
+            ) : approvalStatus === "pending" ? (
+              <div className="flex flex-col items-center text-center py-12 space-y-4">
+                <Clock size={28} className="text-muted-foreground" />
+                <div>
+                  <p className="text-sm font-body text-foreground mb-1">Request pending</p>
+                  <p className="text-xs font-body text-muted-foreground">Your contributor request is being reviewed. You'll be able to identify butterflies once approved.</p>
+                </div>
+              </div>
+            ) : approvalStatus === "rejected" ? (
+              <div className="flex flex-col items-center text-center py-12 space-y-4">
+                <X size={28} className="text-destructive" />
+                <div>
+                  <p className="text-sm font-body text-foreground mb-1">Access declined</p>
+                  <p className="text-xs font-body text-muted-foreground">Your contributor request was not approved.</p>
+                </div>
+              </div>
+            ) : (
+            <>
             {!imagePreview && (
               <div
                 onDragOver={(e) => e.preventDefault()}
@@ -275,6 +335,8 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
                   {t("identify.tryAnother")}
                 </button>
               </div>
+            )}
+          </>
             )}
           </>
         )}
