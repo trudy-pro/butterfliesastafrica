@@ -35,15 +35,15 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
       wingShapes.add(s.wingShape);
     });
 
+    const total = specimens.length;
     return {
-      all: specimens.length,
-      species: specimens.length,
-      families: families.size,
-      regions: regions.size,
-      habitats: habitats.size,
-      patterns: patterns.size,
-      colors: colors.size,
-      wingShapes: wingShapes.size,
+      all: total,
+      species: total,
+      families: total,
+      habitats: total,
+      patterns: total,
+      colors: total,
+      wingShapes: total,
     };
   }, []);
 
