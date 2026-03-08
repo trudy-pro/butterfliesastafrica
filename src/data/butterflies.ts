@@ -1192,7 +1192,7 @@ export const specimens: ButterflySpecimen[] = [
     image: mylothrisGabela,
     colors: ["White", "Yellow", "Orange"],
     pattern: "Veined",
-    wingShape: "Rounded",
+    wingShape: "Rounded Medium",
     habitat: "Montane Forest",
     region: "Angola",
     migration: "Resident",
