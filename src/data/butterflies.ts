@@ -564,7 +564,7 @@ export const specimens: ButterflySpecimen[] = [
     image: charaxesVaranes,
     colors: ["White", "Brown"],
     pattern: "Banded",
-    wingShape: "Angular",
+    wingShape: "Broad Angular",
     habitat: "Woodland",
     region: "Kenya, Tanzania",
     migration: "Resident",
