@@ -96,6 +96,21 @@ const InfoPanel = ({ onClose }: InfoPanelProps) => {
           </button>
         </div>
 
+        {/* Country navigation */}
+        <nav className="flex flex-wrap gap-2 mb-10">
+          {countries.map((country) => (
+            <button
+              key={country.name}
+              onClick={() => {
+                document.getElementById(`country-${country.name}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="text-xs font-body text-muted-foreground hover:text-foreground border border-border px-3 py-1.5 transition-colors hover:bg-muted"
+            >
+              {country.name}
+            </button>
+          ))}
+        </nav>
+
         {/* Original info sections */}
         <div className="space-y-8 font-body text-sm leading-relaxed mb-16">
           <div>
@@ -127,7 +142,7 @@ const InfoPanel = ({ onClose }: InfoPanelProps) => {
         {/* Country sections */}
         <div className="space-y-0">
           {countries.map((country, index) => (
-            <div key={country.name}>
+            <div key={country.name} id={`country-${country.name}`} className="scroll-mt-4">
               {index > 0 && <hr className="border-border my-12" />}
               <div className="space-y-4">
                 {/* Large country name */}
