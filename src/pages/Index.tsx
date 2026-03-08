@@ -95,12 +95,25 @@ const Index = () => {
       if (filters.migration && s.migration !== filters.migration) return false;
       if (filters.family && s.family !== filters.family) return false;
       if (q) {
-        const haystack = `${s.commonName} ${s.scientificName} ${s.region} ${s.family} ${s.genus}`.toLowerCase();
+        let haystack = "";
+        switch (searchCategory) {
+          case "species":
+            haystack = `${s.commonName} ${s.scientificName}`.toLowerCase();
+            break;
+          case "taxonomy":
+            haystack = `${s.family} ${s.genus}`.toLowerCase();
+            break;
+          case "geography":
+            haystack = `${s.region} ${s.habitat}`.toLowerCase();
+            break;
+          default:
+            haystack = `${s.commonName} ${s.scientificName} ${s.region} ${s.family} ${s.genus}`.toLowerCase();
+        }
         if (!haystack.includes(q)) return false;
       }
       return true;
     });
-  }, [filters, searchQuery]);
+  }, [filters, searchQuery, searchCategory]);
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
 
