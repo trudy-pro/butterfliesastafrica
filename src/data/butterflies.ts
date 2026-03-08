@@ -849,7 +849,7 @@ export const specimens: ButterflySpecimen[] = [
     image: pseudacraeaLucretia,
     colors: ["Orange", "Black", "White"],
     pattern: "Banded",
-    wingShape: "Rounded",
+    wingShape: "Variable (Mimicry-dependent)",
     habitat: "Tropical Forest",
     region: "Kenya, Tanzania, DRC, Uganda",
     migration: "Resident",
