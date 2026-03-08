@@ -118,9 +118,15 @@ const Index = () => {
         <SpecimenDetail
           specimen={selectedSpecimen}
           onClose={() => setSelectedSpecimen(null)}
+          onCompare={(s) => { setSelectedSpecimen(null); setShowCompare(true); }}
         />
       )}
       {showInfo && <InfoPanel onClose={() => setShowInfo(false)} />}
+      {showCompare && (
+        <ComparisonView
+          onClose={() => setShowCompare(false)}
+        />
+      )}
     </div>
   );
 };
