@@ -886,7 +886,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "ilithyia",
     image: bybliaIlithyia,
     colors: ["Orange", "Brown", "Black"],
-    pattern: "Spotted",
+    pattern: "Leopard-Spotted",
     wingShape: "Compact Triangular",
     habitat: "Savanna",
     region: "Ethiopia, Kenya, Tanzania",
