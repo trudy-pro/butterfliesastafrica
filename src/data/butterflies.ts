@@ -583,7 +583,7 @@ export const specimens: ButterflySpecimen[] = [
     image: papilioOphidicephalus,
     colors: ["Yellow", "Black", "Green"],
     pattern: "Banded",
-    wingShape: "Tailed",
+    wingShape: "Tailed Swallowtail",
     habitat: "Montane Forest",
     region: "Kenya, Tanzania, Rwanda",
     migration: "Resident",
