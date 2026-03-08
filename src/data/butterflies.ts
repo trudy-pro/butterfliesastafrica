@@ -1135,7 +1135,7 @@ export const specimens: ButterflySpecimen[] = [
     image: myrinaSilenus,
     colors: ["Blue", "Brown", "Iridescent"],
     pattern: "Solid",
-    wingShape: "Tailed",
+    wingShape: "Small Tailed",
     habitat: "Tropical Forest",
     region: "Liberia, Ghana, Sierra Leone",
     migration: "Resident",
