@@ -372,7 +372,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "parhassus",
     image: salamisParhassus,
     colors: ["White", "Iridescent"],
-    pattern: "Veined",
+    pattern: "Iridescent Pearlescent",
     wingShape: "Rounded with Scalloped Edges",
     habitat: "Montane Forest",
     region: "Kenya, Tanzania, Rwanda",
