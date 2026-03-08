@@ -337,6 +337,8 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
               </div>
             )}
           </>
+            )}
+          </>
         )}
       </div>
     </div>
