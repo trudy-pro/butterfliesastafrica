@@ -943,7 +943,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "hierta",
     image: junoniaHierta,
     colors: ["Yellow", "Blue", "Black"],
-    pattern: "Eyespot",
+    pattern: "Eyespot Display",
     wingShape: "Rounded Medium",
     habitat: "Grassland",
     region: "Ethiopia, Kenya, Tanzania",
