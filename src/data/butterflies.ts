@@ -1001,7 +1001,7 @@ export const specimens: ButterflySpecimen[] = [
     image: euryphuraChalcis,
     colors: ["Brown", "White", "Black"],
     pattern: "Banded",
-    wingShape: "Broad",
+    wingShape: "Broad Tailless",
     habitat: "Tropical Forest",
     region: "DRC, Uganda, Rwanda",
     migration: "Resident",
