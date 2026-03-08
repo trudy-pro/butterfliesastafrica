@@ -811,7 +811,7 @@ export const specimens: ButterflySpecimen[] = [
     image: cymothoeCaenis,
     colors: ["White", "Orange"],
     pattern: "Banded",
-    wingShape: "Broad",
+    wingShape: "Broad Tailless",
     habitat: "Tropical Forest",
     region: "DRC, Burundi, Uganda",
     migration: "Resident",
