@@ -196,13 +196,22 @@ const Index = () => {
               {t("toolbar.info")}
             </button>
             {user ? (
-              <button
-                onClick={async () => { await supabase.auth.signOut(); }}
-                className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
-              >
-                <LogOut size={14} />
-                Sign Out
-              </button>
+              <>
+                <button
+                  onClick={() => navigate("/contribute")}
+                  className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
+                >
+                  <Upload size={14} />
+                  Contribute
+                </button>
+                <button
+                  onClick={async () => { await supabase.auth.signOut(); }}
+                  className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
+                >
+                  <LogOut size={14} />
+                  Sign Out
+                </button>
+              </>
             ) : (
               <button
                 onClick={() => navigate("/auth")}
