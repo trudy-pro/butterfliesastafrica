@@ -140,7 +140,7 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
             }`}
           >
             {cat.label}{" "}
-            <strong className="block font-semibold">{cat.count.toLocaleString()}</strong>
+            {cat.count !== null && <strong className="block font-semibold">{cat.count.toLocaleString()}</strong>}
           </button>
         ))}
       </div>
