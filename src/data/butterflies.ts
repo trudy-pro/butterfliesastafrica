@@ -1248,7 +1248,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "canopus",
     image: abantisCanopus,
     colors: ["Brown", "White"],
-    pattern: "Spotted",
+    pattern: "Spotted Checkerboard",
     wingShape: "Compact Robust",
     habitat: "Woodland",
     region: "Angola, South Africa",
