@@ -1415,7 +1415,7 @@ export const specimens: ButterflySpecimen[] = [
 export const filterCategories = {
   colors: ["Orange", "Yellow", "Green", "Blue", "Red", "Brown", "Black", "White", "Iridescent"] as WingColor[],
   patterns: ["Solid", "Striped", "Spotted", "Eyespot", "Banded", "Veined", "Mottled"] as WingPattern[],
-  wingShapes: ["Rounded", "Elongated", "Tailed", "Angular", "Broad"] as WingShape[],
+  wingShapes: ["Broad Angular", "Broad Rounded", "Broad Scalloped", "Broad Swallowtail", "Broad Tailless", "Compact Robust", "Compact Triangular", "Elongated Narrow", "Elongated Swordtail", "Elongated Tailed", "Falcate (Sickle-shaped)", "Robust Double-tailed", "Rounded Broad", "Rounded Compact", "Rounded Medium", "Rounded with Scalloped Edges", "Small Rounded", "Small Tailed", "Tailed Swallowtail", "Variable (Mimicry-dependent)"] as WingShape[],
   habitats: ["Savanna", "Montane Forest", "Coastal", "Woodland", "Grassland", "Tropical Forest"] as Habitat[],
   migrations: ["Migratory", "Resident", "Seasonal"] as Migration[],
   families: ["Nymphalidae", "Papilionidae", "Pieridae", "Lycaenidae", "Satyrinae", "Hesperiidae"] as Family[],
