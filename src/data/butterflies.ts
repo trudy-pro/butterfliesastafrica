@@ -1210,7 +1210,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "ochracea",
     image: brakefieldiaOchracea,
     colors: ["Orange", "Brown"],
-    pattern: "Eyespot",
+    pattern: "Seasonal Polyphenism",
     wingShape: "Rounded Compact",
     habitat: "Tropical Forest",
     region: "Angola",
