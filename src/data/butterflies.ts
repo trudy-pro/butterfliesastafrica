@@ -1115,7 +1115,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "vestalis",
     image: acraeaVestalis,
     colors: ["Orange", "White", "Black"],
-    pattern: "Veined",
+    pattern: "Veined Translucent",
     wingShape: "Rounded Medium",
     habitat: "Tropical Forest",
     region: "Angola, DRC",
