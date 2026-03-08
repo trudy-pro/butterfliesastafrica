@@ -177,6 +177,7 @@ const translations: Record<Language, Record<string, string>> = {
     "filter.habitat": "Lebensraum",
     "filter.migration": "Wanderung",
     "filter.family": "Familie",
+    "filter.country": "Land",
     "filter.viewResults": "Ergebnisse anzeigen",
     "detail.taxonomic": "Taxonomische Klassifikation",
     "detail.family": "Familie",
