@@ -63,13 +63,20 @@ const Index = () => {
               </span>
             )}
           </button>
-          <button
-            onClick={() => setShowInfo(true)}
-            className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors"
-          >
-            Info
-          </button>
-        </div>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowCompare(true)}
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors"
+            >
+              Compare
+            </button>
+            <button
+              onClick={() => setShowInfo(true)}
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors"
+            >
+              Info
+            </button>
+          </div>
       </div>
 
       {/* Specimen Grid */}
