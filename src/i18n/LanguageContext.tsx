@@ -333,6 +333,14 @@ const specimenTranslations: Record<string, Record<string, { commonName: string; 
     "bo-060": { commonName: "Ockerfarbenes Buschbraun", description: "Ein Satyrinae aus Angolas Serra de Namba-Wäldern.", evolutionaryTrait: "Phänotypische Plastizität — Augenfleckgrösse variiert mit Umweltbedingungen" },
     "ar-061": { commonName: "Rotgeringelter Haarschwanz", description: "Ein winziger Lycaenide mit markanten rotgeringelten Markierungen.", evolutionaryTrait: "Rote Randringe — einzigartiges Pigmentierungsmuster in der Gattung Anthene" },
     "ac-062": { commonName: "Canopus-Dickkopffalter", description: "Ein auffällig gezeichneter Dickkopffalter mit kontrastreichem braun-weissem Fleckenmuster.", evolutionaryTrait: "Dämmerungsfütterung — angepasst an Nahrungsaufnahme in der Dämmerung" },
+    "pc-063": { commonName: "Konstantins Schwalbenschwanz", description: "Ein auffälliger Schwalbenschwanz aus den Bergwäldern Ostafrikas.", evolutionaryTrait: "Bergspezialisierung — beschränkt auf Hochlandwälder über 1500m" },
+    "bc-064": { commonName: "Afrikanischer Gemeiner Weissling", description: "Einer der häufigsten Wanderfalter Afrikas.", evolutionaryTrait: "Massenwanderung — bildet riesige Schwärme entlang saisonaler Vegetationszyklen" },
+    "ce-065": { commonName: "Dämon-Charaxes", description: "Ein spektakulärer Waldcharaxes mit elektrisch blauer Irideszenz.", evolutionaryTrait: "Strukturelle Färbung — blaue Irideszenz durch nanoskalige Flügelstrukturen" },
+    "aq-066": { commonName: "Quirina-Acraea", description: "Eine weit verbreitete Acraea der ostafrikanischen Grasländer.", evolutionaryTrait: "Chemische Abwehr — speichert Pyrrolizidinalkaloide aus Wirtspflanzen" },
+    "js-067": { commonName: "Kleiner Kommodore", description: "Ein kleiner aber auffällig gemusterter Kommodore.", evolutionaryTrait: "Ablenkende Augenflecke — grosse Hinterflügel-Augenflecke lenken Raubtierangriffe um" },
+    "cp-068": { commonName: "Rotspitze", description: "Ein zarter Pieriden-Falter mit leuchtend orangen Flügelspitzen.", evolutionaryTrait: "UV-Reflexion — Flügelmuster im Ultraviolett für Partnererkennung" },
+    "eb-069": { commonName: "Breitrandiges Grasgelb", description: "Ein fröhlicher gelber Schmetterling der Grasländer.", evolutionaryTrait: "Saisonale Formvariation — Nass- und Trockenzeitfalter unterscheiden sich in Flügelrandbreite" },
+    "nl-070": { commonName: "Breitbandiger Segler", description: "Ein eleganter Waldschmetterling der durch Kronendachlücken gleitet.", evolutionaryTrait: "Gleitflug — breite Flügel angepasst für energieeffizientes Gleiten" },
   },
 };
 
