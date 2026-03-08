@@ -133,7 +133,7 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
             key={cat.key}
             onClick={() => {
               onCategoryChange(cat.key);
-              if (cat.key !== "all" && onCategoryBrowse) {
+              if (onCategoryBrowse) {
                 onCategoryBrowse(cat.key);
               }
             }}
