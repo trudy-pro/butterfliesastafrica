@@ -6,7 +6,7 @@ import SpecimenDetail from "@/components/SpecimenDetail";
 import FilterPanel, { FilterState } from "@/components/FilterPanel";
 import InfoPanel from "@/components/InfoPanel";
 import ComparisonView from "@/components/ComparisonView";
-
+import SearchBar, { SearchCategory } from "@/components/SearchBar";
 
 const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
