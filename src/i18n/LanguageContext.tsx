@@ -164,6 +164,7 @@ const translations: Record<Language, Record<string, string>> = {
     "search.habitats": "Lebensräume",
     "search.patterns": "Muster",
     "search.colors": "Farben",
+    "search.wingShapes": "Flügelformen",
     "filter.title": "Filter",
     "filter.reset": "Zurücksetzen",
     "filter.close": "Schliessen",
