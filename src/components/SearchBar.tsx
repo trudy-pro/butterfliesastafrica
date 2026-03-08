@@ -44,14 +44,14 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
       colors: colors.size,
       wingShapes: wingShapes.size,
       get all() {
-        return this.families + this.regions + this.habitats + this.patterns + this.colors + this.wingShapes;
+        return this.species + this.families + this.regions + this.habitats + this.patterns + this.colors + this.wingShapes;
       },
     };
   }, []);
 
-  const categories: { key: SearchCategory; label: string; count: number | null }[] = [
+  const categories: { key: SearchCategory; label: string; count: number }[] = [
     { key: "all", label: t("search.everything"), count: counts.all },
-    { key: "species", label: t("search.species"), count: null },
+    { key: "species", label: t("search.species"), count: counts.species },
     { key: "families", label: t("search.families"), count: counts.families },
     { key: "regions", label: t("search.regions"), count: counts.regions },
     { key: "habitats", label: t("search.habitats"), count: counts.habitats },
@@ -99,7 +99,7 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
                   }`}
                 >
                   <span>{cat.label}</span>
-                  {cat.count !== null && <span className="font-semibold">{cat.count}</span>}
+                  <span className="font-semibold">{cat.count}</span>
                 </button>
               ))}
             </div>
@@ -140,7 +140,7 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
             }`}
           >
             {cat.label}{" "}
-            {cat.count !== null && <strong className="block font-semibold">{cat.count.toLocaleString()}</strong>}
+            <strong className="block font-semibold">{cat.count.toLocaleString()}</strong>
           </button>
         ))}
       </div>
