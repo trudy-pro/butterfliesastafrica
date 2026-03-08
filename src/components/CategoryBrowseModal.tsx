@@ -15,35 +15,38 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
   const { t } = useLanguage();
 
   const sections = useMemo(() => {
-    const result: { title: string; items: string[] }[] = [];
+    const result: { title: string; items: { name: string; count: number }[] }[] = [];
+
+    const countBy = (fn: (s: typeof specimens[0]) => boolean) =>
+      specimens.filter(fn).length;
 
     if (category === "species" || category === "all") {
       const species = [...new Set(specimens.map((s) => s.commonName))].sort();
-      result.push({ title: t("search.species"), items: species });
+      result.push({ title: t("search.species"), items: species.map((v) => ({ name: v, count: countBy((s) => s.commonName === v) })) });
     }
     if (category === "families" || category === "all") {
       const families = [...new Set(specimens.map((s) => s.family))].sort();
-      result.push({ title: t("search.families"), items: families });
+      result.push({ title: t("search.families"), items: families.map((v) => ({ name: v, count: countBy((s) => s.family === v) })) });
     }
     if (category === "regions" || category === "all") {
       const regions = [...new Set(specimens.flatMap((s) => s.region.split(", ").map((r) => r.trim())))].sort();
-      result.push({ title: t("search.regions"), items: regions });
+      result.push({ title: t("search.regions"), items: regions.map((v) => ({ name: v, count: countBy((s) => s.region.split(", ").map((r) => r.trim()).includes(v)) })) });
     }
     if (category === "habitats" || category === "all") {
       const habitats = [...new Set(specimens.map((s) => s.habitat))].sort();
-      result.push({ title: t("search.habitats"), items: habitats });
+      result.push({ title: t("search.habitats"), items: habitats.map((v) => ({ name: v, count: countBy((s) => s.habitat === v) })) });
     }
     if (category === "patterns" || category === "all") {
       const patterns = [...new Set(specimens.map((s) => s.pattern))].sort();
-      result.push({ title: t("search.patterns"), items: patterns });
+      result.push({ title: t("search.patterns"), items: patterns.map((v) => ({ name: v, count: countBy((s) => s.pattern === v) })) });
     }
     if (category === "colors" || category === "all") {
       const colors = [...new Set(specimens.flatMap((s) => s.colors))].sort();
-      result.push({ title: t("search.colors"), items: colors });
+      result.push({ title: t("search.colors"), items: colors.map((v) => ({ name: v, count: countBy((s) => s.colors.includes(v as any)) })) });
     }
     if (category === "wingShapes" || category === "all") {
       const wingShapes = [...new Set(specimens.map((s) => s.wingShape))].sort();
-      result.push({ title: t("search.wingShapes"), items: wingShapes });
+      result.push({ title: t("search.wingShapes"), items: wingShapes.map((v) => ({ name: v, count: countBy((s) => s.wingShape === v) })) });
     }
 
     return result;
@@ -102,19 +105,20 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
               <div className="flex flex-wrap gap-2">
                 {section.items.map((item, itemIdx) => (
                   <motion.button
-                    key={item}
+                    key={item.name}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.15 + sectionIdx * 0.05 + itemIdx * 0.015 }}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={() => {
-                      onSelect(categoryForItem(section.title), item);
+                      onSelect(categoryForItem(section.title), item.name);
                       onClose();
                     }}
-                    className="px-3.5 py-2 text-sm font-body text-foreground bg-background border border-border rounded-md hover:bg-secondary transition-colors cursor-pointer uppercase tracking-wide"
+                    className="px-3.5 py-2 text-sm font-body text-foreground bg-background border border-border rounded-md hover:bg-secondary transition-colors cursor-pointer uppercase tracking-wide inline-flex items-center gap-2"
                   >
-                    {item}
+                    {item.name}
+                    <span className="text-xs text-muted-foreground font-normal">{item.count}</span>
                   </motion.button>
                 ))}
               </div>
