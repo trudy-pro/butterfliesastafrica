@@ -50,6 +50,16 @@ import axiocersesTjoane from "@/assets/specimens/axiocerses-tjoane.jpg";
 import pharmacophagusAntenor from "@/assets/specimens/pharmacophagus-antenor.jpg";
 import melanitisLeda from "@/assets/specimens/melanitis-leda.jpg";
 import antheneDefinita from "@/assets/specimens/anthene-definita.jpg";
+import charaxesDruceanus from "@/assets/specimens/charaxes-druceanus.jpg";
+import axiocersesCollinsi from "@/assets/specimens/axiocerses-collinsi.jpg";
+import acraeaVestalis from "@/assets/specimens/acraea-vestalis.jpg";
+import myrinaSilenus from "@/assets/specimens/myrina-silenus.jpg";
+import sarangesaTertullianus from "@/assets/specimens/sarangesa-tertullianus.jpg";
+import precisAntilope from "@/assets/specimens/precis-antilope.jpg";
+import mylothrisGabela from "@/assets/specimens/mylothris-gabela.jpg";
+import brakefieldiaOchracea from "@/assets/specimens/brakefieldia-ochracea.jpg";
+import antheneRubricinctus from "@/assets/specimens/anthene-rubricinctus.jpg";
+import abantisCanopus from "@/assets/specimens/abantis-canopus.jpg";
 
 export type WingShape = "Rounded" | "Elongated" | "Tailed" | "Angular" | "Broad";
 export type WingPattern = "Solid" | "Striped" | "Spotted" | "Eyespot" | "Banded" | "Veined" | "Mottled";
