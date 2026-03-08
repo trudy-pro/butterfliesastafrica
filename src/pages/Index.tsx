@@ -62,17 +62,22 @@ const Index = () => {
       {/* Toolbar */}
       <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="flex items-center justify-between px-6 py-3">
-          <button
-            onClick={() => setShowFilters(true)}
-            className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-2"
-          >
-            Filter
-            {activeFilterCount > 0 && (
-              <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] bg-filter-active text-filter-active-fg rounded-full">
-                {activeFilterCount}
-              </span>
-            )}
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowFilters(true)}
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-2"
+            >
+              Filter
+              {activeFilterCount > 0 && (
+                <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] bg-filter-active text-filter-active-fg rounded-full">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
+            <span className="text-xs font-body text-muted-foreground">
+              {filtered.length} result{filtered.length !== 1 ? "s" : ""}
+            </span>
+          </div>
           <div className="flex items-center gap-4">
             <button
               onClick={() => setShowCompare(true)}
