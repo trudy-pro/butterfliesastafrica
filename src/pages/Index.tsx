@@ -5,12 +5,14 @@ import SpecimenDetail from "@/components/SpecimenDetail";
 import FilterPanel, { FilterState } from "@/components/FilterPanel";
 import InfoPanel from "@/components/InfoPanel";
 import ComparisonView from "@/components/ComparisonView";
+import SearchBar from "@/components/SearchBar";
 
 const Index = () => {
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [showCompare, setShowCompare] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<FilterState>({
     color: null,
     pattern: null,
