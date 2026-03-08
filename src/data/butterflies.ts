@@ -1286,7 +1286,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "constantinus",
     image: papilioConstantinus,
     colors: ["Black", "Green", "Yellow"],
-    pattern: "Banded",
+    pattern: "Banded Iridescent",
     wingShape: "Tailed Swallowtail",
     habitat: "Montane Forest",
     region: "Rwanda, Burundi, Uganda, Tanzania",
