@@ -51,6 +51,25 @@ const PendingApproval = () => {
     navigate("/");
   };
 
+  const requestApproval = async () => {
+    if (!user) return;
+    setRequesting(true);
+    try {
+      const { error } = await supabase.from("contributor_approvals").insert({
+        user_id: user.id,
+        email: user.email || "",
+        display_name: user.user_metadata?.full_name || user.email,
+      });
+      if (error) throw error;
+      setStatus("pending");
+      toast({ title: "Request submitted", description: "An admin will review your request shortly." });
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    } finally {
+      setRequesting(false);
+    }
+  };
+
   if (!user) return null;
 
   return (
