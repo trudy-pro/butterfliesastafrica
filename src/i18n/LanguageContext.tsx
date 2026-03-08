@@ -38,6 +38,7 @@ const translations: Record<Language, Record<string, string>> = {
     "search.habitats": "Habitats",
     "search.patterns": "Patterns",
     "search.colors": "Colors",
+    "search.wingShapes": "Wing Shapes",
     // Filter panel
     "filter.title": "Filter",
     "filter.reset": "Reset",
