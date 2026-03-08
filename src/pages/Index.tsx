@@ -67,12 +67,15 @@ const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[];
   );
 };
 
+type SearchCategory = "all" | "species" | "taxonomy" | "geography";
+
 const Index = () => {
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [showCompare, setShowCompare] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchCategory, setSearchCategory] = useState<SearchCategory>("all");
   const [filters, setFilters] = useState<FilterState>({
     color: null,
     pattern: null,
