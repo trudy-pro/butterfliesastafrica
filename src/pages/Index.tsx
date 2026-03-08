@@ -44,16 +44,19 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="text-center pt-16 pb-12 px-6">
+      <header className="text-center pt-16 pb-8 px-6">
         <h1 className="text-4xl md:text-5xl font-display italic text-foreground mb-4">
           Lepidoptera East Africa
         </h1>
-        <p className="text-sm font-body text-muted-foreground mb-2">
-          {filtered.length} specimen{filtered.length !== 1 ? "s" : ""}
-        </p>
-        <p className="max-w-xl mx-auto text-sm font-body text-muted-foreground leading-relaxed">
+        <p className="max-w-xl mx-auto text-sm font-body text-muted-foreground leading-relaxed mb-8">
           An archive exploring natural selection in Color, Pattern, Shape, and Form — documenting butterfly species across East Africa.
         </p>
+        <SearchBar
+          query={searchQuery}
+          onQueryChange={setSearchQuery}
+          totalSpecimens={specimens.length}
+          filteredCount={filtered.length}
+        />
       </header>
 
       {/* Toolbar */}
