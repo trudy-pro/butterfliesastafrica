@@ -144,9 +144,6 @@ const Index = () => {
         <h1 className="text-4xl md:text-5xl font-display italic text-foreground mb-4">
           {t("header.title")}
         </h1>
-        <p className="max-w-xl mx-auto text-sm font-body text-muted-foreground leading-relaxed">
-          {t("header.subtitle")}
-        </p>
       </header>
 
       {/* Toolbar */}
