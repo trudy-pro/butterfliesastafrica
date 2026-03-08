@@ -15,35 +15,38 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
   const { t } = useLanguage();
 
   const sections = useMemo(() => {
-    const result: { title: string; items: string[] }[] = [];
+    const result: { title: string; items: { name: string; count: number }[] }[] = [];
+
+    const countBy = (fn: (s: typeof specimens[0]) => boolean) =>
+      specimens.filter(fn).length;
 
     if (category === "species" || category === "all") {
       const species = [...new Set(specimens.map((s) => s.commonName))].sort();
-      result.push({ title: t("search.species"), items: species });
+      result.push({ title: t("search.species"), items: species.map((v) => ({ name: v, count: countBy((s) => s.commonName === v) })) });
     }
     if (category === "families" || category === "all") {
       const families = [...new Set(specimens.map((s) => s.family))].sort();
-      result.push({ title: t("search.families"), items: families });
+      result.push({ title: t("search.families"), items: families.map((v) => ({ name: v, count: countBy((s) => s.family === v) })) });
     }
     if (category === "regions" || category === "all") {
       const regions = [...new Set(specimens.flatMap((s) => s.region.split(", ").map((r) => r.trim())))].sort();
-      result.push({ title: t("search.regions"), items: regions });
+      result.push({ title: t("search.regions"), items: regions.map((v) => ({ name: v, count: countBy((s) => s.region.split(", ").map((r) => r.trim()).includes(v)) })) });
     }
     if (category === "habitats" || category === "all") {
       const habitats = [...new Set(specimens.map((s) => s.habitat))].sort();
-      result.push({ title: t("search.habitats"), items: habitats });
+      result.push({ title: t("search.habitats"), items: habitats.map((v) => ({ name: v, count: countBy((s) => s.habitat === v) })) });
     }
     if (category === "patterns" || category === "all") {
       const patterns = [...new Set(specimens.map((s) => s.pattern))].sort();
-      result.push({ title: t("search.patterns"), items: patterns });
+      result.push({ title: t("search.patterns"), items: patterns.map((v) => ({ name: v, count: countBy((s) => s.pattern === v) })) });
     }
     if (category === "colors" || category === "all") {
       const colors = [...new Set(specimens.flatMap((s) => s.colors))].sort();
-      result.push({ title: t("search.colors"), items: colors });
+      result.push({ title: t("search.colors"), items: colors.map((v) => ({ name: v, count: countBy((s) => s.colors.includes(v as any)) })) });
     }
     if (category === "wingShapes" || category === "all") {
       const wingShapes = [...new Set(specimens.map((s) => s.wingShape))].sort();
-      result.push({ title: t("search.wingShapes"), items: wingShapes });
+      result.push({ title: t("search.wingShapes"), items: wingShapes.map((v) => ({ name: v, count: countBy((s) => s.wingShape === v) })) });
     }
 
     return result;
