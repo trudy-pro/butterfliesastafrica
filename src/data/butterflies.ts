@@ -297,7 +297,7 @@ export const specimens: ButterflySpecimen[] = [
     image: euremaHecabe,
     colors: ["Yellow"],
     pattern: "Solid",
-    wingShape: "Rounded",
+    wingShape: "Small Rounded",
     habitat: "Grassland",
     region: "Kenya, Tanzania, Uganda",
     migration: "Migratory",
