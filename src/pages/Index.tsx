@@ -23,6 +23,7 @@ const Index = () => {
   });
 
   const filtered = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
     return specimens.filter((s) => {
       if (filters.color && !s.colors.includes(filters.color)) return false;
       if (filters.pattern && s.pattern !== filters.pattern) return false;
@@ -30,9 +31,13 @@ const Index = () => {
       if (filters.habitat && s.habitat !== filters.habitat) return false;
       if (filters.migration && s.migration !== filters.migration) return false;
       if (filters.family && s.family !== filters.family) return false;
+      if (q) {
+        const haystack = `${s.commonName} ${s.scientificName} ${s.region} ${s.family} ${s.genus}`.toLowerCase();
+        if (!haystack.includes(q)) return false;
+      }
       return true;
     });
-  }, [filters]);
+  }, [filters, searchQuery]);
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
 
