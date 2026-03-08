@@ -1268,7 +1268,7 @@ export const specimens: ButterflySpecimen[] = [
     image: junoniaSophia,
     colors: ["Orange", "Brown"],
     pattern: "Eyespot",
-    wingShape: "Rounded",
+    wingShape: "Rounded Medium",
     habitat: "Savanna",
     region: "South Sudan, Uganda, Kenya",
     migration: "Seasonal",
