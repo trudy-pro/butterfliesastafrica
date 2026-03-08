@@ -1230,7 +1230,7 @@ export const specimens: ButterflySpecimen[] = [
     image: antheneRubricinctus,
     colors: ["Blue", "Red", "Brown"],
     pattern: "Spotted",
-    wingShape: "Rounded",
+    wingShape: "Small Rounded",
     habitat: "Tropical Forest",
     region: "Angola, DRC",
     migration: "Resident",
