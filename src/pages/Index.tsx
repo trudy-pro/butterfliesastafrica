@@ -8,6 +8,7 @@ import InfoPanel from "@/components/InfoPanel";
 import ComparisonView from "@/components/ComparisonView";
 import SearchBar, { SearchCategory } from "@/components/SearchBar";
 import IdentifyPanel from "@/components/IdentifyPanel";
+import CategoryBrowseModal from "@/components/CategoryBrowseModal";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void }) => {
