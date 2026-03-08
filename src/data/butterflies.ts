@@ -697,7 +697,7 @@ export const specimens: ButterflySpecimen[] = [
     image: danausPlexippus,
     colors: ["Orange", "Black", "White"],
     pattern: "Veined",
-    wingShape: "Rounded",
+    wingShape: "Rounded Broad",
     habitat: "Coastal",
     region: "Kenya, Tanzania",
     migration: "Migratory",
