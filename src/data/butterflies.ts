@@ -773,7 +773,7 @@ export const specimens: ButterflySpecimen[] = [
     image: euphaedraHarpalyce,
     colors: ["Green", "Brown", "Yellow"],
     pattern: "Mottled",
-    wingShape: "Broad",
+    wingShape: "Broad Scalloped",
     habitat: "Tropical Forest",
     region: "DRC, Uganda, Rwanda",
     migration: "Resident",
