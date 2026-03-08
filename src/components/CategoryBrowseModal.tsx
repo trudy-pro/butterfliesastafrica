@@ -28,6 +28,10 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
       const families = [...new Set(specimens.map((s) => s.family))].sort();
       result.push({ title: t("search.families"), items: families.map((v) => ({ name: v, count: countBy((s) => s.family === v) })) });
     }
+    if (category === "regions" || category === "all") {
+      const regions = [...new Set(specimens.flatMap((s) => s.region.split(", ").map((r) => r.trim())))].sort();
+      result.push({ title: t("search.regions"), items: regions.map((v) => ({ name: v, count: countBy((s) => s.region.split(", ").map((r) => r.trim()).includes(v)) })) });
+    }
     if (category === "habitats" || category === "all") {
       const habitats = [...new Set(specimens.map((s) => s.habitat))].sort();
       result.push({ title: t("search.habitats"), items: habitats.map((v) => ({ name: v, count: countBy((s) => s.habitat === v) })) });
@@ -51,6 +55,7 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
   const categoryForItem = (sectionTitle: string): SearchCategory => {
     if (sectionTitle === t("search.species")) return "species";
     if (sectionTitle === t("search.families")) return "families";
+    if (sectionTitle === t("search.regions")) return "regions";
     if (sectionTitle === t("search.habitats")) return "habitats";
     if (sectionTitle === t("search.patterns")) return "patterns";
     if (sectionTitle === t("search.colors")) return "colors";
