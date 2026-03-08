@@ -21,6 +21,7 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
   const displayName = tSpecimen(specimen.id, "commonName") ?? specimen.commonName;
   const displayDesc = tSpecimen(specimen.id, "description") ?? specimen.description;
   const displayTrait = tSpecimen(specimen.id, "evolutionaryTrait") ?? specimen.evolutionaryTrait;
+  const typo = getSpecimenTypography(specimen);
 
   return (
     <div className="fixed inset-0 z-50 flex">
