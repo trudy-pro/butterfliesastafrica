@@ -32,6 +32,7 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
       habitats.add(s.habitat);
       patterns.add(s.pattern);
       s.colors.forEach((c) => colors.add(c));
+      wingShapes.add(s.wingShape);
     });
 
     return {
