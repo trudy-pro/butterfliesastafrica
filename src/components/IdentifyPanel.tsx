@@ -131,7 +131,7 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
               className="inline-flex items-center gap-2 px-6 py-3 bg-search-bar text-primary-foreground font-body text-sm tracking-wide rounded-lg hover:opacity-90 transition-opacity"
             >
               <LogIn size={16} />
-              Register with Google
+              Register with us
             </button>
           </div>
         ) : (
