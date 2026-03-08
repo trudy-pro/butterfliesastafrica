@@ -161,6 +161,13 @@ const Index = () => {
           </div>
           <div className="flex items-center gap-4">
             <button
+              onClick={() => setShowIdentify(true)}
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
+            >
+              <Camera size={14} />
+              {t("toolbar.identify")}
+            </button>
+            <button
               onClick={() => setShowCompare(true)}
               className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors"
             >
