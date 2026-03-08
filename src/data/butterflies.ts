@@ -906,7 +906,7 @@ export const specimens: ButterflySpecimen[] = [
     image: salamisTemora,
     colors: ["Blue", "Green", "Brown"],
     pattern: "Solid",
-    wingShape: "Broad",
+    wingShape: "Broad Rounded",
     habitat: "Tropical Forest",
     region: "DRC, Uganda, Rwanda, Burundi",
     migration: "Resident",
