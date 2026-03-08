@@ -40,6 +40,10 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
       const colors = [...new Set(specimens.flatMap((s) => s.colors))].sort();
       result.push({ title: t("search.colors"), items: colors });
     }
+    if (category === "wingShapes" || category === "all") {
+      const wingShapes = [...new Set(specimens.map((s) => s.wingShape))].sort();
+      result.push({ title: t("search.wingShapes"), items: wingShapes });
+    }
 
     return result;
   }, [category, t]);
@@ -51,6 +55,7 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
     if (sectionTitle === t("search.habitats")) return "habitats";
     if (sectionTitle === t("search.patterns")) return "patterns";
     if (sectionTitle === t("search.colors")) return "colors";
+    if (sectionTitle === t("search.wingShapes")) return "wingShapes";
     return "all";
   };
 

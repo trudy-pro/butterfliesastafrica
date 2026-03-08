@@ -128,8 +128,11 @@ const Index = () => {
           case "colors":
             haystack = s.colors.join(" ").toLowerCase();
             break;
+          case "wingShapes":
+            haystack = s.wingShape.toLowerCase();
+            break;
           default:
-            haystack = `${s.commonName} ${s.scientificName} ${s.region} ${s.family} ${s.genus} ${s.habitat} ${s.pattern} ${s.colors.join(" ")}`.toLowerCase();
+            haystack = `${s.commonName} ${s.scientificName} ${s.region} ${s.family} ${s.genus} ${s.habitat} ${s.pattern} ${s.colors.join(" ")} ${s.wingShape}`.toLowerCase();
         }
         if (!haystack.includes(q)) return false;
       }
