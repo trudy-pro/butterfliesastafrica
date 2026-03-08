@@ -123,7 +123,12 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
         {categories.map((cat) => (
           <button
             key={cat.key}
-            onClick={() => onCategoryChange(cat.key)}
+            onClick={() => {
+              onCategoryChange(cat.key);
+              if (cat.key !== "all" && onCategoryBrowse) {
+                onCategoryBrowse(cat.key);
+              }
+            }}
             className={`mr-4 last:mr-0 font-body text-sm transition-colors cursor-pointer bg-transparent border-none text-left ${
               activeCategory === cat.key ? "text-foreground font-medium" : "text-search-cat"
             }`}
