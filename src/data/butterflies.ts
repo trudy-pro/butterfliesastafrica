@@ -525,7 +525,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "phalantha",
     image: phalantaPhalantha,
     colors: ["Orange", "Black"],
-    pattern: "Spotted",
+    pattern: "Leopard-Spotted",
     wingShape: "Compact Triangular",
     habitat: "Woodland",
     region: "Kenya, Tanzania, Uganda, Ethiopia",
