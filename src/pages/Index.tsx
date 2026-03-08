@@ -85,6 +85,8 @@ const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[];
 
 const Index = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
+  const [user, setUser] = useState<User | null>(null);
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
