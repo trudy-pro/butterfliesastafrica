@@ -938,7 +938,7 @@ export const specimens: ButterflySpecimen[] = [
     pattern: "Eyespot",
     wingShape: "Rounded",
     habitat: "Grassland",
-    region: "Ethiopia, Somalia, Kenya, Tanzania",
+    region: "Ethiopia, Kenya, Tanzania",
     migration: "Seasonal",
     wingspan: "40–55 mm",
     symmetry: "Bilateral, high",
