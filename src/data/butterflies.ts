@@ -258,7 +258,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "danae",
     image: colotisDanae,
     colors: ["White", "Red"],
-    pattern: "Spotted",
+    pattern: "Apical Flash",
     wingShape: "Small Rounded",
     habitat: "Savanna",
     region: "Kenya, Tanzania",
