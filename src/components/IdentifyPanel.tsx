@@ -31,19 +31,43 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<IdentifyResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [approvalStatus, setApprovalStatus] = useState<"loading" | "none" | "pending" | "approved" | "rejected" | "admin">("loading");
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const checkApproval = useCallback(async (userId: string) => {
+    const { data: roles } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId);
+    if (roles?.some((r: any) => r.role === "admin")) {
+      setApprovalStatus("admin");
+      return;
+    }
+    const { data: approval } = await supabase
+      .from("contributor_approvals")
+      .select("status")
+      .eq("user_id", userId)
+      .maybeSingle();
+    if (!approval) setApprovalStatus("none");
+    else setApprovalStatus(approval.status as any);
+  }, []);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+      const u = session?.user ?? null;
+      setUser(u);
       setAuthLoading(false);
+      if (u) checkApproval(u.id);
+      else setApprovalStatus("loading");
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
+      const u = session?.user ?? null;
+      setUser(u);
       setAuthLoading(false);
+      if (u) checkApproval(u.id);
     });
     return () => subscription.unsubscribe();
-  }, []);
+  }, [checkApproval]);
 
   const handleSignIn = async () => {
     await lovable.auth.signInWithOAuth("google", {
