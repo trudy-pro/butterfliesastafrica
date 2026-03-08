@@ -132,6 +132,8 @@ const Index = () => {
           onQueryChange={setSearchQuery}
           totalSpecimens={specimens.length}
           filteredCount={filtered.length}
+          activeCategory={searchCategory}
+          onCategoryChange={setSearchCategory}
         />
       </header>
 
