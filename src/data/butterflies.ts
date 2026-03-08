@@ -658,7 +658,7 @@ export const specimens: ButterflySpecimen[] = [
     species: "euippe",
     image: colotisEuippe,
     colors: ["White", "Orange"],
-    pattern: "Spotted",
+    pattern: "Apical Flash",
     wingShape: "Small Rounded",
     habitat: "Savanna",
     region: "Kenya, Tanzania, Ethiopia",
