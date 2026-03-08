@@ -78,7 +78,7 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange }: S
           </button>
 
           {dropdownOpen && (
-            <div className="absolute top-full left-0 mt-1 z-50 min-w-[220px] bg-card border border-border rounded-lg shadow-lg overflow-hidden">
+            <div className="absolute bottom-full left-0 mb-1 z-50 min-w-[220px] bg-card border border-border rounded-lg shadow-lg overflow-hidden">
               {categories.map((cat) => (
                 <button
                   key={cat.key}
