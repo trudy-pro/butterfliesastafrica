@@ -354,7 +354,7 @@ export const specimens: ButterflySpecimen[] = [
     image: charaxesCastor,
     colors: ["Brown", "Orange"],
     pattern: "Banded",
-    wingShape: "Tailed",
+    wingShape: "Robust Double-tailed",
     habitat: "Woodland",
     region: "Uganda, Tanzania, Kenya",
     migration: "Resident",
