@@ -3,7 +3,7 @@ import { specimens } from "@/data/butterflies";
 import { ChevronDown } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
-type SearchCategory = "all" | "species" | "families" | "regions" | "habitats" | "patterns" | "colors" | "wingShapes";
+type SearchCategory = "all" | "species" | "families" | "habitats" | "patterns" | "colors" | "wingShapes";
 
 interface SearchBarProps {
   query: string;
@@ -18,44 +18,16 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { lang, setLang, t } = useLanguage();
 
-  const counts = useMemo(() => {
-    const families = new Set<string>();
-    const regions = new Set<string>();
-    const habitats = new Set<string>();
-    const patterns = new Set<string>();
-    const colors = new Set<string>();
-    const wingShapes = new Set<string>();
-
-    specimens.forEach((s) => {
-      families.add(s.family);
-      s.region.split(", ").forEach((c) => regions.add(c.trim()));
-      habitats.add(s.habitat);
-      patterns.add(s.pattern);
-      s.colors.forEach((c) => colors.add(c));
-      wingShapes.add(s.wingShape);
-    });
-
-    return {
-      all: specimens.length,
-      species: specimens.length,
-      families: families.size,
-      regions: regions.size,
-      habitats: habitats.size,
-      patterns: patterns.size,
-      colors: colors.size,
-      wingShapes: wingShapes.size,
-    };
-  }, []);
+  const total = useMemo(() => specimens.length, []);
 
   const categories: { key: SearchCategory; label: string; count: number }[] = [
-    { key: "all", label: t("search.everything"), count: counts.all },
-    { key: "species", label: t("search.species"), count: counts.species },
-    { key: "families", label: t("search.families"), count: counts.families },
-    { key: "regions", label: t("search.regions"), count: counts.regions },
-    { key: "habitats", label: t("search.habitats"), count: counts.habitats },
-    { key: "patterns", label: t("search.patterns"), count: counts.patterns },
-    { key: "colors", label: t("search.colors"), count: counts.colors },
-    { key: "wingShapes", label: t("search.wingShapes"), count: counts.wingShapes },
+    { key: "all", label: t("search.everything"), count: total },
+    { key: "species", label: t("search.species"), count: total },
+    { key: "families", label: t("search.families"), count: total },
+    { key: "habitats", label: t("search.habitats"), count: total },
+    { key: "patterns", label: t("search.patterns"), count: total },
+    { key: "colors", label: t("search.colors"), count: total },
+    { key: "wingShapes", label: t("search.wingShapes"), count: total },
   ];
 
   useEffect(() => {
