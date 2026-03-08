@@ -77,6 +77,7 @@ const Index = () => {
               Info
             </button>
           </div>
+        </div>
       </div>
 
       {/* Specimen Grid */}
