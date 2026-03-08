@@ -278,7 +278,7 @@ export const specimens: ButterflySpecimen[] = [
     image: precisOctavia,
     colors: ["Red", "Blue", "Black"],
     pattern: "Mottled",
-    wingShape: "Angular",
+    wingShape: "Compact Triangular",
     habitat: "Montane Forest",
     region: "Kenya, Tanzania, Ethiopia",
     migration: "Seasonal",
