@@ -28,10 +28,6 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
       const families = [...new Set(specimens.map((s) => s.family))].sort();
       result.push({ title: t("search.families"), items: families.map((v) => ({ name: v, count: countBy((s) => s.family === v) })) });
     }
-    if (category === "regions" || category === "all") {
-      const regions = [...new Set(specimens.flatMap((s) => s.region.split(", ").map((r) => r.trim())))].sort();
-      result.push({ title: t("search.regions"), items: regions.map((v) => ({ name: v, count: countBy((s) => s.region.split(", ").map((r) => r.trim()).includes(v)) })) });
-    }
     if (category === "habitats" || category === "all") {
       const habitats = [...new Set(specimens.map((s) => s.habitat))].sort();
       result.push({ title: t("search.habitats"), items: habitats.map((v) => ({ name: v, count: countBy((s) => s.habitat === v) })) });
