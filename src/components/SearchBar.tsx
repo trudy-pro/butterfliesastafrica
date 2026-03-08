@@ -43,6 +43,7 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
       habitats: habitats.size,
       patterns: patterns.size,
       colors: colors.size,
+      wingShapes: wingShapes.size,
     };
   }, []);
 
