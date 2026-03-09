@@ -366,6 +366,26 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
                         <p className="text-sm font-body text-foreground leading-relaxed">{result.description}</p>
                       </div>
                     )}
+                    {/* Submit for review button */}
+                    {submitted ? (
+                      <div className="flex items-center justify-center gap-2 py-3 bg-emerald-50 text-emerald-700 rounded-lg">
+                        <CheckCircle size={16} />
+                        <span className="text-sm font-body">Submitted for review</span>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={submitForReview}
+                        disabled={submitting}
+                        className="w-full py-3 bg-primary text-primary-foreground font-body text-sm tracking-wide rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50"
+                      >
+                        {submitting ? (
+                          <Loader2 size={16} className="animate-spin" />
+                        ) : (
+                          <Send size={16} />
+                        )}
+                        {submitting ? "Submitting..." : "Submit to Archive"}
+                      </button>
+                    )}
                   </>
                 ) : (
                   <div className="text-center py-4">
