@@ -182,7 +182,13 @@ const Index = () => {
 
   const filtered = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
+    const currentMonth = getCurrentMonth();
     return specimens.filter((s) => {
+      // "What's Flying Now?" filter
+      if (flyingNowActive) {
+        const activity = getFlightActivity(s.id);
+        if (!isInPeakFlight(activity, currentMonth)) return false;
+      }
       if (filters.color && !s.colors.includes(filters.color)) return false;
       if (filters.pattern && s.pattern !== filters.pattern) return false;
       if (filters.wingShape && s.wingShape !== filters.wingShape) return false;
