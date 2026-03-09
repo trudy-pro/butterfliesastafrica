@@ -14,6 +14,7 @@ import { getFlightStyles } from "@/data/flightStyles";
 import FlightStyleTag from "@/components/FlightStyleTag";
 import { getWingBeatInfo } from "@/data/wingBeatData";
 import WingBeatPlayer from "@/components/WingBeatPlayer";
+import FlightPatternAnimation from "@/components/FlightPatternAnimation";
 
 interface SpecimenDetailProps {
   specimen: ButterflySpecimen;
@@ -286,6 +287,7 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
           </div>
 
           <FlightStyleTag styles={flightStyles} />
+          <FlightPatternAnimation styles={flightStyles} />
           <WingBeatPlayer wingBeat={wingBeat} />
 
           <SeasonalityChart specimenId={specimen.id} />
