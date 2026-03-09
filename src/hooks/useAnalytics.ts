@@ -66,23 +66,21 @@ export const useAnalytics = () => {
   // Track generic event
   const trackEvent = useCallback(async (
     eventType: string,
-    eventData?: Record<string, unknown>
+    eventData?: Record<string, string | number | boolean>
   ) => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       
-      const analyticsData: AnalyticsData = {
+      await supabase.from("analytics_events").insert([{
         session_id: sessionId.current,
         user_id: user?.id,
         event_type: eventType,
-        event_data: eventData || {},
+        event_data: eventData as Json || {},
         page_path: window.location.pathname,
         referrer: referrer.current,
         user_agent: navigator.userAgent,
         device_type: deviceType.current,
-      };
-
-      await supabase.from("analytics_events").insert([analyticsData]);
+      }]);
     } catch (error) {
       // Silently fail - analytics should never break the app
       console.debug("Analytics error:", error);
