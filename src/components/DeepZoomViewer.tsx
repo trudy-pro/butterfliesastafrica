@@ -28,7 +28,7 @@ const DeepZoomViewer = ({ src, alt, onClose }: DeepZoomViewerProps) => {
       doubleClick={{ mode: "zoomIn", step: 2 }}
       onTransformed={(_, state) => setScale(state.scale)}
     >
-      {({ zoomIn, zoomOut, resetTransform, state }) => (
+      {({ zoomIn, zoomOut, resetTransform }) => (
         <div className="relative w-full h-full group/zoom">
           {/* Zoom Controls */}
           <div className="absolute top-3 right-3 z-10 flex flex-col gap-1.5 opacity-0 group-hover/zoom:opacity-100 transition-opacity duration-200">
