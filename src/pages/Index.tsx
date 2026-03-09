@@ -167,6 +167,13 @@ const Index = () => {
     blockedToastShownRef.current = false;
     setUser(u);
 
+    // Check first login
+    const firstLoginKey = `ba_first_login_${u.id}`;
+    if (!localStorage.getItem(firstLoginKey)) {
+      setShowFirstLogin(true);
+      localStorage.setItem(firstLoginKey, "done");
+    }
+
     // Check if user is admin
     const { data: hasAdminRole } = await supabase.rpc("has_role", {
       _user_id: u.id,
