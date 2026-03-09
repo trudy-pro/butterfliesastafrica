@@ -370,6 +370,15 @@ const Index = () => {
       {showInfo && <InfoPanel onClose={() => setShowInfo(false)} />}
       {showCompare && <ComparisonView onClose={() => setShowCompare(false)} />}
       {showIdentify && <IdentifyPanel onClose={() => setShowIdentify(false)} />}
+      {showHeatmap && (
+        <SeasonalityHeatmap
+          onClose={() => setShowHeatmap(false)}
+          onSelectSpecimen={(id) => {
+            const s = specimens.find((sp) => sp.id === id);
+            if (s) { setShowHeatmap(false); handleSpecimenSelect(s); }
+          }}
+        />
+      )}
       {showMap && (
         <MapBrowser
           onClose={() => setShowMap(false)}
