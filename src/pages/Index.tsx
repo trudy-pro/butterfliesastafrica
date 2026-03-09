@@ -442,6 +442,7 @@ const Index = () => {
           <FirstLoginExperience
             userName={user?.user_metadata?.display_name || user?.email?.split("@")[0]}
             onComplete={() => setShowFirstLogin(false)}
+            onEnvironmentSave={(climate, habitat) => saveEnvProfile(climate, habitat)}
           />
         )}
       </AnimatePresence>
