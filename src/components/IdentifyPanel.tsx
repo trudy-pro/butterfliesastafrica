@@ -39,7 +39,7 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const checkApproval = useCallback(async (userId: string) => {
+  const checkApproval = useCallback(async (userId: string, userEmail?: string) => {
     const { data: roles } = await supabase
       .from("user_roles")
       .select("role")
@@ -53,8 +53,20 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
       .select("status")
       .eq("user_id", userId)
       .maybeSingle();
-    if (!approval) setApprovalStatus("none");
-    else setApprovalStatus(approval.status as any);
+    
+    if (!approval && userEmail) {
+      // Auto-create pending approval request for new users
+      await supabase.from("contributor_approvals").insert({
+        user_id: userId,
+        email: userEmail,
+        status: "pending",
+      });
+      setApprovalStatus("pending");
+    } else if (!approval) {
+      setApprovalStatus("none");
+    } else {
+      setApprovalStatus(approval.status as any);
+    }
   }, []);
 
   useEffect(() => {
@@ -62,14 +74,14 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
       const u = session?.user ?? null;
       setUser(u);
       setAuthLoading(false);
-      if (u) checkApproval(u.id);
+      if (u) checkApproval(u.id, u.email);
       else setApprovalStatus("loading");
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
       const u = session?.user ?? null;
       setUser(u);
       setAuthLoading(false);
-      if (u) checkApproval(u.id);
+      if (u) checkApproval(u.id, u.email);
     });
     return () => subscription.unsubscribe();
   }, [checkApproval]);
