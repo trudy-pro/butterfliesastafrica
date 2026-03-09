@@ -8,22 +8,22 @@ interface SpecimenCardProps {
   specimen: ButterflySpecimen;
   onClick: (specimen: ButterflySpecimen) => void;
   index: number;
+  monthOverride?: number | null;
 }
 
-const SpecimenCard = ({ specimen, onClick, index }: SpecimenCardProps) => {
+const SpecimenCard = ({ specimen, onClick, index, monthOverride }: SpecimenCardProps) => {
   const { tSpecimen } = useLanguage();
   const displayName = tSpecimen(specimen.id, "commonName") ?? specimen.commonName;
   const typo = getSpecimenTypography(specimen);
 
   const seasonalState = useMemo(() => {
     const activity = getFlightActivity(specimen.id);
-    const month = getCurrentMonth();
+    const month = monthOverride ?? getCurrentMonth();
     const value = activity[month];
-    // active >= 0.5, low 0.2–0.49, dormant < 0.2
     if (value >= 0.5) return "active" as const;
     if (value >= 0.2) return "low" as const;
     return "dormant" as const;
-  }, [specimen.id]);
+  }, [specimen.id, monthOverride]);
 
   const isDormant = seasonalState === "dormant";
   const isLow = seasonalState === "low";
@@ -49,7 +49,6 @@ const SpecimenCard = ({ specimen, onClick, index }: SpecimenCardProps) => {
         />
         <div className="absolute inset-0 bg-specimen-overlay/0 group-hover:bg-specimen-overlay/10 transition-colors duration-300" />
 
-        {/* Dormant overlay with outline typography */}
         {isDormant && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <span
@@ -87,7 +86,6 @@ const SpecimenCard = ({ specimen, onClick, index }: SpecimenCardProps) => {
           {specimen.scientificName}
         </p>
 
-        {/* Seasonal status indicator */}
         {isDormant && (
           <p className="text-[10px] font-body uppercase tracking-widest text-muted-foreground/40 mt-1">
             Dormant

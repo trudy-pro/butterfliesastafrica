@@ -14,6 +14,7 @@ import SearchBar, { SearchCategory } from "@/components/SearchBar";
 import IdentifyPanel from "@/components/IdentifyPanel";
 import CategoryBrowseModal from "@/components/CategoryBrowseModal";
 import MapBrowser from "@/components/MapBrowser";
+import MonthScrubber from "@/components/MonthScrubber";
 import UserMenu from "@/components/UserMenu";
 import { getFlightActivity, isInPeakFlight, getCurrentMonth, MONTH_LABELS } from "@/data/flightPeriods";
 import UserPoll from "@/components/UserPoll";
@@ -22,7 +23,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
 
-const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void }) => {
+const ScrollableGrid = ({ filtered, onSelect, monthOverride }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void; monthOverride?: number | null }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -82,6 +83,7 @@ const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[];
               specimen={specimen}
               onClick={onSelect}
               index={i}
+              monthOverride={monthOverride}
             />
           ))}
         </div>
@@ -108,6 +110,7 @@ const Index = () => {
   const [browseCategory, setBrowseCategory] = useState<SearchCategory | null>(null);
   const [flyingNowActive, setFlyingNowActive] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
+  const [previewMonth, setPreviewMonth] = useState<number | null>(null);
   const blockedToastShownRef = useRef(false);
   const [filters, setFilters] = useState<FilterState>({
     color: null,
@@ -266,7 +269,8 @@ const Index = () => {
 
       {/* Toolbar */}
       <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="flex items-center justify-end px-6 py-3">
+        <div className="flex items-center justify-between px-6 py-3">
+          <MonthScrubber previewMonth={previewMonth} onMonthChange={setPreviewMonth} />
         <div className="flex items-center gap-4">
             <button
               onClick={() => setShowMap(true)}
@@ -337,7 +341,7 @@ const Index = () => {
             </button>
           </div>
         ) : (
-          <ScrollableGrid filtered={filtered} onSelect={handleSpecimenSelect} />
+          <ScrollableGrid filtered={filtered} onSelect={handleSpecimenSelect} monthOverride={previewMonth} />
         )}
       </main>
 
