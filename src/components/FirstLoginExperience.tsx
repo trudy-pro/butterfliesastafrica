@@ -2,6 +2,8 @@ import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, X, Volume2, Headphones } from "lucide-react";
 import DigitalSpecimenCard from "@/components/DigitalSpecimenCard";
+import EnvironmentOnboarding from "@/components/EnvironmentOnboarding";
+import { ClimateZone, HabitatType } from "@/hooks/useEnvironmentProfile";
 
 // The inaugural specimen for all new researchers
 import danausChrysippus from "@/assets/specimens/danaus-chrysippus.jpg";
@@ -9,10 +11,12 @@ import danausChrysippus from "@/assets/specimens/danaus-chrysippus.jpg";
 interface FirstLoginExperienceProps {
   userName?: string;
   onComplete: () => void;
+  onEnvironmentSave?: (climate: ClimateZone, habitat: HabitatType) => void;
 }
 
 const STEPS = [
   { key: "welcome", title: "Field Kit Initialized" },
+  { key: "environment", title: "Your Eco-Region" },
   { key: "specimen", title: "Your Inaugural Specimen" },
   { key: "tutorial", title: "Reading Wing-Beat Waveforms" },
   { key: "ready", title: "Your Field Station Awaits" },
