@@ -27,7 +27,7 @@ const STEPS = [
  * Introduces the user to the archive, presents their inaugural specimen,
  * and teaches them to read wing-beat waveforms.
  */
-const FirstLoginExperience = ({ userName, onComplete }: FirstLoginExperienceProps) => {
+const FirstLoginExperience = ({ userName, onComplete, onEnvironmentSave }: FirstLoginExperienceProps) => {
   const [step, setStep] = useState(0);
   const ctxRef = useRef<AudioContext | null>(null);
 
