@@ -61,6 +61,7 @@ export type Database = {
           pattern: string | null
           scientific_name: string | null
           status: string
+          submission_type: string
           user_id: string
           wing_shape: string | null
         }
@@ -77,6 +78,7 @@ export type Database = {
           pattern?: string | null
           scientific_name?: string | null
           status?: string
+          submission_type?: string
           user_id: string
           wing_shape?: string | null
         }
@@ -93,6 +95,7 @@ export type Database = {
           pattern?: string | null
           scientific_name?: string | null
           status?: string
+          submission_type?: string
           user_id?: string
           wing_shape?: string | null
         }
