@@ -34,6 +34,9 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
   const [result, setResult] = useState<IdentifyResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [approvalStatus, setApprovalStatus] = useState<"loading" | "none" | "pending" | "approved" | "rejected" | "admin">("loading");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const checkApproval = useCallback(async (userId: string) => {
