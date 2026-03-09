@@ -287,6 +287,7 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
           </div>
 
           <FlightStyleTag styles={flightStyles} />
+          <FlightPatternAnimation styles={flightStyles} />
           <WingBeatPlayer wingBeat={wingBeat} />
 
           <SeasonalityChart specimenId={specimen.id} />
