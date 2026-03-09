@@ -37,6 +37,7 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
   const hotspots = getAnatomyHotspots(specimen.wingShape);
   const dimorphism = getDimorphism(specimen.id);
   const [currentSex, setCurrentSex] = useState<"male" | "female">(dimorphism?.defaultSex ?? "male");
+  const flightStyles = getFlightStyles(specimen.id);
 
   const handlePrint = () => {
     const printWindow = window.open("", "_blank");
