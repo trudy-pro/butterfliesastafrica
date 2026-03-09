@@ -109,7 +109,7 @@ const WingBeatPlayer = ({ wingBeat }: WingBeatPlayerProps) => {
             </span>
           </div>
           <span className="text-[10px] font-body text-muted-foreground uppercase tracking-wider">
-            {wingBeat.label}
+            {wingBeat.frequencyLabel}
           </span>
         </div>
 
