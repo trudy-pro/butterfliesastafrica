@@ -118,7 +118,7 @@ const MapBrowser = ({ onClose, onSelectLocation }: MapBrowserProps) => {
         className="absolute inset-0 bg-specimen-overlay/40 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative w-full max-w-5xl h-[85vh] mx-4 bg-card rounded-lg border border-border shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-5xl mx-4 bg-card rounded-lg border border-border shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200" style={{ height: "85vh" }}>
         {/* Header */}
         <div className="absolute top-0 left-0 right-0 z-[1000] bg-card/95 backdrop-blur-sm border-b border-border px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
