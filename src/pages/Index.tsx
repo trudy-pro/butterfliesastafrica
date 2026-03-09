@@ -353,6 +353,15 @@ const Index = () => {
       {showInfo && <InfoPanel onClose={() => setShowInfo(false)} />}
       {showCompare && <ComparisonView onClose={() => setShowCompare(false)} />}
       {showIdentify && <IdentifyPanel onClose={() => setShowIdentify(false)} />}
+      {showMap && (
+        <MapBrowser
+          onClose={() => setShowMap(false)}
+          onSelectLocation={(country) => {
+            setSearchCategory("regions");
+            setSearchQuery(country);
+          }}
+        />
+      )}
       <AnimatePresence>
         {browseCategory && (
           <CategoryBrowseModal
