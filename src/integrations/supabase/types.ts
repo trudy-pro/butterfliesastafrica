@@ -92,6 +92,30 @@ export type Database = {
         }
         Relationships: []
       }
+      examined_specimens: {
+        Row: {
+          first_examined_at: string
+          id: string
+          serial_number: string
+          specimen_id: string
+          user_id: string
+        }
+        Insert: {
+          first_examined_at?: string
+          id?: string
+          serial_number: string
+          specimen_id: string
+          user_id: string
+        }
+        Update: {
+          first_examined_at?: string
+          id?: string
+          serial_number?: string
+          specimen_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       search_queries: {
         Row: {
           category: string | null
