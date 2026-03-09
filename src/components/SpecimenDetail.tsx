@@ -282,6 +282,8 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
             <DetailRow label={t("detail.wingShape")} value={t(`wingShape.${specimen.wingShape}`)} />
           </div>
 
+          <FlightStyleTag styles={flightStyles} />
+
           <SeasonalityChart specimenId={specimen.id} />
 
           {dimorphism && (
