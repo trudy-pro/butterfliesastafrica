@@ -106,13 +106,13 @@ export const useAnalytics = () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       
-      await supabase.from("search_queries").insert({
+      await supabase.from("search_queries").insert([{
         session_id: sessionId.current,
         user_id: user?.id,
         query: query.trim(),
         category,
         results_count: resultsCount,
-      });
+      }]);
     } catch (error) {
       console.debug("Search analytics error:", error);
     }
