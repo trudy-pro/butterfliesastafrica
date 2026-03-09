@@ -12,8 +12,8 @@ import { getAnatomyHotspots } from "@/data/wingAnatomy";
 import { getDimorphism } from "@/data/dimorphism";
 import { getFlightStyles } from "@/data/flightStyles";
 import FlightStyleTag from "@/components/FlightStyleTag";
-import { getWingBeatInfo } from "@/data/wingBeatData";
-import WingBeatPlayer from "@/components/WingBeatPlayer";
+import { getSoundProfile } from "@/data/wingBeatData";
+import SoundProfile from "@/components/SoundProfile";
 import FlightPatternAnimation from "@/components/FlightPatternAnimation";
 
 interface SpecimenDetailProps {
@@ -41,7 +41,7 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
   const dimorphism = getDimorphism(specimen.id);
   const [currentSex, setCurrentSex] = useState<"male" | "female">(dimorphism?.defaultSex ?? "male");
   const flightStyles = getFlightStyles(specimen.id);
-  const wingBeat = getWingBeatInfo(specimen.id);
+  const soundProfile = getSoundProfile(specimen.id);
 
   const handlePrint = () => {
     const printWindow = window.open("", "_blank");
@@ -288,7 +288,7 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
 
           <FlightStyleTag styles={flightStyles} />
           <FlightPatternAnimation styles={flightStyles} />
-          <WingBeatPlayer wingBeat={wingBeat} />
+          <SoundProfile soundProfile={soundProfile} />
 
           <SeasonalityChart specimenId={specimen.id} />
 

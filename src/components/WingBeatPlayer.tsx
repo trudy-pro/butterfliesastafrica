@@ -1,10 +1,10 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Volume2, VolumeX, Play, Square } from "lucide-react";
-import { WingBeatInfo } from "@/data/wingBeatData";
+import { SoundProfileInfo } from "@/data/wingBeatData";
 
 interface WingBeatPlayerProps {
-  wingBeat: WingBeatInfo;
+  wingBeat: SoundProfileInfo;
 }
 
 /**
@@ -109,7 +109,7 @@ const WingBeatPlayer = ({ wingBeat }: WingBeatPlayerProps) => {
             </span>
           </div>
           <span className="text-[10px] font-body text-muted-foreground uppercase tracking-wider">
-            {wingBeat.label}
+            {wingBeat.frequencyLabel}
           </span>
         </div>
 
