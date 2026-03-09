@@ -115,26 +115,53 @@ const Admin = () => {
         </button>
       </div>
 
-      <div className="flex-1 px-6 pb-20 max-w-3xl mx-auto w-full">
-        <div className="mb-10">
+      <div className="flex-1 px-6 pb-20 max-w-4xl mx-auto w-full">
+        <div className="mb-6">
           <p className="text-sm font-body text-accent tracking-wide mb-1">
             Administration
           </p>
           <h1 className="text-3xl md:text-4xl font-display text-foreground">
-            Contributor Requests
+            Admin Dashboard
           </h1>
-          <p className="mt-2 text-sm font-body text-muted-foreground">
-            Approve or reject contributor access requests.
-          </p>
         </div>
 
-        {/* Pending requests */}
-        {pending.length > 0 ? (
-          <div className="space-y-3">
-            <h2 className="text-sm font-body font-medium text-foreground mb-3">
-              Pending ({pending.length})
-            </h2>
-            {pending.map((req) => (
+        {/* Tab Navigation */}
+        <div className="flex gap-2 mb-8 border-b border-border">
+          <button
+            onClick={() => setActiveTab("contributors")}
+            className={`flex items-center gap-2 px-4 py-2 text-sm font-body border-b-2 transition-colors ${
+              activeTab === "contributors"
+                ? "border-primary text-foreground"
+                : "border-transparent text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <Users size={14} />
+            Contributors
+          </button>
+          <button
+            onClick={() => setActiveTab("analytics")}
+            className={`flex items-center gap-2 px-4 py-2 text-sm font-body border-b-2 transition-colors ${
+              activeTab === "analytics"
+                ? "border-primary text-foreground"
+                : "border-transparent text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <BarChart3 size={14} />
+            Analytics
+          </button>
+        </div>
+
+        {activeTab === "analytics" ? (
+          <AnalyticsDashboard />
+        ) : (
+          <>
+            {/* Pending requests */}
+            {pending.length > 0 ? (
+              <div className="space-y-3">
+                <h2 className="text-sm font-body font-medium text-foreground mb-3">
+                  Pending ({pending.length})
+                </h2>
+                {pending.map((req) => (
               <div
                 key={req.id}
                 className="flex items-center justify-between gap-4 p-4 rounded-lg bg-card border border-border"
