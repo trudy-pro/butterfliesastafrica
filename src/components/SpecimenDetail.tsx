@@ -128,6 +128,9 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
               <p className="text-sm font-body italic text-muted-foreground mt-1">{specimen.scientificName}</p>
             </div>
             <div className="flex items-center gap-2">
+              <button onClick={handleDownloadPdf} className="p-1 text-muted-foreground hover:text-foreground transition-colors" title="Download PDF">
+                <Download size={18} />
+              </button>
               <button onClick={handlePrint} className="p-1 text-muted-foreground hover:text-foreground transition-colors" title="Print-friendly view">
                 <Printer size={18} />
               </button>
