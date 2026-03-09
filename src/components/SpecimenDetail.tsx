@@ -12,6 +12,8 @@ import { getAnatomyHotspots } from "@/data/wingAnatomy";
 import { getDimorphism } from "@/data/dimorphism";
 import { getFlightStyles } from "@/data/flightStyles";
 import FlightStyleTag from "@/components/FlightStyleTag";
+import { getWingBeatInfo } from "@/data/wingBeatData";
+import WingBeatPlayer from "@/components/WingBeatPlayer";
 
 interface SpecimenDetailProps {
   specimen: ButterflySpecimen;
