@@ -24,6 +24,7 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [requests, setRequests] = useState<ApprovalRequest[]>([]);
   const [processing, setProcessing] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<AdminTab>("contributors");
   const navigate = useNavigate();
   const { toast } = useToast();
 
