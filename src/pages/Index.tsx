@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Camera, LogIn, MapPin, Bug, Grid3X3 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Camera, LogIn, MapPin, Bug, Grid3X3, BookOpen } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
