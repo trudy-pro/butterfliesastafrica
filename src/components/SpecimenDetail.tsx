@@ -10,6 +10,8 @@ import AnatomyOverlay from "@/components/AnatomyOverlay";
 import DimorphismToggle from "@/components/DimorphismToggle";
 import { getAnatomyHotspots } from "@/data/wingAnatomy";
 import { getDimorphism } from "@/data/dimorphism";
+import { getFlightStyles } from "@/data/flightStyles";
+import FlightStyleTag from "@/components/FlightStyleTag";
 
 interface SpecimenDetailProps {
   specimen: ButterflySpecimen;
@@ -35,6 +37,7 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
   const hotspots = getAnatomyHotspots(specimen.wingShape);
   const dimorphism = getDimorphism(specimen.id);
   const [currentSex, setCurrentSex] = useState<"male" | "female">(dimorphism?.defaultSex ?? "male");
+  const flightStyles = getFlightStyles(specimen.id);
 
   const handlePrint = () => {
     const printWindow = window.open("", "_blank");
@@ -278,6 +281,8 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
             <DetailRow label={t("detail.wingspan")} value={specimen.wingspan} />
             <DetailRow label={t("detail.wingShape")} value={t(`wingShape.${specimen.wingShape}`)} />
           </div>
+
+          <FlightStyleTag styles={flightStyles} />
 
           <SeasonalityChart specimenId={specimen.id} />
 
