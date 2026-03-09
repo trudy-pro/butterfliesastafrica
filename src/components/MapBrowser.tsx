@@ -89,7 +89,6 @@ const LocateButton = ({ onLocate }: { onLocate: (lat: number, lng: number) => vo
 
 const MapBrowser = ({ onClose, onSelectLocation }: MapBrowserProps) => {
   const { t } = useLanguage();
-  const mapRef = useRef<L.Map | null>(null);
   const [mode, setMode] = useState<MapMode>("browse");
   const [searchPoint, setSearchPoint] = useState<{ lat: number; lng: number } | null>(null);
   const [radiusKm, setRadiusKm] = useState(50);
