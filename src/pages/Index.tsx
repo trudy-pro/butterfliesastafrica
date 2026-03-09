@@ -269,7 +269,8 @@ const Index = () => {
 
       {/* Toolbar */}
       <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="flex items-center justify-end px-6 py-3">
+        <div className="flex items-center justify-between px-6 py-3">
+          <MonthScrubber previewMonth={previewMonth} onMonthChange={setPreviewMonth} />
         <div className="flex items-center gap-4">
             <button
               onClick={() => setShowMap(true)}
