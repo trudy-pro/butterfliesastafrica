@@ -26,7 +26,7 @@ import { useAnalytics } from "@/hooks/useAnalytics";
 import { useExaminedSpecimens } from "@/hooks/useExaminedSpecimens";
 import { useEnvironmentProfile, ClimateZone, HabitatType } from "@/hooks/useEnvironmentProfile";
 import SuggestedSpecimens from "@/components/SuggestedSpecimens";
-const ScrollableGrid = ({ filtered, onSelect, monthOverride }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void; monthOverride?: number | null }) => {
+const ScrollableGrid = ({ filtered, onSelect, monthOverride }: {filtered: ButterflySpecimen[];onSelect: (s: ButterflySpecimen) => void;monthOverride?: number | null;}) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -47,8 +47,8 @@ const ScrollableGrid = ({ filtered, onSelect, monthOverride }: { filtered: Butte
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") { e.preventDefault(); scroll("left"); }
-      else if (e.key === "ArrowRight") { e.preventDefault(); scroll("right"); }
+      if (e.key === "ArrowLeft") {e.preventDefault();scroll("left");} else
+      if (e.key === "ArrowRight") {e.preventDefault();scroll("right");}
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -56,43 +56,43 @@ const ScrollableGrid = ({ filtered, onSelect, monthOverride }: { filtered: Butte
 
   return (
     <div className="relative group/scroll">
-      {canScrollLeft && (
-        <button
-          onClick={() => scroll("left")}
-          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-md flex items-center justify-center opacity-0 group-hover/scroll:opacity-100 transition-all duration-300 hover:scale-110 hover:bg-card"
-          aria-label="Scroll left"
-        >
+      {canScrollLeft &&
+      <button
+        onClick={() => scroll("left")}
+        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-md flex items-center justify-center opacity-0 group-hover/scroll:opacity-100 transition-all duration-300 hover:scale-110 hover:bg-card"
+        aria-label="Scroll left">
+        
           <ChevronLeft className="w-4 h-4 text-foreground" />
         </button>
-      )}
-      {canScrollRight && (
-        <button
-          onClick={() => scroll("right")}
-          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-md flex items-center justify-center opacity-0 group-hover/scroll:opacity-100 transition-all duration-300 hover:scale-110 hover:bg-card"
-          aria-label="Scroll right"
-        >
+      }
+      {canScrollRight &&
+      <button
+        onClick={() => scroll("right")}
+        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-md flex items-center justify-center opacity-0 group-hover/scroll:opacity-100 transition-all duration-300 hover:scale-110 hover:bg-card"
+        aria-label="Scroll right">
+        
           <ChevronRight className="w-4 h-4 text-foreground" />
         </button>
-      )}
+      }
       <div
         ref={scrollRef}
         onScroll={updateScrollState}
-        className="overflow-x-auto scrollbar-hide px-3 scroll-smooth"
-      >
+        className="overflow-x-auto scrollbar-hide px-3 scroll-smooth">
+        
         <div className="grid grid-rows-2 grid-flow-col gap-2 auto-cols-[140px] sm:auto-cols-[160px] md:auto-cols-[180px]">
-          {filtered.map((specimen, i) => (
-            <SpecimenCard
-              key={specimen.id}
-              specimen={specimen}
-              onClick={onSelect}
-              index={i}
-              monthOverride={monthOverride}
-            />
-          ))}
+          {filtered.map((specimen, i) =>
+          <SpecimenCard
+            key={specimen.id}
+            specimen={specimen}
+            onClick={onSelect}
+            index={i}
+            monthOverride={monthOverride} />
+
+          )}
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 const Index = () => {
@@ -125,7 +125,7 @@ const Index = () => {
     habitat: null,
     migration: null,
     family: null,
-    country: null,
+    country: null
   });
 
   const enforceApproval = useCallback(async (u: User | null) => {
@@ -136,7 +136,7 @@ const Index = () => {
     }
 
     const { data: approved, error } = await supabase.rpc("is_approved_contributor", {
-      _user_id: u.id,
+      _user_id: u.id
     });
 
     if (error) {
@@ -146,7 +146,7 @@ const Index = () => {
         toast({
           title: "Access check failed",
           description: "Please sign in again.",
-          variant: "destructive",
+          variant: "destructive"
         });
         blockedToastShownRef.current = true;
       }
@@ -160,7 +160,7 @@ const Index = () => {
         toast({
           title: "Approval required",
           description: "Your account is not approved yet.",
-          variant: "destructive",
+          variant: "destructive"
         });
         blockedToastShownRef.current = true;
       }
@@ -181,7 +181,7 @@ const Index = () => {
     // Check if user is admin
     const { data: hasAdminRole } = await supabase.rpc("has_role", {
       _user_id: u.id,
-      _role: "admin",
+      _role: "admin"
     });
     setIsAdmin(!!hasAdminRole);
   }, [navigate, toast]);
@@ -276,7 +276,7 @@ const Index = () => {
         <p className="text-sm font-body text-primary tracking-wide mb-1">
           {t("header.subtitle")}
         </p>
-        <h1 className="text-4xl md:text-6xl font-display text-foreground leading-tight whitespace-pre-line">
+        <h1 className="text-4xl font-display text-foreground leading-tight whitespace-pre-line md:text-5xl font-medium">
           {t("header.title")}
         </h1>
       </header>
@@ -288,93 +288,93 @@ const Index = () => {
         <div className="flex items-center gap-4">
             <button
               onClick={() => setShowMap(true)}
-              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
-            >
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
+              
               <MapPin size={14} />
               Map
             </button>
             <button
               onClick={() => setShowHeatmap(true)}
-              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
-            >
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
+              
               <Grid3X3 size={14} />
               Flight Seasons
             </button>
             <button
               onClick={() => setShowIdentify(true)}
-              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
-            >
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
+              
               <Camera size={14} />
               {t("toolbar.identify")}
             </button>
             <button
               onClick={() => setShowCompare(true)}
-              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors"
-            >
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors">
+              
               {t("toolbar.compare")}
             </button>
             <button
               onClick={() => setShowInfo(true)}
-              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors"
-            >
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors">
+              
               {t("toolbar.info")}
             </button>
-            {isAdmin && (
-              <button
-                onClick={() => navigate("/admin")}
-                className="text-sm font-body text-primary hover:text-primary/80 transition-colors"
-              >
+            {isAdmin &&
+            <button
+              onClick={() => navigate("/admin")}
+              className="text-sm font-body text-primary hover:text-primary/80 transition-colors">
+              
                 Analytics
               </button>
-            )}
-            {user ? (
-              <>
+            }
+            {user ?
+            <>
                 <button
-                  onClick={() => navigate("/collection")}
-                  className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
-                >
+                onClick={() => navigate("/collection")}
+                className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
+                
                   <BookOpen size={14} />
                   My Collection
                 </button>
                 <UserMenu user={user} />
-              </>
-            ) : (
-              <button
-                onClick={() => navigate("/auth")}
-                className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
-              >
+              </> :
+
+            <button
+              onClick={() => navigate("/auth")}
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
+              
                 <LogIn size={14} />
                 Contribute
               </button>
-            )}
+            }
           </div>
         </div>
       </div>
 
       {/* Suggested Specimens based on environment profile */}
-      {user && envProfile && (
-        <SuggestedSpecimens
-          climateZone={envProfile.climate_zone}
-          habitatType={envProfile.habitat_type}
-          onSelect={handleSpecimenSelect}
-        />
-      )}
+      {user && envProfile &&
+      <SuggestedSpecimens
+        climateZone={envProfile.climate_zone}
+        habitatType={envProfile.habitat_type}
+        onSelect={handleSpecimenSelect} />
+
+      }
 
       {/* Specimen Grid */}
       <main className="flex-1 py-6 pb-40">
-        {filtered.length === 0 ? (
-          <div className="text-center py-20 px-3">
+        {filtered.length === 0 ?
+        <div className="text-center py-20 px-3">
             <p className="text-sm font-body text-muted-foreground">{t("empty.noMatch")}</p>
             <button
-              onClick={() => setFilters({ color: null, pattern: null, wingShape: null, habitat: null, migration: null, family: null, country: null })}
-              className="mt-4 text-sm font-body text-foreground underline hover:text-muted-foreground transition-colors"
-            >
+            onClick={() => setFilters({ color: null, pattern: null, wingShape: null, habitat: null, migration: null, family: null, country: null })}
+            className="mt-4 text-sm font-body text-foreground underline hover:text-muted-foreground transition-colors">
+            
               {t("empty.reset")}
             </button>
-          </div>
-        ) : (
-          <ScrollableGrid filtered={filtered} onSelect={handleSpecimenSelect} monthOverride={previewMonth} />
-        )}
+          </div> :
+
+        <ScrollableGrid filtered={filtered} onSelect={handleSpecimenSelect} monthOverride={previewMonth} />
+        }
       </main>
 
       {/* Search Bar — fixed at bottom */}
@@ -384,72 +384,71 @@ const Index = () => {
           onQueryChange={setSearchQuery}
           activeCategory={searchCategory}
           onCategoryChange={setSearchCategory}
-          onCategoryBrowse={(cat) => setBrowseCategory(cat)}
-        />
+          onCategoryBrowse={(cat) => setBrowseCategory(cat)} />
+        
       </div>
 
       {/* Panels */}
-      {showFilters && (
-        <FilterPanel
-          filters={filters}
-          onFilterChange={setFilters}
-          onClose={() => setShowFilters(false)}
-        />
-      )}
-      {selectedSpecimen && (
-        <SpecimenDetail
-          specimen={selectedSpecimen}
-          onClose={() => setSelectedSpecimen(null)}
-          onCompare={(s) => { setSelectedSpecimen(null); setShowCompare(true); }}
-        />
-      )}
+      {showFilters &&
+      <FilterPanel
+        filters={filters}
+        onFilterChange={setFilters}
+        onClose={() => setShowFilters(false)} />
+
+      }
+      {selectedSpecimen &&
+      <SpecimenDetail
+        specimen={selectedSpecimen}
+        onClose={() => setSelectedSpecimen(null)}
+        onCompare={(s) => {setSelectedSpecimen(null);setShowCompare(true);}} />
+
+      }
       {showInfo && <InfoPanel onClose={() => setShowInfo(false)} />}
       {showCompare && <ComparisonView onClose={() => setShowCompare(false)} />}
       {showIdentify && <IdentifyPanel onClose={() => setShowIdentify(false)} />}
-      {showHeatmap && (
-        <SeasonalityHeatmap
-          onClose={() => setShowHeatmap(false)}
-          onSelectSpecimen={(id) => {
-            const s = specimens.find((sp) => sp.id === id);
-            if (s) { setShowHeatmap(false); handleSpecimenSelect(s); }
-          }}
-        />
-      )}
-      {showMap && (
-        <MapBrowser
-          onClose={() => setShowMap(false)}
-          onSelectLocation={(country) => {
-            setSearchCategory("regions");
-            setSearchQuery(country);
-          }}
-        />
-      )}
+      {showHeatmap &&
+      <SeasonalityHeatmap
+        onClose={() => setShowHeatmap(false)}
+        onSelectSpecimen={(id) => {
+          const s = specimens.find((sp) => sp.id === id);
+          if (s) {setShowHeatmap(false);handleSpecimenSelect(s);}
+        }} />
+
+      }
+      {showMap &&
+      <MapBrowser
+        onClose={() => setShowMap(false)}
+        onSelectLocation={(country) => {
+          setSearchCategory("regions");
+          setSearchQuery(country);
+        }} />
+
+      }
       <AnimatePresence>
-        {browseCategory && (
-          <CategoryBrowseModal
-            category={browseCategory}
-            onClose={() => setBrowseCategory(null)}
-            onSelect={(cat, value) => {
-              setSearchCategory(cat);
-              setSearchQuery(value);
-            }}
-          />
-        )}
+        {browseCategory &&
+        <CategoryBrowseModal
+          category={browseCategory}
+          onClose={() => setBrowseCategory(null)}
+          onSelect={(cat, value) => {
+            setSearchCategory(cat);
+            setSearchQuery(value);
+          }} />
+
+        }
       </AnimatePresence>
 
       <AnimatePresence>
-        {showFirstLogin && (
-          <FirstLoginExperience
-            userName={user?.user_metadata?.display_name || user?.email?.split("@")[0]}
-            onComplete={() => setShowFirstLogin(false)}
-            onEnvironmentSave={(climate, habitat) => saveEnvProfile(climate, habitat)}
-          />
-        )}
+        {showFirstLogin &&
+        <FirstLoginExperience
+          userName={user?.user_metadata?.display_name || user?.email?.split("@")[0]}
+          onComplete={() => setShowFirstLogin(false)}
+          onEnvironmentSave={(climate, habitat) => saveEnvProfile(climate, habitat)} />
+
+        }
       </AnimatePresence>
       
-    </div>
-  );
+    </div>);
+
 };
 
 export default Index;
-
