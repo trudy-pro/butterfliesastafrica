@@ -106,6 +106,7 @@ const Index = () => {
   const [searchCategory, setSearchCategory] = useState<SearchCategory>("all");
   const [browseCategory, setBrowseCategory] = useState<SearchCategory | null>(null);
   const [flyingNowActive, setFlyingNowActive] = useState(false);
+  const [showHeatmap, setShowHeatmap] = useState(false);
   const blockedToastShownRef = useRef(false);
   const [filters, setFilters] = useState<FilterState>({
     color: null,
