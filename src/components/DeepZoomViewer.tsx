@@ -69,7 +69,7 @@ const DeepZoomViewer = ({ src, alt, onClose }: DeepZoomViewerProps) => {
           {/* Zoom level indicator */}
           <div className="absolute bottom-3 left-3 z-10 px-2 py-1 rounded bg-card/80 backdrop-blur-sm border border-border opacity-0 group-hover/zoom:opacity-100 transition-opacity duration-200">
             <span className="text-[10px] font-body text-muted-foreground tabular-nums">
-              {Math.round(state.scale * 100)}%
+              {Math.round(scale * 100)}%
             </span>
           </div>
 
