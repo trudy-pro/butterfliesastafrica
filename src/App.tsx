@@ -31,6 +31,7 @@ const App = () => (
             <Route path="/contribute" element={<Contribute />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/pending-approval" element={<PendingApproval />} />
+            <Route path="/collection" element={<Collection />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
