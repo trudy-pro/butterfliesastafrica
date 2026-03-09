@@ -227,7 +227,7 @@ const Index = () => {
       }
       return true;
     });
-  }, [filters, searchQuery, searchCategory]);
+  }, [filters, searchQuery, searchCategory, flyingNowActive]);
 
   // Track search queries
   const lastTrackedSearch = useRef("");

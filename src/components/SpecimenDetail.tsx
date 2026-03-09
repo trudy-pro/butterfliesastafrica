@@ -248,6 +248,8 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
             <DetailRow label={t("detail.wingShape")} value={t(`wingShape.${specimen.wingShape}`)} />
           </div>
 
+          <SeasonalityChart specimenId={specimen.id} />
+
           <div className="mb-6">
             <h3 className="text-xs font-body uppercase tracking-[0.2em] text-muted-foreground mb-3">{t("detail.evolutionaryTrait")}</h3>
             <p className="text-sm font-body text-foreground leading-relaxed">{displayTrait}</p>
