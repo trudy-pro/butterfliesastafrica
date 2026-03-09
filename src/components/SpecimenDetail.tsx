@@ -24,6 +24,77 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
   const displayTrait = tSpecimen(specimen.id, "evolutionaryTrait") ?? specimen.evolutionaryTrait;
   const typo = getSpecimenTypography(specimen);
 
+  const handlePrint = () => {
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) return;
+    printWindow.document.write(`<!DOCTYPE html>
+<html><head><title>${displayName} — Specimen</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Georgia, 'Times New Roman', serif; color: #1a1a1a; max-width: 700px; margin: 0 auto; padding: 40px 24px; }
+  h1 { font-family: 'Fraunces', serif; font-size: 28px; margin-bottom: 4px; }
+  .sci { font-style: italic; color: #666; font-size: 14px; margin-bottom: 24px; }
+  .id-label { font-size: 11px; letter-spacing: 0.15em; color: #999; text-transform: uppercase; margin-bottom: 4px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #999; margin-bottom: 8px; border-bottom: 1px solid #e5e5e5; padding-bottom: 4px; }
+  .row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+  .row-label { color: #888; text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em; }
+  .row-value { text-align: right; max-width: 60%; }
+  .colors { display: flex; gap: 6px; flex-wrap: wrap; }
+  .color-tag { padding: 2px 10px; font-size: 12px; background: #f5f5f0; border-radius: 2px; }
+  .desc { font-size: 13px; line-height: 1.7; color: #444; }
+  .img-container { text-align: center; margin-bottom: 24px; }
+  .img-container img { max-width: 100%; max-height: 300px; object-fit: contain; }
+  @media print { body { padding: 20px 0; } }
+</style></head><body>
+  <div class="img-container"><img src="${specimen.image}" alt="${displayName}" /></div>
+  <p class="id-label">${specimen.id.toUpperCase()}</p>
+  <h1>${displayName}</h1>
+  <p class="sci">${specimen.scientificName}</p>
+
+  <div class="section">
+    <p class="section-title">Taxonomic Data</p>
+    <div class="row"><span class="row-label">Family</span><span class="row-value">${specimen.family}</span></div>
+    <div class="row"><span class="row-label">Genus</span><span class="row-value">${specimen.genus}</span></div>
+    <div class="row"><span class="row-label">Species</span><span class="row-value">${specimen.species}</span></div>
+  </div>
+
+  <div class="section">
+    <p class="section-title">Geographic Distribution</p>
+    <div class="row"><span class="row-label">Region</span><span class="row-value">${specimen.region}</span></div>
+    <div class="row"><span class="row-label">Habitat</span><span class="row-value">${specimen.habitat}</span></div>
+    <div class="row"><span class="row-label">Migration</span><span class="row-value">${specimen.migration}</span></div>
+  </div>
+
+  <div class="section">
+    <p class="section-title">Color Spectrum</p>
+    <div class="colors">${specimen.colors.map(c => `<span class="color-tag">${c}</span>`).join("")}</div>
+  </div>
+
+  <div class="section">
+    <p class="section-title">Pattern &amp; Morphology</p>
+    <div class="row"><span class="row-label">Pattern</span><span class="row-value">${specimen.pattern}</span></div>
+    <div class="row"><span class="row-label">Symmetry</span><span class="row-value">${specimen.symmetry}</span></div>
+    <div class="row"><span class="row-label">Wingspan</span><span class="row-value">${specimen.wingspan}</span></div>
+    <div class="row"><span class="row-label">Wing Shape</span><span class="row-value">${specimen.wingShape}</span></div>
+  </div>
+
+  <div class="section">
+    <p class="section-title">Evolutionary Trait</p>
+    <p class="desc">${displayTrait}</p>
+  </div>
+
+  <div class="section">
+    <p class="section-title">Notes</p>
+    <p class="desc">${displayDesc}</p>
+  </div>
+</body></html>`);
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => printWindow.print(), 300);
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex">
       <div className="absolute inset-0 bg-specimen-overlay/30 backdrop-blur-sm" onClick={onClose} />
