@@ -125,8 +125,49 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
 
   const reset = () => {
     setImagePreview(null);
+    setImageFile(null);
     setResult(null);
     setError(null);
+    setSubmitted(false);
+  };
+
+  const submitForReview = async () => {
+    if (!user || !imageFile || !result || !result.identified) return;
+    setSubmitting(true);
+    try {
+      // Upload image to storage
+      const ext = imageFile.name.split(".").pop() || "jpg";
+      const fileName = `${user.id}/${Date.now()}.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from("specimen-photos")
+        .upload(fileName, imageFile);
+      if (uploadError) throw uploadError;
+
+      // Insert submission record
+      const { error: insertError } = await supabase.from("submissions").insert({
+        user_id: user.id,
+        image_path: fileName,
+        common_name: result.commonName,
+        scientific_name: result.scientificName,
+        family: result.family,
+        colors: result.colors,
+        pattern: result.pattern,
+        wing_shape: result.wingShape,
+        habitat: result.habitat,
+        description: result.description,
+        confidence: result.confidence,
+        status: "pending",
+        submission_type: "analyst_request",
+      });
+      if (insertError) throw insertError;
+
+      setSubmitted(true);
+      toast({ title: "Submitted for review", description: "Your identification has been sent to contributors for review." });
+    } catch (err: any) {
+      toast({ title: "Submission failed", description: err.message || "Please try again.", variant: "destructive" });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
