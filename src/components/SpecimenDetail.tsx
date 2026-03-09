@@ -4,6 +4,7 @@ import { jsPDF } from "jspdf";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { getSpecimenTypography } from "@/lib/specimenTypography";
 import DeepZoomViewer from "@/components/DeepZoomViewer";
+import SeasonalityChart from "@/components/SeasonalityChart";
 
 interface SpecimenDetailProps {
   specimen: ButterflySpecimen;
@@ -246,6 +247,8 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
             <DetailRow label={t("detail.wingspan")} value={specimen.wingspan} />
             <DetailRow label={t("detail.wingShape")} value={t(`wingShape.${specimen.wingShape}`)} />
           </div>
+
+          <SeasonalityChart specimenId={specimen.id} />
 
           <div className="mb-6">
             <h3 className="text-xs font-body uppercase tracking-[0.2em] text-muted-foreground mb-3">{t("detail.evolutionaryTrait")}</h3>

@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Camera, LogIn, MapPin } from "lucide-react";
+import { ChevronLeft, ChevronRight, Camera, LogIn, MapPin, Bug } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,6 +15,7 @@ import IdentifyPanel from "@/components/IdentifyPanel";
 import CategoryBrowseModal from "@/components/CategoryBrowseModal";
 import MapBrowser from "@/components/MapBrowser";
 import UserMenu from "@/components/UserMenu";
+import { getFlightActivity, isInPeakFlight, getCurrentMonth, MONTH_LABELS } from "@/data/flightPeriods";
 import UserPoll from "@/components/UserPoll";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
@@ -104,6 +105,7 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState<SearchCategory>("all");
   const [browseCategory, setBrowseCategory] = useState<SearchCategory | null>(null);
+  const [flyingNowActive, setFlyingNowActive] = useState(false);
   const blockedToastShownRef = useRef(false);
   const [filters, setFilters] = useState<FilterState>({
     color: null,
@@ -180,7 +182,13 @@ const Index = () => {
 
   const filtered = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
+    const currentMonth = getCurrentMonth();
     return specimens.filter((s) => {
+      // "What's Flying Now?" filter
+      if (flyingNowActive) {
+        const activity = getFlightActivity(s.id);
+        if (!isInPeakFlight(activity, currentMonth)) return false;
+      }
       if (filters.color && !s.colors.includes(filters.color)) return false;
       if (filters.pattern && s.pattern !== filters.pattern) return false;
       if (filters.wingShape && s.wingShape !== filters.wingShape) return false;
@@ -219,7 +227,7 @@ const Index = () => {
       }
       return true;
     });
-  }, [filters, searchQuery, searchCategory]);
+  }, [filters, searchQuery, searchCategory, flyingNowActive]);
 
   // Track search queries
   const lastTrackedSearch = useRef("");
@@ -258,6 +266,15 @@ const Index = () => {
       <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="flex items-center justify-end px-6 py-3">
         <div className="flex items-center gap-4">
+            <button
+              onClick={() => setFlyingNowActive(!flyingNowActive)}
+              className={`text-sm font-body transition-colors flex items-center gap-1 ${
+                flyingNowActive ? "text-primary font-semibold" : "text-foreground hover:text-muted-foreground"
+              }`}
+            >
+              <Bug size={14} />
+              Flying in {MONTH_LABELS[getCurrentMonth()]}
+            </button>
             <button
               onClick={() => setShowIdentify(true)}
               className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
