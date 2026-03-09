@@ -188,9 +188,9 @@ const FirstLoginExperience = ({ userName, onComplete, onEnvironmentSave }: First
                 </span>
               </div>
             </motion.div>
-          )
+          )}
 
-          {step === 2 && (
+          {step === 3 && (
             <motion.div
               key="tutorial"
               initial={{ y: 30, opacity: 0 }}
