@@ -351,6 +351,15 @@ const Index = () => {
         </div>
       </div>
 
+      {/* Suggested Specimens based on environment profile */}
+      {user && envProfile && (
+        <SuggestedSpecimens
+          climateZone={envProfile.climate_zone}
+          habitatType={envProfile.habitat_type}
+          onSelect={handleSpecimenSelect}
+        />
+      )}
+
       {/* Specimen Grid */}
       <main className="flex-1 py-6 pb-40">
         {filtered.length === 0 ? (
