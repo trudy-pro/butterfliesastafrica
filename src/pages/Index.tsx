@@ -15,6 +15,7 @@ import IdentifyPanel from "@/components/IdentifyPanel";
 import CategoryBrowseModal from "@/components/CategoryBrowseModal";
 import MapBrowser from "@/components/MapBrowser";
 import UserMenu from "@/components/UserMenu";
+import { getFlightActivity, isInPeakFlight, getCurrentMonth, MONTH_LABELS } from "@/data/flightPeriods";
 import UserPoll from "@/components/UserPoll";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
