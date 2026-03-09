@@ -26,6 +26,7 @@ const DeepZoomViewer = ({ src, alt, onClose }: DeepZoomViewerProps) => {
       centerOnInit
       wheel={{ smoothStep: 0.04 }}
       doubleClick={{ mode: "zoomIn", step: 2 }}
+      onTransformed={(_, state) => setScale(state.scale)}
     >
       {({ zoomIn, zoomOut, resetTransform, state }) => (
         <div className="relative w-full h-full group/zoom">
