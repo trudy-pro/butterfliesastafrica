@@ -311,16 +311,18 @@ const FirstLoginExperience = ({ userName, onComplete, onEnvironmentSave }: First
           )}
         </AnimatePresence>
 
-        {/* Navigation */}
-        <motion.button
-          onClick={next}
-          className="mt-8 mx-auto flex items-center gap-2 px-6 py-3 rounded-sm bg-primary-foreground text-primary text-sm font-body tracking-wider uppercase hover:bg-primary-foreground/90 transition-colors"
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-        >
-          {step === STEPS.length - 1 ? "Access My Field Station" : "Continue"}
-          <ChevronRight className="w-4 h-4" />
-        </motion.button>
+        {/* Navigation — hide on environment step (it has its own buttons) */}
+        {step !== 1 && (
+          <motion.button
+            onClick={next}
+            className="mt-8 mx-auto flex items-center gap-2 px-6 py-3 rounded-sm bg-primary-foreground text-primary text-sm font-body tracking-wider uppercase hover:bg-primary-foreground/90 transition-colors"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            {step === STEPS.length - 1 ? "Access My Field Station" : "Continue"}
+            <ChevronRight className="w-4 h-4" />
+          </motion.button>
+        )}
       </div>
     </motion.div>
   );
