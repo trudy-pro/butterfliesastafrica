@@ -149,6 +149,15 @@ const FirstLoginExperience = ({ userName, onComplete, onEnvironmentSave }: First
           )}
 
           {step === 1 && (
+            <EnvironmentOnboarding
+              onComplete={(climate, habitat) => {
+                onEnvironmentSave?.(climate, habitat);
+                next();
+              }}
+            />
+          )}
+
+          {step === 2 && (
             <motion.div
               key="specimen"
               initial={{ y: 30, opacity: 0 }}
@@ -179,7 +188,7 @@ const FirstLoginExperience = ({ userName, onComplete, onEnvironmentSave }: First
                 </span>
               </div>
             </motion.div>
-          )}
+          )
 
           {step === 2 && (
             <motion.div
