@@ -210,6 +210,25 @@ const Index = () => {
     });
   }, [filters, searchQuery, searchCategory]);
 
+  // Track search queries
+  const lastTrackedSearch = useRef("");
+  useEffect(() => {
+    const q = searchQuery.trim();
+    if (q && q !== lastTrackedSearch.current && q.length >= 2) {
+      lastTrackedSearch.current = q;
+      const timeoutId = setTimeout(() => {
+        trackSearch(q, searchCategory, filtered.length);
+      }, 1000); // Debounce to avoid tracking every keystroke
+      return () => clearTimeout(timeoutId);
+    }
+  }, [searchQuery, searchCategory, filtered.length, trackSearch]);
+
+  // Handle specimen selection with tracking
+  const handleSpecimenSelect = useCallback((specimen: ButterflySpecimen) => {
+    trackSpecimenView(specimen.id, specimen.commonName);
+    setSelectedSpecimen(specimen);
+  }, [trackSpecimenView]);
+
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
 
   return (
