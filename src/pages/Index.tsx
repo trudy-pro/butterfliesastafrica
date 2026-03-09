@@ -24,7 +24,8 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useExaminedSpecimens } from "@/hooks/useExaminedSpecimens";
-
+import { useEnvironmentProfile, ClimateZone, HabitatType } from "@/hooks/useEnvironmentProfile";
+import SuggestedSpecimens from "@/components/SuggestedSpecimens";
 const ScrollableGrid = ({ filtered, onSelect, monthOverride }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void; monthOverride?: number | null }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -100,6 +101,7 @@ const Index = () => {
   const navigate = useNavigate();
   const { trackSearch, trackSpecimenView } = useAnalytics();
   const { recordExamination } = useExaminedSpecimens();
+  const { profile: envProfile, saveProfile: saveEnvProfile } = useEnvironmentProfile();
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
@@ -349,6 +351,15 @@ const Index = () => {
         </div>
       </div>
 
+      {/* Suggested Specimens based on environment profile */}
+      {user && envProfile && (
+        <SuggestedSpecimens
+          climateZone={envProfile.climate_zone}
+          habitatType={envProfile.habitat_type}
+          onSelect={handleSpecimenSelect}
+        />
+      )}
+
       {/* Specimen Grid */}
       <main className="flex-1 py-6 pb-40">
         {filtered.length === 0 ? (
@@ -431,6 +442,7 @@ const Index = () => {
           <FirstLoginExperience
             userName={user?.user_metadata?.display_name || user?.email?.split("@")[0]}
             onComplete={() => setShowFirstLogin(false)}
+            onEnvironmentSave={(climate, habitat) => saveEnvProfile(climate, habitat)}
           />
         )}
       </AnimatePresence>

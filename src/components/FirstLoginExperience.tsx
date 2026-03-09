@@ -2,6 +2,8 @@ import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, X, Volume2, Headphones } from "lucide-react";
 import DigitalSpecimenCard from "@/components/DigitalSpecimenCard";
+import EnvironmentOnboarding from "@/components/EnvironmentOnboarding";
+import { ClimateZone, HabitatType } from "@/hooks/useEnvironmentProfile";
 
 // The inaugural specimen for all new researchers
 import danausChrysippus from "@/assets/specimens/danaus-chrysippus.jpg";
@@ -9,10 +11,12 @@ import danausChrysippus from "@/assets/specimens/danaus-chrysippus.jpg";
 interface FirstLoginExperienceProps {
   userName?: string;
   onComplete: () => void;
+  onEnvironmentSave?: (climate: ClimateZone, habitat: HabitatType) => void;
 }
 
 const STEPS = [
   { key: "welcome", title: "Field Kit Initialized" },
+  { key: "environment", title: "Your Eco-Region" },
   { key: "specimen", title: "Your Inaugural Specimen" },
   { key: "tutorial", title: "Reading Wing-Beat Waveforms" },
   { key: "ready", title: "Your Field Station Awaits" },
@@ -23,7 +27,7 @@ const STEPS = [
  * Introduces the user to the archive, presents their inaugural specimen,
  * and teaches them to read wing-beat waveforms.
  */
-const FirstLoginExperience = ({ userName, onComplete }: FirstLoginExperienceProps) => {
+const FirstLoginExperience = ({ userName, onComplete, onEnvironmentSave }: FirstLoginExperienceProps) => {
   const [step, setStep] = useState(0);
   const ctxRef = useRef<AudioContext | null>(null);
 
@@ -145,6 +149,15 @@ const FirstLoginExperience = ({ userName, onComplete }: FirstLoginExperienceProp
           )}
 
           {step === 1 && (
+            <EnvironmentOnboarding
+              onComplete={(climate, habitat) => {
+                onEnvironmentSave?.(climate, habitat);
+                next();
+              }}
+            />
+          )}
+
+          {step === 2 && (
             <motion.div
               key="specimen"
               initial={{ y: 30, opacity: 0 }}
@@ -177,7 +190,7 @@ const FirstLoginExperience = ({ userName, onComplete }: FirstLoginExperienceProp
             </motion.div>
           )}
 
-          {step === 2 && (
+          {step === 3 && (
             <motion.div
               key="tutorial"
               initial={{ y: 30, opacity: 0 }}
@@ -241,7 +254,7 @@ const FirstLoginExperience = ({ userName, onComplete }: FirstLoginExperienceProp
             </motion.div>
           )}
 
-          {step === 3 && (
+          {step === 4 && (
             <motion.div
               key="ready"
               initial={{ y: 30, opacity: 0 }}
@@ -298,16 +311,18 @@ const FirstLoginExperience = ({ userName, onComplete }: FirstLoginExperienceProp
           )}
         </AnimatePresence>
 
-        {/* Navigation */}
-        <motion.button
-          onClick={next}
-          className="mt-8 mx-auto flex items-center gap-2 px-6 py-3 rounded-sm bg-primary-foreground text-primary text-sm font-body tracking-wider uppercase hover:bg-primary-foreground/90 transition-colors"
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-        >
-          {step === STEPS.length - 1 ? "Access My Field Station" : "Continue"}
-          <ChevronRight className="w-4 h-4" />
-        </motion.button>
+        {/* Navigation — hide on environment step (it has its own buttons) */}
+        {step !== 1 && (
+          <motion.button
+            onClick={next}
+            className="mt-8 mx-auto flex items-center gap-2 px-6 py-3 rounded-sm bg-primary-foreground text-primary text-sm font-body tracking-wider uppercase hover:bg-primary-foreground/90 transition-colors"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            {step === STEPS.length - 1 ? "Access My Field Station" : "Continue"}
+            <ChevronRight className="w-4 h-4" />
+          </motion.button>
+        )}
       </div>
     </motion.div>
   );
