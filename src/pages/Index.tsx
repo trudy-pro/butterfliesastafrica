@@ -24,7 +24,8 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useExaminedSpecimens } from "@/hooks/useExaminedSpecimens";
-
+import { useEnvironmentProfile, ClimateZone, HabitatType } from "@/hooks/useEnvironmentProfile";
+import SuggestedSpecimens from "@/components/SuggestedSpecimens";
 const ScrollableGrid = ({ filtered, onSelect, monthOverride }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void; monthOverride?: number | null }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
