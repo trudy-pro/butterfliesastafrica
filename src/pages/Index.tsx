@@ -117,6 +117,7 @@ const Index = () => {
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [previewMonth, setPreviewMonth] = useState<number | null>(null);
   const [showFirstLogin, setShowFirstLogin] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const blockedToastShownRef = useRef(false);
   const [filters, setFilters] = useState<FilterState>({
     color: null,
