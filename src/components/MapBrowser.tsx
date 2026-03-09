@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo, useCallback } from "react";
+import { useState, useRef, useMemo, useCallback, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, Circle, CircleMarker, useMapEvents, useMap } from "react-leaflet";
 import { X, MapPin, Crosshair, Flame, Minus, Plus } from "lucide-react";
 import L from "leaflet";
