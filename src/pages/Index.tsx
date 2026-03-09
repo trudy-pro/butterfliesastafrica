@@ -100,6 +100,7 @@ const Index = () => {
   const [showInfo, setShowInfo] = useState(false);
   const [showCompare, setShowCompare] = useState(false);
   const [showIdentify, setShowIdentify] = useState(false);
+  const [showMap, setShowMap] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState<SearchCategory>("all");
   const [browseCategory, setBrowseCategory] = useState<SearchCategory | null>(null);
