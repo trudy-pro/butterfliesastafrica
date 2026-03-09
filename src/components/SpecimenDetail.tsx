@@ -1,5 +1,6 @@
 import { ButterflySpecimen } from "@/data/butterflies";
-import { X, Printer } from "lucide-react";
+import { X, Printer, Download } from "lucide-react";
+import { jsPDF } from "jspdf";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { getSpecimenTypography } from "@/lib/specimenTypography";
 import DeepZoomViewer from "@/components/DeepZoomViewer";
