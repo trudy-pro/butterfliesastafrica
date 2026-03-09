@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { X, Upload, Camera, Loader2, LogIn, LogOut, ShieldCheck, Clock } from "lucide-react";
+import { X, Upload, Camera, Loader2, LogIn, LogOut, ShieldCheck, Clock, Send, CheckCircle } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
+import { useToast } from "@/hooks/use-toast";
 import type { User } from "@supabase/supabase-js";
 
 interface IdentifyResult {
@@ -24,6 +25,7 @@ interface IdentifyPanelProps {
 }
 
 const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
+  const { toast } = useToast();
   const { t } = useLanguage();
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
@@ -32,6 +34,9 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
   const [result, setResult] = useState<IdentifyResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [approvalStatus, setApprovalStatus] = useState<"loading" | "none" | "pending" | "approved" | "rejected" | "admin">("loading");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const checkApproval = useCallback(async (userId: string) => {
@@ -81,11 +86,13 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
 
   const handleFile = (file: File) => {
     if (!file.type.startsWith("image/")) return;
+    setImageFile(file);
     const reader = new FileReader();
     reader.onload = (e) => {
       setImagePreview(e.target?.result as string);
       setResult(null);
       setError(null);
+      setSubmitted(false);
     };
     reader.readAsDataURL(file);
   };
@@ -118,8 +125,49 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
 
   const reset = () => {
     setImagePreview(null);
+    setImageFile(null);
     setResult(null);
     setError(null);
+    setSubmitted(false);
+  };
+
+  const submitForReview = async () => {
+    if (!user || !imageFile || !result || !result.identified) return;
+    setSubmitting(true);
+    try {
+      // Upload image to storage
+      const ext = imageFile.name.split(".").pop() || "jpg";
+      const fileName = `${user.id}/${Date.now()}.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from("specimen-photos")
+        .upload(fileName, imageFile);
+      if (uploadError) throw uploadError;
+
+      // Insert submission record
+      const { error: insertError } = await supabase.from("submissions").insert({
+        user_id: user.id,
+        image_path: fileName,
+        common_name: result.commonName,
+        scientific_name: result.scientificName,
+        family: result.family,
+        colors: result.colors,
+        pattern: result.pattern,
+        wing_shape: result.wingShape,
+        habitat: result.habitat,
+        description: result.description,
+        confidence: result.confidence,
+        status: "pending",
+        submission_type: "analyst_request",
+      });
+      if (insertError) throw insertError;
+
+      setSubmitted(true);
+      toast({ title: "Submitted for review", description: "Your identification has been sent to contributors for review." });
+    } catch (err: any) {
+      toast({ title: "Submission failed", description: err.message || "Please try again.", variant: "destructive" });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -172,40 +220,10 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
               </button>
             </div>
 
-            {/* Approval gate */}
+            {/* Main content - available to all authenticated users */}
             {approvalStatus === "loading" ? (
               <div className="flex items-center justify-center py-16">
                 <Loader2 size={24} className="animate-spin text-muted-foreground" />
-              </div>
-            ) : approvalStatus === "none" ? (
-              <div className="flex flex-col items-center text-center py-12 space-y-4">
-                <ShieldCheck size={28} className="text-muted-foreground" />
-                <div>
-                  <p className="text-sm font-body text-foreground mb-1">Contributor access required</p>
-                  <p className="text-xs font-body text-muted-foreground">Request access from the Contribute page to use this feature.</p>
-                </div>
-                <button
-                  onClick={() => { onClose(); window.location.href = "/contribute"; }}
-                  className="text-sm font-body text-foreground underline hover:text-muted-foreground transition-colors"
-                >
-                  Request access →
-                </button>
-              </div>
-            ) : approvalStatus === "pending" ? (
-              <div className="flex flex-col items-center text-center py-12 space-y-4">
-                <Clock size={28} className="text-muted-foreground" />
-                <div>
-                  <p className="text-sm font-body text-foreground mb-1">Request pending</p>
-                  <p className="text-xs font-body text-muted-foreground">Your contributor request is being reviewed. You'll be able to identify butterflies once approved.</p>
-                </div>
-              </div>
-            ) : approvalStatus === "rejected" ? (
-              <div className="flex flex-col items-center text-center py-12 space-y-4">
-                <X size={28} className="text-destructive" />
-                <div>
-                  <p className="text-sm font-body text-foreground mb-1">Access declined</p>
-                  <p className="text-xs font-body text-muted-foreground">Your contributor request was not approved.</p>
-                </div>
               </div>
             ) : (
             <>
@@ -317,6 +335,26 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
                         <p className="text-xs font-body uppercase tracking-[0.2em] text-muted-foreground mb-2">{t("detail.notes")}</p>
                         <p className="text-sm font-body text-foreground leading-relaxed">{result.description}</p>
                       </div>
+                    )}
+                    {/* Submit for review button */}
+                    {submitted ? (
+                      <div className="flex items-center justify-center gap-2 py-3 bg-accent/20 text-accent-foreground rounded-lg border border-accent/30">
+                        <CheckCircle size={16} className="text-primary" />
+                        <span className="text-sm font-body">Submitted for review</span>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={submitForReview}
+                        disabled={submitting}
+                        className="w-full py-3 bg-primary text-primary-foreground font-body text-sm tracking-wide rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50"
+                      >
+                        {submitting ? (
+                          <Loader2 size={16} className="animate-spin" />
+                        ) : (
+                          <Send size={16} />
+                        )}
+                        {submitting ? "Submitting..." : "Submit to Archive"}
+                      </button>
                     )}
                   </>
                 ) : (
