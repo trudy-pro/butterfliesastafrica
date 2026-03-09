@@ -10,6 +10,8 @@ import AnatomyOverlay from "@/components/AnatomyOverlay";
 import DimorphismToggle from "@/components/DimorphismToggle";
 import { getAnatomyHotspots } from "@/data/wingAnatomy";
 import { getDimorphism } from "@/data/dimorphism";
+import { getFlightStyles } from "@/data/flightStyles";
+import FlightStyleTag from "@/components/FlightStyleTag";
 
 interface SpecimenDetailProps {
   specimen: ButterflySpecimen;
