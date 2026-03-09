@@ -367,7 +367,7 @@ const Index = () => {
           />
         )}
       </AnimatePresence>
-      <UserPoll />
+      
     </div>
   );
 };
