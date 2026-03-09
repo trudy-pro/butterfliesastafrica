@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Camera, LogIn, LogOut, Upload } from "lucide-react";
+import { ChevronLeft, ChevronRight, Camera, LogIn } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,6 +13,7 @@ import ComparisonView from "@/components/ComparisonView";
 import SearchBar, { SearchCategory } from "@/components/SearchBar";
 import IdentifyPanel from "@/components/IdentifyPanel";
 import CategoryBrowseModal from "@/components/CategoryBrowseModal";
+import UserMenu from "@/components/UserMenu";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 
@@ -245,22 +246,7 @@ const Index = () => {
               {t("toolbar.info")}
             </button>
             {user ? (
-              <>
-                <button
-                  onClick={() => navigate("/contribute")}
-                  className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
-                >
-                  <Upload size={14} />
-                  Contribute
-                </button>
-                <button
-                  onClick={async () => { await supabase.auth.signOut(); }}
-                  className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
-                >
-                  <LogOut size={14} />
-                  Sign Out
-                </button>
-              </>
+              <UserMenu user={user} />
             ) : (
               <button
                 onClick={() => navigate("/auth")}
