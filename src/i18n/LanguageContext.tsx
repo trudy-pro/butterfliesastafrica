@@ -333,6 +333,7 @@ const translations: Record<Language, Record<string, string>> = {
     "family.Lycaenidae": "Lycaenidae",
     "family.Satyrinae": "Satyrinae",
     "family.Hesperiidae": "Hesperiidae",
+    "map.title": "Nach Region erkunden",
   },
 };
 
