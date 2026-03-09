@@ -16,6 +16,7 @@ import CategoryBrowseModal from "@/components/CategoryBrowseModal";
 import UserMenu from "@/components/UserMenu";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
