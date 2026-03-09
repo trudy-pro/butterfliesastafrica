@@ -12,6 +12,7 @@ import Contribute from "./pages/Contribute";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import PendingApproval from "./pages/PendingApproval";
+import Collection from "./pages/Collection";
 
 const queryClient = new QueryClient();
 
