@@ -110,6 +110,7 @@ const Index = () => {
   const [browseCategory, setBrowseCategory] = useState<SearchCategory | null>(null);
   const [flyingNowActive, setFlyingNowActive] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
+  const [previewMonth, setPreviewMonth] = useState<number | null>(null);
   const blockedToastShownRef = useRef(false);
   const [filters, setFilters] = useState<FilterState>({
     color: null,
