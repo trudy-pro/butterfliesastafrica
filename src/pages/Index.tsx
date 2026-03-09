@@ -93,6 +93,7 @@ const Index = () => {
   const navigate = useNavigate();
   const { trackSearch, trackSpecimenView } = useAnalytics();
   const [user, setUser] = useState<User | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
@@ -154,6 +155,13 @@ const Index = () => {
 
     blockedToastShownRef.current = false;
     setUser(u);
+
+    // Check if user is admin
+    const { data: hasAdminRole } = await supabase.rpc("has_role", {
+      _user_id: u.id,
+      _role: "admin",
+    });
+    setIsAdmin(!!hasAdminRole);
   }, [navigate, toast]);
 
   useEffect(() => {
@@ -267,6 +275,14 @@ const Index = () => {
             >
               {t("toolbar.info")}
             </button>
+            {isAdmin && (
+              <button
+                onClick={() => navigate("/admin")}
+                className="text-sm font-body text-primary hover:text-primary/80 transition-colors"
+              >
+                Analytics
+              </button>
+            )}
             {user ? (
               <UserMenu user={user} />
             ) : (
