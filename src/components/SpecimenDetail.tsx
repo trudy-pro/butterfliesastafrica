@@ -29,11 +29,10 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
       <div className="absolute inset-0 bg-specimen-overlay/30 backdrop-blur-sm" onClick={onClose} />
 
       <div className="relative ml-auto w-full max-w-2xl bg-background overflow-y-auto animate-slide-in flex flex-col lg:flex-row">
-        <div className="lg:w-1/2 bg-card flex items-center justify-center p-8">
-          <img
+        <div className="lg:w-1/2 bg-card flex items-center justify-center min-h-[300px] lg:min-h-0">
+          <DeepZoomViewer
             src={specimen.image}
             alt={`${displayName} specimen`}
-            className="w-full max-w-[280px] object-contain"
           />
         </div>
 
