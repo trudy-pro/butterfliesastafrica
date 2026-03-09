@@ -23,6 +23,7 @@ import SeasonalityHeatmap from "@/components/SeasonalityHeatmap";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useExaminedSpecimens } from "@/hooks/useExaminedSpecimens";
 
 const ScrollableGrid = ({ filtered, onSelect, monthOverride }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void; monthOverride?: number | null }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
