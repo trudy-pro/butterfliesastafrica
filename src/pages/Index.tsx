@@ -18,6 +18,7 @@ import MonthScrubber from "@/components/MonthScrubber";
 import UserMenu from "@/components/UserMenu";
 import { getFlightActivity, isInPeakFlight, getCurrentMonth, MONTH_LABELS } from "@/data/flightPeriods";
 import UserPoll from "@/components/UserPoll";
+import FirstLoginExperience from "@/components/FirstLoginExperience";
 import SeasonalityHeatmap from "@/components/SeasonalityHeatmap";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
