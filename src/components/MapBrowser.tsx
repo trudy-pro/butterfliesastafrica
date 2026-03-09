@@ -192,7 +192,7 @@ const MapBrowser = ({ onClose, onSelectLocation }: MapBrowserProps) => {
             <MapInvalidator />
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+              url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
             />
 
             {/* Radius mode: click handler + GPS */}
