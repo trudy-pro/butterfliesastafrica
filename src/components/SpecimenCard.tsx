@@ -13,7 +13,7 @@ interface SpecimenCardProps {
 const SpecimenCard = ({ specimen, onClick, index, monthOverride }: SpecimenCardProps) => {
   const { tSpecimen } = useLanguage();
   const displayName = tSpecimen(specimen.id, "commonName") ?? specimen.commonName;
-  const typo = getSpecimenTypography(specimen);
+  
 
   const seasonalState = useMemo(() => {
     const activity = getFlightActivity(specimen.id);
