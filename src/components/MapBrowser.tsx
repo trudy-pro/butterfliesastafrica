@@ -22,12 +22,10 @@ L.Icon.Default.mergeOptions({
 
 const butterflyIcon = new L.DivIcon({
   className: "custom-butterfly-marker",
-  html: `<div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center shadow-lg border-2 border-background">
-    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary-foreground"><circle cx="12" cy="12" r="3"/></svg>
-  </div>`,
-  iconSize: [24, 24],
-  iconAnchor: [12, 24],
-  popupAnchor: [0, -24],
+  html: `<div class="w-5 h-5 bg-foreground rounded-full shadow-md"></div>`,
+  iconSize: [20, 20],
+  iconAnchor: [10, 10],
+  popupAnchor: [0, -10],
 });
 
 const searchIcon = new L.DivIcon({
