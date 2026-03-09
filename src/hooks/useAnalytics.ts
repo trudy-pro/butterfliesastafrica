@@ -44,11 +44,13 @@ const getReferrerSource = (): string => {
   }
 };
 
+import type { Json } from "@/integrations/supabase/types";
+
 interface AnalyticsData {
   session_id: string;
   user_id?: string;
   event_type: string;
-  event_data?: Record<string, unknown>;
+  event_data?: Json;
   page_path?: string;
   referrer?: string;
   user_agent?: string;
