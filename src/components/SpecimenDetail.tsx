@@ -12,6 +12,8 @@ import { getAnatomyHotspots } from "@/data/wingAnatomy";
 import { getDimorphism } from "@/data/dimorphism";
 import { getFlightStyles } from "@/data/flightStyles";
 import FlightStyleTag from "@/components/FlightStyleTag";
+import { getWingBeatInfo } from "@/data/wingBeatData";
+import WingBeatPlayer from "@/components/WingBeatPlayer";
 
 interface SpecimenDetailProps {
   specimen: ButterflySpecimen;
@@ -38,6 +40,7 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
   const dimorphism = getDimorphism(specimen.id);
   const [currentSex, setCurrentSex] = useState<"male" | "female">(dimorphism?.defaultSex ?? "male");
   const flightStyles = getFlightStyles(specimen.id);
+  const wingBeat = getWingBeatInfo(specimen.id);
 
   const handlePrint = () => {
     const printWindow = window.open("", "_blank");
@@ -283,6 +286,7 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
           </div>
 
           <FlightStyleTag styles={flightStyles} />
+          <WingBeatPlayer wingBeat={wingBeat} />
 
           <SeasonalityChart specimenId={specimen.id} />
 
