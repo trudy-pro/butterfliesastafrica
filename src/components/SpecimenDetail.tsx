@@ -4,6 +4,7 @@ import { jsPDF } from "jspdf";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { getSpecimenTypography } from "@/lib/specimenTypography";
 import DeepZoomViewer from "@/components/DeepZoomViewer";
+import SeasonalityChart from "@/components/SeasonalityChart";
 
 interface SpecimenDetailProps {
   specimen: ButterflySpecimen;
