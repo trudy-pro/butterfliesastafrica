@@ -1,6 +1,8 @@
 import { ButterflySpecimen } from "@/data/butterflies";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { getSpecimenTypography } from "@/lib/specimenTypography";
+import { getFlightActivity, getCurrentMonth } from "@/data/flightPeriods";
+import { useMemo } from "react";
 
 interface SpecimenCardProps {
   specimen: ButterflySpecimen;
@@ -13,6 +15,19 @@ const SpecimenCard = ({ specimen, onClick, index }: SpecimenCardProps) => {
   const displayName = tSpecimen(specimen.id, "commonName") ?? specimen.commonName;
   const typo = getSpecimenTypography(specimen);
 
+  const seasonalState = useMemo(() => {
+    const activity = getFlightActivity(specimen.id);
+    const month = getCurrentMonth();
+    const value = activity[month];
+    // active >= 0.5, low 0.2–0.49, dormant < 0.2
+    if (value >= 0.5) return "active" as const;
+    if (value >= 0.2) return "low" as const;
+    return "dormant" as const;
+  }, [specimen.id]);
+
+  const isDormant = seasonalState === "dormant";
+  const isLow = seasonalState === "low";
+
   return (
     <button
       onClick={() => onClick(specimen)}
@@ -23,15 +38,40 @@ const SpecimenCard = ({ specimen, onClick, index }: SpecimenCardProps) => {
         <img
           src={specimen.image}
           alt={`${displayName} (${specimen.scientificName}) specimen`}
-          className="w-full aspect-[3/4] object-cover transition-transform duration-500 group-hover:scale-105"
+          className={`w-full aspect-[3/4] object-cover transition-all duration-500 group-hover:scale-105 ${
+            isDormant
+              ? "grayscale opacity-30 group-hover:grayscale-[0.5] group-hover:opacity-60"
+              : isLow
+              ? "grayscale-[0.6] opacity-60 group-hover:grayscale-[0.2] group-hover:opacity-90"
+              : ""
+          }`}
           loading="lazy"
         />
         <div className="absolute inset-0 bg-specimen-overlay/0 group-hover:bg-specimen-overlay/10 transition-colors duration-300" />
+
+        {/* Dormant overlay with outline typography */}
+        {isDormant && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <span
+              className="text-2xl font-bold tracking-wide text-center leading-tight px-4"
+              style={{
+                fontFamily: "'Fraunces', serif",
+                WebkitTextStroke: "1px hsl(var(--foreground) / 0.15)",
+                color: "transparent",
+              }}
+            >
+              {displayName}
+            </span>
+          </div>
+        )}
       </div>
+
       <div className="mt-2 px-0.5">
-        <p className="text-xs font-body text-muted-foreground tracking-wide">{specimen.id.toUpperCase()}</p>
+        <p className={`text-xs font-body tracking-wide ${isDormant ? "text-muted-foreground/40" : "text-muted-foreground"}`}>
+          {specimen.id.toUpperCase()}
+        </p>
         <p
-          className="text-sm text-foreground mt-0.5 leading-tight"
+          className={`text-sm mt-0.5 leading-tight ${isDormant ? "text-muted-foreground/50" : isLow ? "text-muted-foreground" : "text-foreground"}`}
           style={{
             fontFamily: "'Fraunces', serif",
             fontWeight: typo.fontWeight,
@@ -43,7 +83,21 @@ const SpecimenCard = ({ specimen, onClick, index }: SpecimenCardProps) => {
         >
           {displayName}
         </p>
-        <p className="text-xs font-body italic text-muted-foreground mt-0.5">{specimen.scientificName}</p>
+        <p className={`text-xs font-body italic mt-0.5 ${isDormant ? "text-muted-foreground/30" : "text-muted-foreground"}`}>
+          {specimen.scientificName}
+        </p>
+
+        {/* Seasonal status indicator */}
+        {isDormant && (
+          <p className="text-[10px] font-body uppercase tracking-widest text-muted-foreground/40 mt-1">
+            Dormant
+          </p>
+        )}
+        {isLow && (
+          <p className="text-[10px] font-body uppercase tracking-widest text-muted-foreground/60 mt-1">
+            Low activity
+          </p>
+        )}
       </div>
     </button>
   );
