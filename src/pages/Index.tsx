@@ -1,6 +1,6 @@
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Camera, LogIn, MapPin, Bug, Grid3X3, BookOpen } from "lucide-react";
-import { AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight, Camera, LogIn, MapPin, Bug, Grid3X3, BookOpen, Menu, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
@@ -117,6 +117,7 @@ const Index = () => {
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [previewMonth, setPreviewMonth] = useState<number | null>(null);
   const [showFirstLogin, setShowFirstLogin] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const blockedToastShownRef = useRef(false);
   const [filters, setFilters] = useState<FilterState>({
     color: null,
@@ -272,83 +273,107 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="pt-12 pb-4 px-6">
-        <p className="text-sm font-body text-primary tracking-wide mb-1">
+      <header className="pt-8 pb-3 px-4 md:pt-12 md:pb-4 md:px-6">
+        <p className="text-xs md:text-sm font-body text-primary tracking-wide mb-0.5 md:mb-1">
           {t("header.subtitle")}
         </p>
-        <h1 className="text-4xl font-display text-foreground leading-tight whitespace-pre-line md:text-5xl font-medium">
+        <h1 className="text-2xl md:text-5xl font-display text-foreground leading-tight font-medium">
           {t("header.title")}
         </h1>
       </header>
 
       {/* Toolbar */}
       <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="flex items-center justify-between px-6 py-3">
+        <div className="flex items-center justify-between px-4 md:px-6 py-2 md:py-3">
           <MonthScrubber previewMonth={previewMonth} onMonthChange={setPreviewMonth} />
-        <div className="flex items-center gap-4">
-            <button
-              onClick={() => setShowMap(true)}
-              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
-              
-              <MapPin size={14} />
-              Map
+
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-4">
+            <button onClick={() => setShowMap(true)} className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
+              <MapPin size={14} /> Map
             </button>
-            <button
-              onClick={() => setShowHeatmap(true)}
-              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
-              
-              <Grid3X3 size={14} />
-              Flight Seasons
+            <button onClick={() => setShowHeatmap(true)} className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
+              <Grid3X3 size={14} /> Flight Seasons
             </button>
-            <button
-              onClick={() => setShowIdentify(true)}
-              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
-              
-              <Camera size={14} />
-              {t("toolbar.identify")}
+            <button onClick={() => setShowIdentify(true)} className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
+              <Camera size={14} /> {t("toolbar.identify")}
             </button>
-            <button
-              onClick={() => setShowCompare(true)}
-              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors">
-              
+            <button onClick={() => setShowCompare(true)} className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors">
               {t("toolbar.compare")}
             </button>
-            <button
-              onClick={() => setShowInfo(true)}
-              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors">
-              
+            <button onClick={() => setShowInfo(true)} className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors">
               {t("toolbar.info")}
             </button>
-            {isAdmin &&
-            <button
-              onClick={() => navigate("/admin")}
-              className="text-sm font-body text-primary hover:text-primary/80 transition-colors">
-              
-                Analytics
-              </button>
-            }
-            {user ?
-            <>
-                <button
-                onClick={() => navigate("/collection")}
-                className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
-                
-                  <BookOpen size={14} />
-                  My Collection
+            {isAdmin && <button onClick={() => navigate("/admin")} className="text-sm font-body text-primary hover:text-primary/80 transition-colors">Analytics</button>}
+            {user ? (
+              <>
+                <button onClick={() => navigate("/collection")} className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
+                  <BookOpen size={14} /> My Collection
                 </button>
                 <UserMenu user={user} />
-              </> :
-
-            <button
-              onClick={() => navigate("/auth")}
-              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
-              
-                <LogIn size={14} />
-                Contribute
+              </>
+            ) : (
+              <button onClick={() => navigate("/auth")} className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1">
+                <LogIn size={14} /> Contribute
               </button>
-            }
+            )}
+          </div>
+
+          {/* Mobile: icon shortcuts + hamburger */}
+          <div className="flex md:hidden items-center gap-2">
+            <button onClick={() => setShowIdentify(true)} className="w-8 h-8 rounded-full flex items-center justify-center text-foreground hover:bg-secondary transition-colors" aria-label="Identify">
+              <Camera size={16} />
+            </button>
+            {user ? (
+              <UserMenu user={user} />
+            ) : (
+              <button onClick={() => navigate("/auth")} className="w-8 h-8 rounded-full flex items-center justify-center text-foreground hover:bg-secondary transition-colors" aria-label="Sign in">
+                <LogIn size={16} />
+              </button>
+            )}
+            <button onClick={() => setMobileMenuOpen(prev => !prev)} className="w-8 h-8 rounded-full flex items-center justify-center text-foreground hover:bg-secondary transition-colors" aria-label="Menu">
+              {mobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile dropdown menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden overflow-hidden border-t border-border"
+            >
+              <div className="flex flex-col px-4 py-2 gap-1">
+                <button onClick={() => { setShowMap(true); setMobileMenuOpen(false); }} className="text-sm font-body text-foreground py-2 flex items-center gap-2 hover:text-muted-foreground transition-colors">
+                  <MapPin size={14} /> Map
+                </button>
+                <button onClick={() => { setShowHeatmap(true); setMobileMenuOpen(false); }} className="text-sm font-body text-foreground py-2 flex items-center gap-2 hover:text-muted-foreground transition-colors">
+                  <Grid3X3 size={14} /> Flight Seasons
+                </button>
+                <button onClick={() => { setShowCompare(true); setMobileMenuOpen(false); }} className="text-sm font-body text-foreground py-2 flex items-center gap-2 hover:text-muted-foreground transition-colors">
+                  {t("toolbar.compare")}
+                </button>
+                <button onClick={() => { setShowInfo(true); setMobileMenuOpen(false); }} className="text-sm font-body text-foreground py-2 flex items-center gap-2 hover:text-muted-foreground transition-colors">
+                  {t("toolbar.info")}
+                </button>
+                {isAdmin && (
+                  <button onClick={() => { navigate("/admin"); setMobileMenuOpen(false); }} className="text-sm font-body text-primary py-2 flex items-center gap-2 hover:text-primary/80 transition-colors">
+                    Analytics
+                  </button>
+                )}
+                {user && (
+                  <button onClick={() => { navigate("/collection"); setMobileMenuOpen(false); }} className="text-sm font-body text-foreground py-2 flex items-center gap-2 hover:text-muted-foreground transition-colors">
+                    <BookOpen size={14} /> My Collection
+                  </button>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Suggested Specimens based on environment profile */}
