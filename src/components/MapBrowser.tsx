@@ -1,10 +1,16 @@
-import { useEffect, useRef } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
-import { X, MapPin } from "lucide-react";
+import { useState, useRef, useMemo, useCallback } from "react";
+import { MapContainer, TileLayer, Marker, Popup, Circle, CircleMarker, useMapEvents, useMap } from "react-leaflet";
+import { X, MapPin, Crosshair, Flame, Minus, Plus } from "lucide-react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { specimens } from "@/data/butterflies";
 import { useLanguage } from "@/i18n/LanguageContext";
+import {
+  specimenCoordinates,
+  findSpecimensNearPoint,
+  getDensityClusters,
+  getAllSightingPoints,
+} from "@/data/specimenCoordinates";
 
 // Fix for default marker icons in Leaflet with bundlers
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -14,110 +20,24 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
 });
 
-// Custom butterfly icon
 const butterflyIcon = new L.DivIcon({
   className: "custom-butterfly-marker",
-  html: `<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-lg border-2 border-background">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary-foreground"><path d="M12 22c-4.97 0-9-2.24-9-5v-.09c0-.14.04-.27.11-.39l4.22-7.03c.14-.23.38-.38.65-.44l.02-.01a8.46 8.46 0 0 1 8 0l.02.01c.27.06.51.21.65.44l4.22 7.03c.07.12.11.25.11.39V17c0 2.76-4.03 5-9 5z"/><path d="M12 2v4"/><path d="m4.93 10.93 2.83 2.83"/><path d="m19.07 10.93-2.83 2.83"/></svg>
+  html: `<div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center shadow-lg border-2 border-background">
+    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary-foreground"><circle cx="12" cy="12" r="3"/></svg>
+  </div>`,
+  iconSize: [24, 24],
+  iconAnchor: [12, 24],
+  popupAnchor: [0, -24],
+});
+
+const searchIcon = new L.DivIcon({
+  className: "custom-search-marker",
+  html: `<div class="w-8 h-8 bg-destructive rounded-full flex items-center justify-center shadow-xl border-2 border-background animate-pulse">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-destructive-foreground"><path d="M12 2v20M2 12h20"/></svg>
   </div>`,
   iconSize: [32, 32],
   iconAnchor: [16, 32],
   popupAnchor: [0, -32],
-});
-
-interface LocationData {
-  name: string;
-  lat: number;
-  lng: number;
-  countries: string[];
-  habitats: string[];
-  specimenCount: number;
-}
-
-// East African locations with coordinates
-const locations: LocationData[] = [
-  {
-    name: "Kenya",
-    lat: 0.0236,
-    lng: 37.9062,
-    countries: ["Kenya"],
-    habitats: ["Savanna", "Forest", "Woodland"],
-    specimenCount: 0,
-  },
-  {
-    name: "Tanzania",
-    lat: -6.369,
-    lng: 34.8888,
-    countries: ["Tanzania"],
-    habitats: ["Savanna", "Forest", "Coastal"],
-    specimenCount: 0,
-  },
-  {
-    name: "Uganda",
-    lat: 1.3733,
-    lng: 32.2903,
-    countries: ["Uganda"],
-    habitats: ["Forest", "Wetland", "Montane"],
-    specimenCount: 0,
-  },
-  {
-    name: "Rwanda",
-    lat: -1.9403,
-    lng: 29.8739,
-    countries: ["Rwanda"],
-    habitats: ["Montane", "Forest"],
-    specimenCount: 0,
-  },
-  {
-    name: "Burundi",
-    lat: -3.3731,
-    lng: 29.9189,
-    countries: ["Burundi"],
-    habitats: ["Montane", "Forest"],
-    specimenCount: 0,
-  },
-  {
-    name: "Ethiopia",
-    lat: 9.145,
-    lng: 40.4897,
-    countries: ["Ethiopia"],
-    habitats: ["Highland", "Savanna", "Forest"],
-    specimenCount: 0,
-  },
-  {
-    name: "South Sudan",
-    lat: 6.877,
-    lng: 31.307,
-    countries: ["South Sudan"],
-    habitats: ["Savanna", "Wetland"],
-    specimenCount: 0,
-  },
-  {
-    name: "Democratic Republic of Congo",
-    lat: -4.0383,
-    lng: 21.7587,
-    countries: ["DRC", "Congo"],
-    habitats: ["Rainforest", "Forest"],
-    specimenCount: 0,
-  },
-  {
-    name: "Madagascar",
-    lat: -18.7669,
-    lng: 46.8691,
-    countries: ["Madagascar"],
-    habitats: ["Rainforest", "Dry Forest"],
-    specimenCount: 0,
-  },
-];
-
-// Calculate specimen counts for each location
-const enrichedLocations = locations.map((loc) => {
-  const count = specimens.filter((s) =>
-    loc.countries.some((country) =>
-      s.region.toLowerCase().includes(country.toLowerCase())
-    )
-  ).length;
-  return { ...loc, specimenCount: count };
 });
 
 interface MapBrowserProps {
@@ -125,14 +45,72 @@ interface MapBrowserProps {
   onSelectLocation: (country: string) => void;
 }
 
+type MapMode = "browse" | "radius" | "heatmap";
+
+/** Handles click events for radius search */
+const MapClickHandler = ({ onClick }: { onClick: (lat: number, lng: number) => void }) => {
+  useMapEvents({
+    click: (e) => onClick(e.latlng.lat, e.latlng.lng),
+  });
+  return null;
+};
+
+/** GPS locate button component */
+const LocateButton = ({ onLocate }: { onLocate: (lat: number, lng: number) => void }) => {
+  const map = useMap();
+  const handleLocate = () => {
+    map.locate({ setView: true, maxZoom: 10 });
+    map.on("locationfound", (e) => {
+      onLocate(e.latlng.lat, e.latlng.lng);
+    });
+  };
+  return (
+    <button
+      onClick={handleLocate}
+      className="absolute top-20 right-3 z-[1000] bg-card border border-border rounded-lg p-2 shadow-md hover:bg-muted transition-colors"
+      title="Use my location"
+    >
+      <Crosshair size={16} className="text-foreground" />
+    </button>
+  );
+};
+
 const MapBrowser = ({ onClose, onSelectLocation }: MapBrowserProps) => {
   const { t } = useLanguage();
   const mapRef = useRef<L.Map | null>(null);
+  const [mode, setMode] = useState<MapMode>("browse");
+  const [searchPoint, setSearchPoint] = useState<{ lat: number; lng: number } | null>(null);
+  const [radiusKm, setRadiusKm] = useState(50);
+  const [nearbyResults, setNearbyResults] = useState<
+    { specimenId: string; locality: string; distance: number }[]
+  >([]);
 
-  const handleLocationClick = (location: LocationData) => {
-    onSelectLocation(location.name);
-    onClose();
-  };
+  const allSightings = useMemo(() => getAllSightingPoints(), []);
+  const densityClusters = useMemo(() => getDensityClusters(1.5), []);
+  const maxDensity = useMemo(
+    () => Math.max(...densityClusters.map((c) => c.uniqueSpecies), 1),
+    [densityClusters]
+  );
+
+  const handleMapClick = useCallback(
+    (lat: number, lng: number) => {
+      if (mode !== "radius") return;
+      setSearchPoint({ lat, lng });
+      const results = findSpecimensNearPoint(lat, lng, radiusKm);
+      setNearbyResults(results);
+    },
+    [mode, radiusKm]
+  );
+
+  const handleLocate = useCallback(
+    (lat: number, lng: number) => {
+      setMode("radius");
+      setSearchPoint({ lat, lng });
+      const results = findSpecimensNearPoint(lat, lng, radiusKm);
+      setNearbyResults(results);
+    },
+    [radiusKm]
+  );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -140,25 +118,60 @@ const MapBrowser = ({ onClose, onSelectLocation }: MapBrowserProps) => {
         className="absolute inset-0 bg-specimen-overlay/40 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative w-full max-w-4xl h-[80vh] mx-4 bg-card rounded-lg border border-border shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-5xl h-[85vh] mx-4 bg-card rounded-lg border border-border shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
-        <div className="absolute top-0 left-0 right-0 z-[1000] bg-card/95 backdrop-blur-sm border-b border-border px-6 py-4 flex items-center justify-between">
+        <div className="absolute top-0 left-0 right-0 z-[1000] bg-card/95 backdrop-blur-sm border-b border-border px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <MapPin className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-display italic text-foreground">
+            <MapPin className="w-4 h-4 text-primary" />
+            <h2 className="text-base font-display italic text-foreground">
               {t("map.title") || "Explore by Region"}
             </h2>
           </div>
+          {/* Mode toggles */}
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => { setMode("browse"); setSearchPoint(null); setNearbyResults([]); }}
+              className={`px-3 py-1.5 text-xs font-body rounded-md transition-colors ${
+                mode === "browse"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+              }`}
+            >
+              Browse
+            </button>
+            <button
+              onClick={() => setMode("radius")}
+              className={`px-3 py-1.5 text-xs font-body rounded-md transition-colors flex items-center gap-1 ${
+                mode === "radius"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+              }`}
+            >
+              <Crosshair size={12} />
+              Radius
+            </button>
+            <button
+              onClick={() => { setMode("heatmap"); setSearchPoint(null); setNearbyResults([]); }}
+              className={`px-3 py-1.5 text-xs font-body rounded-md transition-colors flex items-center gap-1 ${
+                mode === "heatmap"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+              }`}
+            >
+              <Flame size={12} />
+              Hotspots
+            </button>
+          </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center hover:bg-secondary/80 transition-colors"
+            className="w-7 h-7 rounded-full bg-secondary flex items-center justify-center hover:bg-secondary/80 transition-colors"
           >
             <X className="w-4 h-4 text-foreground" />
           </button>
         </div>
 
-        {/* Map Container */}
-        <div className="w-full h-full pt-16">
+        {/* Map */}
+        <div className="w-full h-full pt-14">
           <MapContainer
             center={[0, 35]}
             zoom={4}
@@ -167,60 +180,218 @@ const MapBrowser = ({ onClose, onSelectLocation }: MapBrowserProps) => {
             scrollWheelZoom={true}
           >
             <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-              url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
             />
-            {enrichedLocations.map((location) => (
-              <Marker
-                key={location.name}
-                position={[location.lat, location.lng]}
-                icon={butterflyIcon}
-                eventHandlers={{
-                  click: () => handleLocationClick(location),
-                }}
-              >
-                <Popup className="custom-popup">
-                  <div className="p-2 min-w-[180px]">
-                    <h3 className="font-display text-lg text-foreground mb-2">
-                      {location.name}
-                    </h3>
-                    <div className="space-y-2 text-sm">
-                      <div>
-                        <span className="text-muted-foreground">Species: </span>
-                        <span className="font-medium text-foreground">
-                          {location.specimenCount}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="text-muted-foreground">Habitats: </span>
-                        <span className="text-foreground">
-                          {location.habitats.slice(0, 3).join(", ")}
-                        </span>
-                      </div>
+
+            {/* Radius mode: click handler + GPS */}
+            {mode === "radius" && (
+              <>
+                <MapClickHandler onClick={handleMapClick} />
+                <LocateButton onLocate={handleLocate} />
+              </>
+            )}
+
+            {/* Search point + radius circle */}
+            {searchPoint && mode === "radius" && (
+              <>
+                <Circle
+                  center={[searchPoint.lat, searchPoint.lng]}
+                  radius={radiusKm * 1000}
+                  pathOptions={{
+                    color: "hsl(0, 84%, 60%)",
+                    fillColor: "hsl(0, 84%, 60%)",
+                    fillOpacity: 0.08,
+                    weight: 1.5,
+                    dashArray: "6 4",
+                  }}
+                />
+                <Marker position={[searchPoint.lat, searchPoint.lng]} icon={searchIcon}>
+                  <Popup>
+                    <div className="p-1 text-sm">
+                      <p className="font-medium">{nearbyResults.length} species within {radiusKm}km</p>
                     </div>
-                    <button
-                      onClick={() => handleLocationClick(location)}
-                      className="mt-3 w-full py-2 bg-primary text-primary-foreground text-sm font-body rounded hover:bg-primary/90 transition-colors"
-                    >
-                      View Species
-                    </button>
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
+                  </Popup>
+                </Marker>
+              </>
+            )}
+
+            {/* Browse mode: sighting markers */}
+            {mode === "browse" &&
+              allSightings.map((p, i) => {
+                const specimen = specimens.find((s) => s.id === p.specimenId);
+                return (
+                  <Marker
+                    key={`${p.specimenId}-${i}`}
+                    position={[p.lat, p.lng]}
+                    icon={butterflyIcon}
+                  >
+                    <Popup>
+                      <div className="p-1 min-w-[150px]">
+                        <p className="font-display text-sm">{specimen?.commonName}</p>
+                        <p className="text-xs text-muted-foreground italic">{specimen?.scientificName}</p>
+                        <button
+                          onClick={() => {
+                            if (specimen) {
+                              onSelectLocation(specimen.region.split(",")[0].trim());
+                              onClose();
+                            }
+                          }}
+                          className="mt-2 w-full py-1.5 bg-primary text-primary-foreground text-xs font-body rounded hover:bg-primary/90 transition-colors"
+                        >
+                          View Species
+                        </button>
+                      </div>
+                    </Popup>
+                  </Marker>
+                );
+              })}
+
+            {/* Heatmap mode: density circles */}
+            {mode === "heatmap" &&
+              densityClusters.map((c, i) => {
+                const intensity = c.uniqueSpecies / maxDensity;
+                const radius = 20000 + intensity * 60000;
+                return (
+                  <Circle
+                    key={i}
+                    center={[c.lat, c.lng]}
+                    radius={radius}
+                    pathOptions={{
+                      color: intensity > 0.7
+                        ? "hsl(0, 90%, 55%)"
+                        : intensity > 0.4
+                          ? "hsl(30, 90%, 55%)"
+                          : "hsl(50, 90%, 55%)",
+                      fillColor: intensity > 0.7
+                        ? "hsl(0, 90%, 55%)"
+                        : intensity > 0.4
+                          ? "hsl(30, 90%, 55%)"
+                          : "hsl(50, 90%, 55%)",
+                      fillOpacity: 0.15 + intensity * 0.35,
+                      weight: 1,
+                    }}
+                  >
+                    <Popup>
+                      <div className="p-1">
+                        <p className="font-medium text-sm">{c.uniqueSpecies} unique species</p>
+                        <p className="text-xs text-muted-foreground">{c.count} total sightings</p>
+                      </div>
+                    </Popup>
+                  </Circle>
+                );
+              })}
+
+            {/* Radius mode: matched sighting dots */}
+            {mode === "radius" &&
+              nearbyResults.map((r) => {
+                const coords = specimenCoordinates[r.specimenId];
+                if (!coords) return null;
+                return coords.map((c, ci) => (
+                  <CircleMarker
+                    key={`${r.specimenId}-${ci}`}
+                    center={[c.lat, c.lng]}
+                    radius={5}
+                    pathOptions={{
+                      color: "hsl(var(--primary))",
+                      fillColor: "hsl(var(--primary))",
+                      fillOpacity: 0.7,
+                      weight: 1,
+                    }}
+                  />
+                ));
+              })}
           </MapContainer>
         </div>
 
-        {/* Legend */}
-        <div className="absolute bottom-4 left-4 z-[1000] bg-card/95 backdrop-blur-sm border border-border rounded-lg px-4 py-3">
-          <p className="text-xs text-muted-foreground mb-2">
-            {t("map.legend") || "Click a pin to explore species"}
-          </p>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-primary rounded-full" />
-            <span className="text-xs text-foreground">Species location</span>
+        {/* Radius controls */}
+        {mode === "radius" && (
+          <div className="absolute top-16 left-4 z-[1000] bg-card/95 backdrop-blur-sm border border-border rounded-lg px-4 py-3 max-w-[240px]">
+            <p className="text-xs font-body text-muted-foreground mb-2">
+              {searchPoint ? "Click map to search another area" : "Click anywhere on the map to search"}
+            </p>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xs text-muted-foreground">Radius:</span>
+              <button
+                onClick={() => setRadiusKm((r) => Math.max(10, r - 10))}
+                className="w-6 h-6 rounded bg-muted flex items-center justify-center hover:bg-muted/80"
+              >
+                <Minus size={12} />
+              </button>
+              <span className="text-sm font-medium text-foreground w-12 text-center">{radiusKm}km</span>
+              <button
+                onClick={() => setRadiusKm((r) => Math.min(200, r + 10))}
+                className="w-6 h-6 rounded bg-muted flex items-center justify-center hover:bg-muted/80"
+              >
+                <Plus size={12} />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Radius results panel */}
+        {mode === "radius" && searchPoint && nearbyResults.length > 0 && (
+          <div className="absolute bottom-4 left-4 right-4 z-[1000] bg-card/95 backdrop-blur-sm border border-border rounded-lg px-4 py-3 max-h-[200px] overflow-y-auto">
+            <p className="text-xs font-body text-primary font-semibold mb-2">
+              {nearbyResults.length} species within {radiusKm}km
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-1.5">
+              {nearbyResults.map((r) => {
+                const specimen = specimens.find((s) => s.id === r.specimenId);
+                if (!specimen) return null;
+                return (
+                  <button
+                    key={r.specimenId}
+                    onClick={() => {
+                      onSelectLocation(specimen.commonName);
+                      onClose();
+                    }}
+                    className="text-left px-2 py-1.5 rounded-md hover:bg-muted transition-colors"
+                  >
+                    <p className="text-xs font-body text-foreground truncate">{specimen.commonName}</p>
+                    <p className="text-[10px] text-muted-foreground">
+                      {r.locality} · {r.distance < 1 ? "<1" : Math.round(r.distance)}km
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {mode === "radius" && searchPoint && nearbyResults.length === 0 && (
+          <div className="absolute bottom-4 left-4 right-4 z-[1000] bg-card/95 backdrop-blur-sm border border-border rounded-lg px-4 py-3 text-center">
+            <p className="text-xs text-muted-foreground">No species recorded within {radiusKm}km of this point. Try increasing the radius or clicking closer to a known area.</p>
+          </div>
+        )}
+
+        {/* Legend for heatmap */}
+        {mode === "heatmap" && (
+          <div className="absolute bottom-4 left-4 z-[1000] bg-card/95 backdrop-blur-sm border border-border rounded-lg px-4 py-3">
+            <p className="text-xs font-body text-foreground font-semibold mb-2">Biodiversity Hotspots</p>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "hsl(0, 90%, 55%)" }} />
+                <span className="text-[10px] text-muted-foreground">High</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "hsl(30, 90%, 55%)" }} />
+                <span className="text-[10px] text-muted-foreground">Medium</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "hsl(50, 90%, 55%)" }} />
+                <span className="text-[10px] text-muted-foreground">Low</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Browse legend */}
+        {mode === "browse" && (
+          <div className="absolute bottom-4 left-4 z-[1000] bg-card/95 backdrop-blur-sm border border-border rounded-lg px-4 py-3">
+            <p className="text-xs text-muted-foreground">Click a pin to explore species</p>
+          </div>
+        )}
       </div>
     </div>
   );
