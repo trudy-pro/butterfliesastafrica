@@ -41,7 +41,7 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
   const dimorphism = getDimorphism(specimen.id);
   const [currentSex, setCurrentSex] = useState<"male" | "female">(dimorphism?.defaultSex ?? "male");
   const flightStyles = getFlightStyles(specimen.id);
-  const wingBeat = getWingBeatInfo(specimen.id);
+  const soundProfile = getSoundProfile(specimen.id);
 
   const handlePrint = () => {
     const printWindow = window.open("", "_blank");
