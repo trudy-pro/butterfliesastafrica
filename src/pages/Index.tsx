@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Camera, LogIn } from "lucide-react";
+import { ChevronLeft, ChevronRight, Camera, LogIn, MapPin } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,6 +13,7 @@ import ComparisonView from "@/components/ComparisonView";
 import SearchBar, { SearchCategory } from "@/components/SearchBar";
 import IdentifyPanel from "@/components/IdentifyPanel";
 import CategoryBrowseModal from "@/components/CategoryBrowseModal";
+import MapBrowser from "@/components/MapBrowser";
 import UserMenu from "@/components/UserMenu";
 import UserPoll from "@/components/UserPoll";
 import { useLanguage } from "@/i18n/LanguageContext";
