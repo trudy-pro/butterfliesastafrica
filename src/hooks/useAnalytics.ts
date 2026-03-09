@@ -80,7 +80,7 @@ export const useAnalytics = () => {
         device_type: deviceType.current,
       };
 
-      await supabase.from("analytics_events").insert(analyticsData);
+      await supabase.from("analytics_events").insert([analyticsData]);
     } catch (error) {
       // Silently fail - analytics should never break the app
       console.debug("Analytics error:", error);
