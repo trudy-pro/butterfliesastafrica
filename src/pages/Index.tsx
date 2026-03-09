@@ -269,6 +269,13 @@ const Index = () => {
         <div className="flex items-center justify-end px-6 py-3">
         <div className="flex items-center gap-4">
             <button
+              onClick={() => setShowMap(true)}
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
+            >
+              <MapPin size={14} />
+              Map
+            </button>
+            <button
               onClick={() => setShowHeatmap(true)}
               className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
             >

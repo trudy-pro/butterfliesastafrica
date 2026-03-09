@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, Circle, CircleMarker, useMapEvents, useMap } from "react-leaflet";
 import { X, MapPin, Crosshair, Flame, Minus, Plus } from "lucide-react";
 import L from "leaflet";
@@ -55,6 +55,18 @@ const MapClickHandler = ({ onClick }: { onClick: (lat: number, lng: number) => v
   return null;
 };
 
+/** Invalidate map size after mount to fix tile rendering in modals */
+const MapInvalidator = () => {
+  const map = useMap();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [map]);
+  return null;
+};
+
 /** GPS locate button component */
 const LocateButton = ({ onLocate }: { onLocate: (lat: number, lng: number) => void }) => {
   const map = useMap();
@@ -77,7 +89,6 @@ const LocateButton = ({ onLocate }: { onLocate: (lat: number, lng: number) => vo
 
 const MapBrowser = ({ onClose, onSelectLocation }: MapBrowserProps) => {
   const { t } = useLanguage();
-  const mapRef = useRef<L.Map | null>(null);
   const [mode, setMode] = useState<MapMode>("browse");
   const [searchPoint, setSearchPoint] = useState<{ lat: number; lng: number } | null>(null);
   const [radiusKm, setRadiusKm] = useState(50);
@@ -118,7 +129,7 @@ const MapBrowser = ({ onClose, onSelectLocation }: MapBrowserProps) => {
         className="absolute inset-0 bg-specimen-overlay/40 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative w-full max-w-5xl h-[85vh] mx-4 bg-card rounded-lg border border-border shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-5xl mx-4 bg-card rounded-lg border border-border shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200" style={{ height: "85vh" }}>
         {/* Header */}
         <div className="absolute top-0 left-0 right-0 z-[1000] bg-card/95 backdrop-blur-sm border-b border-border px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -176,9 +187,9 @@ const MapBrowser = ({ onClose, onSelectLocation }: MapBrowserProps) => {
             center={[0, 35]}
             zoom={4}
             className="w-full h-full"
-            ref={mapRef}
             scrollWheelZoom={true}
           >
+            <MapInvalidator />
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
               url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
