@@ -368,8 +368,8 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
                     )}
                     {/* Submit for review button */}
                     {submitted ? (
-                      <div className="flex items-center justify-center gap-2 py-3 bg-emerald-50 text-emerald-700 rounded-lg">
-                        <CheckCircle size={16} />
+                      <div className="flex items-center justify-center gap-2 py-3 bg-accent/20 text-accent-foreground rounded-lg border border-accent/30">
+                        <CheckCircle size={16} className="text-primary" />
                         <span className="text-sm font-body">Submitted for review</span>
                       </div>
                     ) : (
