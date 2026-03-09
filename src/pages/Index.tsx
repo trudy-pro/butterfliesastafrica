@@ -102,6 +102,7 @@ const Index = () => {
   const { trackSearch, trackSpecimenView } = useAnalytics();
   const { recordExamination } = useExaminedSpecimens();
   const { profile: envProfile, saveProfile: saveEnvProfile } = useEnvironmentProfile();
+  const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
   const [showFilters, setShowFilters] = useState(false);
