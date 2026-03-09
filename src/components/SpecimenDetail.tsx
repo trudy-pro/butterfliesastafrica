@@ -3,7 +3,7 @@ import { ButterflySpecimen } from "@/data/butterflies";
 import { X, Printer, Download, Layers } from "lucide-react";
 import { jsPDF } from "jspdf";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { getSpecimenTypography } from "@/lib/specimenTypography";
+
 import DeepZoomViewer from "@/components/DeepZoomViewer";
 import SeasonalityChart from "@/components/SeasonalityChart";
 import AnatomyOverlay from "@/components/AnatomyOverlay";
@@ -34,7 +34,7 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
   const displayName = tSpecimen(specimen.id, "commonName") ?? specimen.commonName;
   const displayDesc = tSpecimen(specimen.id, "description") ?? specimen.description;
   const displayTrait = tSpecimen(specimen.id, "evolutionaryTrait") ?? specimen.evolutionaryTrait;
-  const typo = getSpecimenTypography(specimen);
+  
 
   const [anatomyVisible, setAnatomyVisible] = useState(false);
   const hotspots = getAnatomyHotspots(specimen.wingShape);
@@ -225,11 +225,6 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
                 className="text-2xl leading-tight"
                 style={{
                   fontFamily: "'Fraunces', serif",
-                  fontWeight: typo.fontWeight,
-                  letterSpacing: typo.letterSpacing,
-                  fontStyle: typo.fontStyle,
-                  transform: typo.style.transform,
-                  display: "inline-block",
                 }}
               >
                 {displayName}

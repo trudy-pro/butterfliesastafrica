@@ -1,6 +1,5 @@
 import { ButterflySpecimen } from "@/data/butterflies";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { getSpecimenTypography } from "@/lib/specimenTypography";
 import { getFlightActivity, getCurrentMonth } from "@/data/flightPeriods";
 import { useMemo } from "react";
 
@@ -14,7 +13,7 @@ interface SpecimenCardProps {
 const SpecimenCard = ({ specimen, onClick, index, monthOverride }: SpecimenCardProps) => {
   const { tSpecimen } = useLanguage();
   const displayName = tSpecimen(specimen.id, "commonName") ?? specimen.commonName;
-  const typo = getSpecimenTypography(specimen);
+  
 
   const seasonalState = useMemo(() => {
     const activity = getFlightActivity(specimen.id);
@@ -73,11 +72,6 @@ const SpecimenCard = ({ specimen, onClick, index, monthOverride }: SpecimenCardP
           className={`text-sm mt-0.5 leading-tight ${isDormant ? "text-muted-foreground/50" : isLow ? "text-muted-foreground" : "text-foreground"}`}
           style={{
             fontFamily: "'Fraunces', serif",
-            fontWeight: typo.fontWeight,
-            letterSpacing: typo.letterSpacing,
-            fontStyle: typo.fontStyle,
-            transform: typo.style.transform,
-            display: "inline-block",
           }}
         >
           {displayName}
