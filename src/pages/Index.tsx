@@ -278,6 +278,11 @@ const Index = () => {
               Flying in {MONTH_LABELS[getCurrentMonth()]}
             </button>
             <button
+              onClick={() => setShowHeatmap(true)}
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
+            >
+              <Grid3X3 size={14} />
+              Heatmap
               onClick={() => setShowIdentify(true)}
               className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
             >
