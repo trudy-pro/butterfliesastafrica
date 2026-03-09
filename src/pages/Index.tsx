@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Camera, LogIn, MapPin, Bug } from "lucide-react";
+import { ChevronLeft, ChevronRight, Camera, LogIn, MapPin, Bug, Grid3X3 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -17,6 +17,7 @@ import MapBrowser from "@/components/MapBrowser";
 import UserMenu from "@/components/UserMenu";
 import { getFlightActivity, isInPeakFlight, getCurrentMonth, MONTH_LABELS } from "@/data/flightPeriods";
 import UserPoll from "@/components/UserPoll";
+import SeasonalityHeatmap from "@/components/SeasonalityHeatmap";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
@@ -106,6 +107,7 @@ const Index = () => {
   const [searchCategory, setSearchCategory] = useState<SearchCategory>("all");
   const [browseCategory, setBrowseCategory] = useState<SearchCategory | null>(null);
   const [flyingNowActive, setFlyingNowActive] = useState(false);
+  const [showHeatmap, setShowHeatmap] = useState(false);
   const blockedToastShownRef = useRef(false);
   const [filters, setFilters] = useState<FilterState>({
     color: null,
@@ -276,6 +278,13 @@ const Index = () => {
               Flying in {MONTH_LABELS[getCurrentMonth()]}
             </button>
             <button
+              onClick={() => setShowHeatmap(true)}
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
+            >
+              <Grid3X3 size={14} />
+              Heatmap
+            </button>
+            <button
               onClick={() => setShowIdentify(true)}
               className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
             >
@@ -363,6 +372,15 @@ const Index = () => {
       {showInfo && <InfoPanel onClose={() => setShowInfo(false)} />}
       {showCompare && <ComparisonView onClose={() => setShowCompare(false)} />}
       {showIdentify && <IdentifyPanel onClose={() => setShowIdentify(false)} />}
+      {showHeatmap && (
+        <SeasonalityHeatmap
+          onClose={() => setShowHeatmap(false)}
+          onSelectSpecimen={(id) => {
+            const s = specimens.find((sp) => sp.id === id);
+            if (s) { setShowHeatmap(false); handleSpecimenSelect(s); }
+          }}
+        />
+      )}
       {showMap && (
         <MapBrowser
           onClose={() => setShowMap(false)}
