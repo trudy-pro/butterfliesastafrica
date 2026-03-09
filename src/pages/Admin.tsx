@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Check, X, Loader2, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Check, X, Loader2, ShieldCheck, BarChart3, Users } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
+import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
 
 interface ApprovalRequest {
   id: string;
@@ -14,6 +15,8 @@ interface ApprovalRequest {
   status: string;
   requested_at: string;
 }
+
+type AdminTab = "contributors" | "analytics";
 
 const Admin = () => {
   const [user, setUser] = useState<User | null>(null);
