@@ -294,7 +294,7 @@ const Index = () => {
             </button>
           </div>
         ) : (
-          <ScrollableGrid filtered={filtered} onSelect={setSelectedSpecimen} />
+          <ScrollableGrid filtered={filtered} onSelect={handleSpecimenSelect} />
         )}
       </main>
 
