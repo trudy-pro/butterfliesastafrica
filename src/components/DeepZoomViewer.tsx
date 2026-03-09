@@ -97,7 +97,7 @@ const DeepZoomViewer = ({ src, alt, onClose }: DeepZoomViewerProps) => {
               alt={alt}
               className="max-w-full max-h-full object-contain select-none"
               draggable={false}
-              style={{ imageRendering: state.scale > 3 ? "pixelated" : "auto" }}
+              style={{ imageRendering: scale > 3 ? "pixelated" : "auto" }}
             />
           </TransformComponent>
         </div>
