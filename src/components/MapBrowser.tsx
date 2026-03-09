@@ -188,7 +188,6 @@ const MapBrowser = ({ onClose, onSelectLocation }: MapBrowserProps) => {
             center={[0, 35]}
             zoom={4}
             className="w-full h-full"
-            ref={mapRef}
             scrollWheelZoom={true}
           >
             <MapInvalidator />
