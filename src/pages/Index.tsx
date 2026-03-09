@@ -283,6 +283,8 @@ const Index = () => {
             >
               <Grid3X3 size={14} />
               Heatmap
+            </button>
+            <button
               onClick={() => setShowIdentify(true)}
               className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
             >
