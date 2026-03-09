@@ -74,7 +74,7 @@ const DeepZoomViewer = ({ src, alt, onClose }: DeepZoomViewerProps) => {
           </div>
 
           {/* Hint text */}
-          {state.scale <= 1.05 && (
+          {scale <= 1.05 && (
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 px-3 py-1.5 rounded-full bg-card/80 backdrop-blur-sm border border-border pointer-events-none animate-pulse">
               <span className="text-[11px] font-body text-muted-foreground">
                 Scroll to zoom · Double-click to magnify · Drag to pan
