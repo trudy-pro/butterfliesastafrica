@@ -22,7 +22,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
 
-const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void }) => {
+const ScrollableGrid = ({ filtered, onSelect, monthOverride }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void; monthOverride?: number | null }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -82,6 +82,7 @@ const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[];
               specimen={specimen}
               onClick={onSelect}
               index={i}
+              monthOverride={monthOverride}
             />
           ))}
         </div>
