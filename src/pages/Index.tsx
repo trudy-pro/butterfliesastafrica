@@ -261,8 +261,9 @@ const Index = () => {
   // Handle specimen selection with tracking
   const handleSpecimenSelect = useCallback((specimen: ButterflySpecimen) => {
     trackSpecimenView(specimen.id, specimen.commonName);
+    recordExamination(specimen.id);
     setSelectedSpecimen(specimen);
-  }, [trackSpecimenView]);
+  }, [trackSpecimenView, recordExamination]);
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
 
