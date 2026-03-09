@@ -12,6 +12,7 @@ import Contribute from "./pages/Contribute";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import PendingApproval from "./pages/PendingApproval";
+import Collection from "./pages/Collection";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/contribute" element={<Contribute />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/pending-approval" element={<PendingApproval />} />
+            <Route path="/collection" element={<Collection />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

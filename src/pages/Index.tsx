@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Camera, LogIn, MapPin, Bug, Grid3X3 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Camera, LogIn, MapPin, Bug, Grid3X3, BookOpen } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -23,6 +23,7 @@ import SeasonalityHeatmap from "@/components/SeasonalityHeatmap";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useExaminedSpecimens } from "@/hooks/useExaminedSpecimens";
 
 const ScrollableGrid = ({ filtered, onSelect, monthOverride }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void; monthOverride?: number | null }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -98,6 +99,7 @@ const Index = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { trackSearch, trackSpecimenView } = useAnalytics();
+  const { recordExamination } = useExaminedSpecimens();
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
@@ -259,8 +261,9 @@ const Index = () => {
   // Handle specimen selection with tracking
   const handleSpecimenSelect = useCallback((specimen: ButterflySpecimen) => {
     trackSpecimenView(specimen.id, specimen.commonName);
+    recordExamination(specimen.id);
     setSelectedSpecimen(specimen);
-  }, [trackSpecimenView]);
+  }, [trackSpecimenView, recordExamination]);
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
 
@@ -323,7 +326,16 @@ const Index = () => {
               </button>
             )}
             {user ? (
-              <UserMenu user={user} />
+              <>
+                <button
+                  onClick={() => navigate("/collection")}
+                  className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
+                >
+                  <BookOpen size={14} />
+                  My Collection
+                </button>
+                <UserMenu user={user} />
+              </>
             ) : (
               <button
                 onClick={() => navigate("/auth")}
