@@ -1,5 +1,6 @@
 import { ButterflySpecimen } from "@/data/butterflies";
-import { X, Printer } from "lucide-react";
+import { X, Printer, Download } from "lucide-react";
+import { jsPDF } from "jspdf";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { getSpecimenTypography } from "@/lib/specimenTypography";
 import DeepZoomViewer from "@/components/DeepZoomViewer";
@@ -95,6 +96,76 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
     setTimeout(() => printWindow.print(), 300);
   };
 
+  const handleDownloadPdf = async () => {
+    const doc = new jsPDF({ unit: "mm", format: "a4" });
+    const pw = doc.internal.pageSize.getWidth();
+    const margin = 20;
+    const contentW = pw - margin * 2;
+    let y = margin;
+
+    const checkPage = (needed: number) => {
+      if (y + needed > doc.internal.pageSize.getHeight() - margin) {
+        doc.addPage();
+        y = margin;
+      }
+    };
+
+    try {
+      const res = await fetch(specimen.image);
+      const blob = await res.blob();
+      const dataUrl = await new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(blob);
+      });
+      checkPage(70);
+      doc.addImage(dataUrl, "JPEG", margin, y, contentW, 60, undefined, "FAST");
+      y += 68;
+    } catch { /* skip */ }
+
+    doc.setFontSize(8); doc.setTextColor(153);
+    doc.text(specimen.id.toUpperCase(), margin, y); y += 6;
+    doc.setFontSize(22); doc.setTextColor(26);
+    doc.text(displayName, margin, y); y += 8;
+    doc.setFontSize(11); doc.setTextColor(102);
+    doc.text(specimen.scientificName, margin, y); y += 10;
+
+    const sectionTitle = (title: string) => {
+      checkPage(14); doc.setFontSize(8); doc.setTextColor(153);
+      doc.text(title.toUpperCase(), margin, y); y += 2;
+      doc.setDrawColor(229); doc.line(margin, y, margin + contentW, y); y += 5;
+    };
+    const row = (label: string, value: string) => {
+      checkPage(8); doc.setFontSize(9); doc.setTextColor(136);
+      doc.text(label.toUpperCase(), margin, y);
+      doc.setTextColor(26);
+      const lines = doc.splitTextToSize(value, contentW * 0.55);
+      doc.text(lines, margin + contentW, y, { align: "right" });
+      y += Math.max(lines.length * 4.5, 5) + 1;
+    };
+    const paragraph = (text: string) => {
+      doc.setFontSize(10); doc.setTextColor(68);
+      const lines = doc.splitTextToSize(text, contentW);
+      checkPage(lines.length * 5);
+      doc.text(lines, margin, y); y += lines.length * 5 + 4;
+    };
+
+    sectionTitle("Taxonomic Data");
+    row("Family", specimen.family); row("Genus", specimen.genus); row("Species", specimen.species); y += 4;
+    sectionTitle("Geographic Distribution");
+    row("Region", specimen.region); row("Habitat", specimen.habitat); row("Migration", specimen.migration); y += 4;
+    sectionTitle("Color Spectrum");
+    doc.setFontSize(10); doc.setTextColor(26);
+    doc.text(specimen.colors.join(", "), margin, y); y += 8;
+    sectionTitle("Pattern & Morphology");
+    row("Pattern", specimen.pattern); row("Symmetry", specimen.symmetry);
+    row("Wingspan", specimen.wingspan); row("Wing Shape", specimen.wingShape); y += 4;
+    sectionTitle("Evolutionary Trait"); paragraph(displayTrait);
+    sectionTitle("Notes"); paragraph(displayDesc);
+
+    doc.save(`${specimen.id}-specimen.pdf`);
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex">
       <div className="absolute inset-0 bg-specimen-overlay/30 backdrop-blur-sm" onClick={onClose} />
@@ -127,6 +198,9 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
               <p className="text-sm font-body italic text-muted-foreground mt-1">{specimen.scientificName}</p>
             </div>
             <div className="flex items-center gap-2">
+              <button onClick={handleDownloadPdf} className="p-1 text-muted-foreground hover:text-foreground transition-colors" title="Download PDF">
+                <Download size={18} />
+              </button>
               <button onClick={handlePrint} className="p-1 text-muted-foreground hover:text-foreground transition-colors" title="Print-friendly view">
                 <Printer size={18} />
               </button>
