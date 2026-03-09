@@ -14,6 +14,7 @@ import SearchBar, { SearchCategory } from "@/components/SearchBar";
 import IdentifyPanel from "@/components/IdentifyPanel";
 import CategoryBrowseModal from "@/components/CategoryBrowseModal";
 import MapBrowser from "@/components/MapBrowser";
+import MonthScrubber from "@/components/MonthScrubber";
 import UserMenu from "@/components/UserMenu";
 import { getFlightActivity, isInPeakFlight, getCurrentMonth, MONTH_LABELS } from "@/data/flightPeriods";
 import UserPoll from "@/components/UserPoll";
