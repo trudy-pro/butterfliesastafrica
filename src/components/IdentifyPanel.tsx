@@ -74,14 +74,14 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
       const u = session?.user ?? null;
       setUser(u);
       setAuthLoading(false);
-      if (u) checkApproval(u.id);
+      if (u) checkApproval(u.id, u.email);
       else setApprovalStatus("loading");
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
       const u = session?.user ?? null;
       setUser(u);
       setAuthLoading(false);
-      if (u) checkApproval(u.id);
+      if (u) checkApproval(u.id, u.email);
     });
     return () => subscription.unsubscribe();
   }, [checkApproval]);
