@@ -182,6 +182,8 @@ const translations: Record<Language, Record<string, string>> = {
     "family.Lycaenidae": "Lycaenidae",
     "family.Satyrinae": "Satyrinae",
     "family.Hesperiidae": "Hesperiidae",
+    // Map
+    "map.title": "Explore by Region",
   },
   de: {
     "header.title": "Schmetterlinge\nOstafrika-Archiv",
@@ -331,6 +333,7 @@ const translations: Record<Language, Record<string, string>> = {
     "family.Lycaenidae": "Lycaenidae",
     "family.Satyrinae": "Satyrinae",
     "family.Hesperiidae": "Hesperiidae",
+    "map.title": "Nach Region erkunden",
   },
 };
 
