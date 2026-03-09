@@ -90,6 +90,7 @@ const Index = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { trackSearch, trackSpecimenView } = useAnalytics();
   const [user, setUser] = useState<User | null>(null);
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
   const [showFilters, setShowFilters] = useState(false);
