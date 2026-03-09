@@ -55,6 +55,18 @@ const MapClickHandler = ({ onClick }: { onClick: (lat: number, lng: number) => v
   return null;
 };
 
+/** Invalidate map size after mount to fix tile rendering in modals */
+const MapInvalidator = () => {
+  const map = useMap();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [map]);
+  return null;
+};
+
 /** GPS locate button component */
 const LocateButton = ({ onLocate }: { onLocate: (lat: number, lng: number) => void }) => {
   const map = useMap();
