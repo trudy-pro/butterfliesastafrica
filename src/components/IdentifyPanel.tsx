@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { X, Upload, Camera, Loader2, LogIn, LogOut, ShieldCheck, Clock } from "lucide-react";
+import { X, Upload, Camera, Loader2, LogIn, LogOut, ShieldCheck, Clock, Send, CheckCircle } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
+import { useToast } from "@/hooks/use-toast";
 import type { User } from "@supabase/supabase-js";
 
 interface IdentifyResult {
@@ -24,6 +25,7 @@ interface IdentifyPanelProps {
 }
 
 const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
+  const { toast } = useToast();
   const { t } = useLanguage();
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
