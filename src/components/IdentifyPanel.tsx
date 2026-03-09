@@ -86,11 +86,13 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
 
   const handleFile = (file: File) => {
     if (!file.type.startsWith("image/")) return;
+    setImageFile(file);
     const reader = new FileReader();
     reader.onload = (e) => {
       setImagePreview(e.target?.result as string);
       setResult(null);
       setError(null);
+      setSubmitted(false);
     };
     reader.readAsDataURL(file);
   };
