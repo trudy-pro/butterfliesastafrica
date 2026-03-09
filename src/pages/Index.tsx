@@ -275,6 +275,14 @@ const Index = () => {
             >
               {t("toolbar.info")}
             </button>
+            {isAdmin && (
+              <button
+                onClick={() => navigate("/admin")}
+                className="text-sm font-body text-primary hover:text-primary/80 transition-colors"
+              >
+                Analytics
+              </button>
+            )}
             {user ? (
               <UserMenu user={user} />
             ) : (
