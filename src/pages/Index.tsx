@@ -18,6 +18,7 @@ import MonthScrubber from "@/components/MonthScrubber";
 import UserMenu from "@/components/UserMenu";
 import { getFlightActivity, isInPeakFlight, getCurrentMonth, MONTH_LABELS } from "@/data/flightPeriods";
 import UserPoll from "@/components/UserPoll";
+import FirstLoginExperience from "@/components/FirstLoginExperience";
 import SeasonalityHeatmap from "@/components/SeasonalityHeatmap";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
@@ -111,6 +112,7 @@ const Index = () => {
   const [flyingNowActive, setFlyingNowActive] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [previewMonth, setPreviewMonth] = useState<number | null>(null);
+  const [showFirstLogin, setShowFirstLogin] = useState(false);
   const blockedToastShownRef = useRef(false);
   const [filters, setFilters] = useState<FilterState>({
     color: null,
@@ -164,6 +166,13 @@ const Index = () => {
 
     blockedToastShownRef.current = false;
     setUser(u);
+
+    // Check first login
+    const firstLoginKey = `ba_first_login_${u.id}`;
+    if (!localStorage.getItem(firstLoginKey)) {
+      setShowFirstLogin(true);
+      localStorage.setItem(firstLoginKey, "done");
+    }
 
     // Check if user is admin
     const { data: hasAdminRole } = await supabase.rpc("has_role", {
@@ -401,6 +410,15 @@ const Index = () => {
               setSearchCategory(cat);
               setSearchQuery(value);
             }}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showFirstLogin && (
+          <FirstLoginExperience
+            userName={user?.user_metadata?.display_name || user?.email?.split("@")[0]}
+            onComplete={() => setShowFirstLogin(false)}
           />
         )}
       </AnimatePresence>
