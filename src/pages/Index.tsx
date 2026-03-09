@@ -269,14 +269,6 @@ const Index = () => {
         <div className="flex items-center justify-end px-6 py-3">
         <div className="flex items-center gap-4">
             <button
-              onClick={() => setFlyingNowActive(!flyingNowActive)}
-              className={`text-sm font-body transition-colors flex items-center gap-1 ${
-                flyingNowActive ? "text-primary font-semibold" : "text-foreground hover:text-muted-foreground"
-              }`}
-            >
-              <Bug size={14} />
-            </button>
-            <button
               onClick={() => setShowHeatmap(true)}
               className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
             >
