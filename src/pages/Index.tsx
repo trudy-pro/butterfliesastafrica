@@ -326,7 +326,16 @@ const Index = () => {
               </button>
             )}
             {user ? (
-              <UserMenu user={user} />
+              <>
+                <button
+                  onClick={() => navigate("/collection")}
+                  className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
+                >
+                  <BookOpen size={14} />
+                  My Collection
+                </button>
+                <UserMenu user={user} />
+              </>
             ) : (
               <button
                 onClick={() => navigate("/auth")}
