@@ -257,7 +257,14 @@ const Index = () => {
       {/* Toolbar */}
       <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="flex items-center justify-end px-6 py-3">
-          <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowMap(true)}
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
+            >
+              <MapPin size={14} />
+              {t("toolbar.map") || "Map"}
+            </button>
             <button
               onClick={() => setShowIdentify(true)}
               className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
