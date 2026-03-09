@@ -126,9 +126,14 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
               </h2>
               <p className="text-sm font-body italic text-muted-foreground mt-1">{specimen.scientificName}</p>
             </div>
-            <button onClick={onClose} className="p-1 text-muted-foreground hover:text-foreground transition-colors">
-              <X size={18} />
-            </button>
+            <div className="flex items-center gap-2">
+              <button onClick={handlePrint} className="p-1 text-muted-foreground hover:text-foreground transition-colors" title="Print-friendly view">
+                <Printer size={18} />
+              </button>
+              <button onClick={onClose} className="p-1 text-muted-foreground hover:text-foreground transition-colors">
+                <X size={18} />
+              </button>
+            </div>
           </div>
 
           <div className="mb-6">
