@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          city: string | null
+          country: string | null
+          created_at: string
+          device_type: string | null
+          event_data: Json | null
+          event_type: string
+          id: string
+          page_path: string | null
+          referrer: string | null
+          session_id: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          device_type?: string | null
+          event_data?: Json | null
+          event_type: string
+          id?: string
+          page_path?: string | null
+          referrer?: string | null
+          session_id: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          device_type?: string | null
+          event_data?: Json | null
+          event_type?: string
+          id?: string
+          page_path?: string | null
+          referrer?: string | null
+          session_id?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       contributor_approvals: {
         Row: {
           display_name: string | null
@@ -44,6 +89,66 @@ export type Database = {
           reviewed_by?: string | null
           status?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      search_queries: {
+        Row: {
+          category: string | null
+          created_at: string
+          id: string
+          query: string
+          results_count: number | null
+          session_id: string
+          user_id: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          query: string
+          results_count?: number | null
+          session_id: string
+          user_id?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          query?: string
+          results_count?: number | null
+          session_id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      specimen_views: {
+        Row: {
+          created_at: string
+          id: string
+          session_id: string
+          specimen_id: string
+          specimen_name: string | null
+          user_id: string | null
+          view_duration_seconds: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          session_id: string
+          specimen_id: string
+          specimen_name?: string | null
+          user_id?: string | null
+          view_duration_seconds?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          session_id?: string
+          specimen_id?: string
+          specimen_name?: string | null
+          user_id?: string | null
+          view_duration_seconds?: number | null
         }
         Relationships: []
       }

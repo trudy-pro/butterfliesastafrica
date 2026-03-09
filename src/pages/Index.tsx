@@ -16,6 +16,7 @@ import CategoryBrowseModal from "@/components/CategoryBrowseModal";
 import UserMenu from "@/components/UserMenu";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 const ScrollableGrid = ({ filtered, onSelect }: { filtered: ButterflySpecimen[]; onSelect: (s: ButterflySpecimen) => void }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -89,6 +90,7 @@ const Index = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { trackSearch, trackSpecimenView } = useAnalytics();
   const [user, setUser] = useState<User | null>(null);
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
   const [showFilters, setShowFilters] = useState(false);
@@ -208,6 +210,25 @@ const Index = () => {
     });
   }, [filters, searchQuery, searchCategory]);
 
+  // Track search queries
+  const lastTrackedSearch = useRef("");
+  useEffect(() => {
+    const q = searchQuery.trim();
+    if (q && q !== lastTrackedSearch.current && q.length >= 2) {
+      lastTrackedSearch.current = q;
+      const timeoutId = setTimeout(() => {
+        trackSearch(q, searchCategory, filtered.length);
+      }, 1000); // Debounce to avoid tracking every keystroke
+      return () => clearTimeout(timeoutId);
+    }
+  }, [searchQuery, searchCategory, filtered.length, trackSearch]);
+
+  // Handle specimen selection with tracking
+  const handleSpecimenSelect = useCallback((specimen: ButterflySpecimen) => {
+    trackSpecimenView(specimen.id, specimen.commonName);
+    setSelectedSpecimen(specimen);
+  }, [trackSpecimenView]);
+
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
 
   return (
@@ -273,7 +294,7 @@ const Index = () => {
             </button>
           </div>
         ) : (
-          <ScrollableGrid filtered={filtered} onSelect={setSelectedSpecimen} />
+          <ScrollableGrid filtered={filtered} onSelect={handleSpecimenSelect} />
         )}
       </main>
 
