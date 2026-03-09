@@ -1,10 +1,15 @@
+import { useState } from "react";
 import { ButterflySpecimen } from "@/data/butterflies";
-import { X, Printer, Download } from "lucide-react";
+import { X, Printer, Download, Layers } from "lucide-react";
 import { jsPDF } from "jspdf";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { getSpecimenTypography } from "@/lib/specimenTypography";
 import DeepZoomViewer from "@/components/DeepZoomViewer";
 import SeasonalityChart from "@/components/SeasonalityChart";
+import AnatomyOverlay from "@/components/AnatomyOverlay";
+import DimorphismToggle from "@/components/DimorphismToggle";
+import { getAnatomyHotspots } from "@/data/wingAnatomy";
+import { getDimorphism } from "@/data/dimorphism";
 
 interface SpecimenDetailProps {
   specimen: ButterflySpecimen;
@@ -25,6 +30,11 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
   const displayDesc = tSpecimen(specimen.id, "description") ?? specimen.description;
   const displayTrait = tSpecimen(specimen.id, "evolutionaryTrait") ?? specimen.evolutionaryTrait;
   const typo = getSpecimenTypography(specimen);
+
+  const [anatomyVisible, setAnatomyVisible] = useState(false);
+  const hotspots = getAnatomyHotspots(specimen.wingShape);
+  const dimorphism = getDimorphism(specimen.id);
+  const [currentSex, setCurrentSex] = useState<"male" | "female">(dimorphism?.defaultSex ?? "male");
 
   const handlePrint = () => {
     const printWindow = window.open("", "_blank");
@@ -172,11 +182,32 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
       <div className="absolute inset-0 bg-specimen-overlay/30 backdrop-blur-sm" onClick={onClose} />
 
       <div className="relative ml-auto w-full max-w-2xl bg-background overflow-y-auto animate-slide-in flex flex-col lg:flex-row">
-        <div className="lg:w-1/2 bg-card flex items-center justify-center min-h-[300px] lg:min-h-0">
+        <div className="lg:w-1/2 bg-card flex items-center justify-center min-h-[300px] lg:min-h-0 relative">
           <DeepZoomViewer
             src={specimen.image}
             alt={`${displayName} specimen`}
           />
+          <AnatomyOverlay hotspots={hotspots} visible={anatomyVisible} />
+
+          <button
+            onClick={() => setAnatomyVisible(!anatomyVisible)}
+            className={`absolute bottom-3 right-3 z-30 flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-body tracking-wider uppercase border transition-colors ${
+              anatomyVisible
+                ? "bg-primary text-primary-foreground border-primary"
+                : "bg-card/90 backdrop-blur-sm text-muted-foreground border-border hover:bg-card"
+            }`}
+          >
+            <Layers className="w-3.5 h-3.5" />
+            Anatomy
+          </button>
+
+          {dimorphism && (
+            <div className="absolute top-3 left-3 z-30 px-2 py-1 rounded-md bg-card/90 backdrop-blur-sm border border-border">
+              <span className="text-[10px] font-body text-muted-foreground uppercase tracking-wider">
+                {currentSex === "male" ? "♂ Male" : "♀ Female"}
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="lg:w-1/2 p-8 overflow-y-auto">
@@ -249,6 +280,14 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
           </div>
 
           <SeasonalityChart specimenId={specimen.id} />
+
+          {dimorphism && (
+            <DimorphismToggle
+              dimorphism={dimorphism}
+              currentSex={currentSex}
+              onToggle={setCurrentSex}
+            />
+          )}
 
           <div className="mb-6">
             <h3 className="text-xs font-body uppercase tracking-[0.2em] text-muted-foreground mb-3">{t("detail.evolutionaryTrait")}</h3>
