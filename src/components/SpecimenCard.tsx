@@ -72,11 +72,6 @@ const SpecimenCard = ({ specimen, onClick, index, monthOverride }: SpecimenCardP
           className={`text-sm mt-0.5 leading-tight ${isDormant ? "text-muted-foreground/50" : isLow ? "text-muted-foreground" : "text-foreground"}`}
           style={{
             fontFamily: "'Fraunces', serif",
-            fontWeight: typo.fontWeight,
-            letterSpacing: typo.letterSpacing,
-            fontStyle: typo.fontStyle,
-            transform: typo.style.transform,
-            display: "inline-block",
           }}
         >
           {displayName}

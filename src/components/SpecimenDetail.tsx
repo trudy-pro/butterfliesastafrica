@@ -225,11 +225,6 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
                 className="text-2xl leading-tight"
                 style={{
                   fontFamily: "'Fraunces', serif",
-                  fontWeight: typo.fontWeight,
-                  letterSpacing: typo.letterSpacing,
-                  fontStyle: typo.fontStyle,
-                  transform: typo.style.transform,
-                  display: "inline-block",
                 }}
               >
                 {displayName}
