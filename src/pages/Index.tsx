@@ -155,6 +155,13 @@ const Index = () => {
 
     blockedToastShownRef.current = false;
     setUser(u);
+
+    // Check if user is admin
+    const { data: hasAdminRole } = await supabase.rpc("has_role", {
+      _user_id: u.id,
+      _role: "admin",
+    });
+    setIsAdmin(!!hasAdminRole);
   }, [navigate, toast]);
 
   useEffect(() => {
