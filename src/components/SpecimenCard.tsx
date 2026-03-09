@@ -1,6 +1,5 @@
 import { ButterflySpecimen } from "@/data/butterflies";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { getSpecimenTypography } from "@/lib/specimenTypography";
 import { getFlightActivity, getCurrentMonth } from "@/data/flightPeriods";
 import { useMemo } from "react";
 

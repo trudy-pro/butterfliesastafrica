@@ -3,7 +3,7 @@ import { ButterflySpecimen } from "@/data/butterflies";
 import { X, Printer, Download, Layers } from "lucide-react";
 import { jsPDF } from "jspdf";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { getSpecimenTypography } from "@/lib/specimenTypography";
+
 import DeepZoomViewer from "@/components/DeepZoomViewer";
 import SeasonalityChart from "@/components/SeasonalityChart";
 import AnatomyOverlay from "@/components/AnatomyOverlay";
