@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { useState, useCallback, useRef } from "react";
+import { TransformWrapper, TransformComponent, useControls, ReactZoomPanPinchRef } from "react-zoom-pan-pinch";
 import { ZoomIn, ZoomOut, RotateCcw, Maximize2, X } from "lucide-react";
 
 interface DeepZoomViewerProps {
