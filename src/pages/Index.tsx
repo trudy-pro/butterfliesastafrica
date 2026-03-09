@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Camera, LogIn } from "lucide-react";
+import { ChevronLeft, ChevronRight, Camera, LogIn, MapPin } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,6 +13,7 @@ import ComparisonView from "@/components/ComparisonView";
 import SearchBar, { SearchCategory } from "@/components/SearchBar";
 import IdentifyPanel from "@/components/IdentifyPanel";
 import CategoryBrowseModal from "@/components/CategoryBrowseModal";
+import MapBrowser from "@/components/MapBrowser";
 import UserMenu from "@/components/UserMenu";
 import UserPoll from "@/components/UserPoll";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -99,6 +100,7 @@ const Index = () => {
   const [showInfo, setShowInfo] = useState(false);
   const [showCompare, setShowCompare] = useState(false);
   const [showIdentify, setShowIdentify] = useState(false);
+  const [showMap, setShowMap] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState<SearchCategory>("all");
   const [browseCategory, setBrowseCategory] = useState<SearchCategory | null>(null);
@@ -255,7 +257,14 @@ const Index = () => {
       {/* Toolbar */}
       <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="flex items-center justify-end px-6 py-3">
-          <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowMap(true)}
+              className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
+            >
+              <MapPin size={14} />
+              {t("toolbar.map") || "Map"}
+            </button>
             <button
               onClick={() => setShowIdentify(true)}
               className="text-sm font-body text-foreground hover:text-muted-foreground transition-colors flex items-center gap-1"
@@ -344,6 +353,15 @@ const Index = () => {
       {showInfo && <InfoPanel onClose={() => setShowInfo(false)} />}
       {showCompare && <ComparisonView onClose={() => setShowCompare(false)} />}
       {showIdentify && <IdentifyPanel onClose={() => setShowIdentify(false)} />}
+      {showMap && (
+        <MapBrowser
+          onClose={() => setShowMap(false)}
+          onSelectLocation={(country) => {
+            setSearchCategory("regions");
+            setSearchQuery(country);
+          }}
+        />
+      )}
       <AnimatePresence>
         {browseCategory && (
           <CategoryBrowseModal
