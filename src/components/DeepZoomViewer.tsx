@@ -15,8 +15,6 @@ const DeepZoomViewer = ({ src, alt, onClose }: DeepZoomViewerProps) => {
   const toggleFullscreen = useCallback(() => {
     setIsFullscreen((prev) => !prev);
   }, []);
-    setIsFullscreen((prev) => !prev);
-  }, []);
 
   const viewer = (
     <TransformWrapper
