@@ -10,8 +10,11 @@ interface DeepZoomViewerProps {
 
 const DeepZoomViewer = ({ src, alt, onClose }: DeepZoomViewerProps) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [scale, setScale] = useState(1);
 
   const toggleFullscreen = useCallback(() => {
+    setIsFullscreen((prev) => !prev);
+  }, []);
     setIsFullscreen((prev) => !prev);
   }, []);
 
