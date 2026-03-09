@@ -99,6 +99,7 @@ const Index = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { trackSearch, trackSpecimenView } = useAnalytics();
+  const { recordExamination } = useExaminedSpecimens();
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedSpecimen, setSelectedSpecimen] = useState<ButterflySpecimen | null>(null);
