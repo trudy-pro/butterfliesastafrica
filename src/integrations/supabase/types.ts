@@ -230,6 +230,42 @@ export type Database = {
         }
         Relationships: []
       }
+      user_environment_profiles: {
+        Row: {
+          climate_zone: string
+          created_at: string
+          habitat_type: string
+          id: string
+          latitude: number | null
+          longitude: number | null
+          signup_season: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          climate_zone?: string
+          created_at?: string
+          habitat_type?: string
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          signup_season?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          climate_zone?: string
+          created_at?: string
+          habitat_type?: string
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          signup_season?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
