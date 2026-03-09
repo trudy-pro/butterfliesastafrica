@@ -2,6 +2,7 @@ import { ButterflySpecimen } from "@/data/butterflies";
 import { X } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { getSpecimenTypography } from "@/lib/specimenTypography";
+import DeepZoomViewer from "@/components/DeepZoomViewer";
 
 interface SpecimenDetailProps {
   specimen: ButterflySpecimen;
