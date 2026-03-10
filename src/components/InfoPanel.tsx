@@ -112,7 +112,7 @@ const InfoPanel = ({ onClose }: InfoPanelProps) => {
           </nav>
         </div>
 
-        <div className="px-10 pt-8 pb-10">
+        <div className="px-4 md:px-10 pt-6 md:pt-8 pb-10">
         <div className="space-y-8 font-body text-sm leading-relaxed mb-16">
           <div>
             <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">{t("info.mission")}</h3>
