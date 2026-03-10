@@ -113,7 +113,7 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
       </motion.div>
 
       {/* Search */}
-      <div className="px-8 pt-6 pb-2">
+      <div className="px-4 md:px-8 pt-4 md:pt-6 pb-2">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input
