@@ -189,6 +189,7 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
       <div className="absolute inset-0 bg-specimen-overlay/30 backdrop-blur-sm" onClick={onClose} />
 
       <div className="relative ml-auto w-full max-w-2xl bg-background overflow-y-auto animate-slide-in flex flex-col lg:flex-row">
+
         <div className="lg:w-1/2 bg-card flex items-center justify-center min-h-[300px] lg:min-h-0 relative">
           <DeepZoomViewer
             src={specimen.image}
@@ -217,7 +218,7 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
           )}
         </div>
 
-        <div className="lg:w-1/2 p-8 overflow-y-auto">
+        <div className="lg:w-1/2 p-4 md:p-8 overflow-y-auto">
           <div className="flex items-start justify-between mb-6">
             <div>
               <p className="text-xs font-body text-muted-foreground tracking-widest mb-1">{specimen.id.toUpperCase()}</p>

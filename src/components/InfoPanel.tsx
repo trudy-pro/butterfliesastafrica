@@ -90,9 +90,9 @@ const InfoPanel = ({ onClose }: InfoPanelProps) => {
       <div className="absolute inset-0 bg-specimen-overlay/20 backdrop-blur-sm" onClick={onClose} />
       <div className="relative ml-auto w-full max-w-lg bg-background overflow-y-auto animate-slide-in">
         {/* Sticky header with close + nav */}
-        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-10 pt-10 pb-4">
-          <div className="flex items-start justify-between mb-6">
-            <h2 className="text-3xl font-display italic text-foreground">{t("info.title")}</h2>
+        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 md:px-10 pt-6 md:pt-10 pb-4">
+          <div className="flex items-start justify-between mb-4 md:mb-6">
+            <h2 className="text-2xl md:text-3xl font-display italic text-foreground">{t("info.title")}</h2>
             <button onClick={onClose} className="p-1 text-muted-foreground hover:text-foreground transition-colors">
               <X size={18} />
             </button>
@@ -112,7 +112,7 @@ const InfoPanel = ({ onClose }: InfoPanelProps) => {
           </nav>
         </div>
 
-        <div className="px-10 pt-8 pb-10">
+        <div className="px-4 md:px-10 pt-6 md:pt-8 pb-10">
         <div className="space-y-8 font-body text-sm leading-relaxed mb-16">
           <div>
             <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">{t("info.mission")}</h3>
@@ -147,7 +147,7 @@ const InfoPanel = ({ onClose }: InfoPanelProps) => {
               {index > 0 && <hr className="border-border my-12" />}
               <div className="space-y-4">
                 {/* Large country name */}
-                <h2 className="text-5xl md:text-6xl font-display font-black text-muted-foreground/30 leading-none tracking-tight uppercase">
+                <h2 className="text-3xl sm:text-5xl md:text-6xl font-display font-black text-muted-foreground/30 leading-none tracking-tight uppercase">
                   {country.name}
                 </h2>
 

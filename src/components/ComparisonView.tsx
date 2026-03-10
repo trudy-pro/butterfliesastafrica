@@ -109,8 +109,8 @@ const ComparisonView = ({ onClose, initialSpecimen }: ComparisonViewProps) => {
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-background">
-      <div className="flex items-center justify-between px-6 py-4 border-b border-border flex-shrink-0">
-        <h2 className="text-xl font-display italic text-foreground flex items-center gap-3">
+      <div className="flex items-center justify-between px-4 md:px-6 py-3 md:py-4 border-b border-border flex-shrink-0">
+        <h2 className="text-lg md:text-xl font-display italic text-foreground flex items-center gap-3">
           <ArrowLeftRight size={18} className="text-muted-foreground" />
           {t("compare.title")}
         </h2>
@@ -119,10 +119,10 @@ const ComparisonView = ({ onClose, initialSpecimen }: ComparisonViewProps) => {
         </button>
       </div>
 
-      <div className="flex-1 flex gap-3 p-4 overflow-hidden min-h-0">
+      <div className="flex-1 flex flex-col md:flex-row gap-3 p-3 md:p-4 overflow-hidden min-h-0">
         <SlotPicker label="A" selected={specimenA} onSelect={setSpecimenA} excludeId={specimenB?.id} />
         {specimenA && specimenB && (
-          <div className="flex items-center">
+          <div className="flex items-center justify-center py-1 md:py-0">
             <button onClick={swap} className="p-2 rounded-full bg-secondary text-secondary-foreground hover:bg-muted transition-colors" title="Swap">
               <ArrowLeftRight size={14} />
             </button>
