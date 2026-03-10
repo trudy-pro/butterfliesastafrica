@@ -96,7 +96,7 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
     >
       {/* Header */}
       <motion.div
-        className="flex items-center justify-between px-8 py-6 border-b border-border"
+        className="flex items-center justify-between px-4 md:px-8 py-4 md:py-6 border-b border-border"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.15 }}
