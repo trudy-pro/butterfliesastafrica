@@ -90,9 +90,9 @@ const InfoPanel = ({ onClose }: InfoPanelProps) => {
       <div className="absolute inset-0 bg-specimen-overlay/20 backdrop-blur-sm" onClick={onClose} />
       <div className="relative ml-auto w-full max-w-lg bg-background overflow-y-auto animate-slide-in">
         {/* Sticky header with close + nav */}
-        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-10 pt-10 pb-4">
-          <div className="flex items-start justify-between mb-6">
-            <h2 className="text-3xl font-display italic text-foreground">{t("info.title")}</h2>
+        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 md:px-10 pt-6 md:pt-10 pb-4">
+          <div className="flex items-start justify-between mb-4 md:mb-6">
+            <h2 className="text-2xl md:text-3xl font-display italic text-foreground">{t("info.title")}</h2>
             <button onClick={onClose} className="p-1 text-muted-foreground hover:text-foreground transition-colors">
               <X size={18} />
             </button>
