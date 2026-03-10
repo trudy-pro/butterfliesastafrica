@@ -403,7 +403,7 @@ const Index = () => {
       </main>
 
       {/* Search Bar — fixed at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 z-[60] bg-background/90 backdrop-blur-md border-t border-border py-4">
+      <div className="fixed bottom-0 left-0 right-0 z-[60] bg-background/90 backdrop-blur-md border-t border-border py-2 md:py-4">
         <SearchBar
           query={searchQuery}
           onQueryChange={setSearchQuery}

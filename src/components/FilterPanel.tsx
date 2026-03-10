@@ -104,7 +104,7 @@ const FilterPanel = ({ filters, onFilterChange, onClose }: FilterPanelProps) => 
   return (
     <div className="fixed inset-0 z-50 flex">
       <div className="absolute inset-0 bg-specimen-overlay/20 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-md bg-background border-r border-border overflow-y-auto p-8 animate-slide-in">
+      <div className="relative w-full max-w-md bg-background border-r border-border overflow-y-auto p-4 md:p-8 animate-slide-in">
         <div className="flex items-center justify-between mb-10">
           <h2 className="text-2xl font-display italic text-foreground">{t("filter.title")}</h2>
           <div className="flex items-center gap-4">

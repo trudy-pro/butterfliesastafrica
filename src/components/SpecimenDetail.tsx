@@ -218,7 +218,7 @@ const SpecimenDetail = ({ specimen, onClose, onCompare }: SpecimenDetailProps) =
           )}
         </div>
 
-        <div className="lg:w-1/2 p-8 overflow-y-auto">
+        <div className="lg:w-1/2 p-4 md:p-8 overflow-y-auto">
           <div className="flex items-start justify-between mb-6">
             <div>
               <p className="text-xs font-body text-muted-foreground tracking-widest mb-1">{specimen.id.toUpperCase()}</p>

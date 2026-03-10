@@ -147,7 +147,7 @@ const InfoPanel = ({ onClose }: InfoPanelProps) => {
               {index > 0 && <hr className="border-border my-12" />}
               <div className="space-y-4">
                 {/* Large country name */}
-                <h2 className="text-5xl md:text-6xl font-display font-black text-muted-foreground/30 leading-none tracking-tight uppercase">
+                <h2 className="text-3xl sm:text-5xl md:text-6xl font-display font-black text-muted-foreground/30 leading-none tracking-tight uppercase">
                   {country.name}
                 </h2>
 

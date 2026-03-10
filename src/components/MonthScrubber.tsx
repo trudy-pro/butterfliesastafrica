@@ -54,11 +54,11 @@ const MonthScrubber = ({ previewMonth, onMonthChange }: MonthScrubberProps) => {
   }
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2 md:gap-3 overflow-x-auto scrollbar-hide">
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex items-center gap-1 px-2 py-1.5 rounded-lg border border-border bg-card/95 backdrop-blur-md shadow-lg"
+        className="flex items-center gap-0.5 md:gap-1 px-1.5 md:px-2 py-1.5 rounded-lg border border-border bg-card/95 backdrop-blur-md shadow-lg shrink-0"
       >
         {MONTH_LABELS.map((label, i) => {
           const isCurrent = i === currentMonth;
@@ -67,7 +67,7 @@ const MonthScrubber = ({ previewMonth, onMonthChange }: MonthScrubberProps) => {
             <button
               key={label}
               onClick={() => onMonthChange(i === currentMonth ? null : i)}
-              className={`relative w-7 h-7 rounded-md text-[10px] font-body font-medium tracking-wide transition-all ${
+              className={`relative w-6 h-6 md:w-7 md:h-7 rounded-md text-[9px] md:text-[10px] font-body font-medium tracking-wide transition-all ${
                 isActive
                   ? "bg-primary text-primary-foreground"
                   : isCurrent
@@ -85,13 +85,13 @@ const MonthScrubber = ({ previewMonth, onMonthChange }: MonthScrubberProps) => {
         })}
         <button
           onClick={() => { onMonthChange(null); setOpen(false); }}
-          className="ml-1 w-6 h-6 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          className="ml-0.5 md:ml-1 w-5 h-5 md:w-6 md:h-6 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
           title="Reset to current month"
         >
           <X className="w-3 h-3" />
         </button>
       </motion.div>
-      <div className="flex items-center gap-2 text-[10px] font-body uppercase tracking-wider">
+      <div className="hidden sm:flex items-center gap-2 text-[10px] font-body uppercase tracking-wider shrink-0">
         <span className="text-foreground">{counts.active} active</span>
         <span className="text-muted-foreground">·</span>
         <span className="text-muted-foreground">{counts.low} low</span>

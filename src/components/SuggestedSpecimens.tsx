@@ -59,7 +59,7 @@ const SuggestedSpecimens = ({ climateZone, habitatType, onSelect }: SuggestedSpe
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="px-6 pb-4"
+      className="px-3 md:px-6 pb-4"
     >
       <div className="flex items-center gap-2 mb-3">
         <Compass className="w-3.5 h-3.5 text-accent" />

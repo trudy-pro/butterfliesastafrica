@@ -185,7 +185,7 @@ const IdentifyPanel = ({ onClose }: IdentifyPanelProps) => {
   return (
     <div className="fixed inset-0 z-50 flex">
       <div className="absolute inset-0 bg-specimen-overlay/30 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative ml-auto w-full max-w-lg bg-background overflow-y-auto p-8 animate-slide-in">
+      <div className="relative ml-auto w-full max-w-lg bg-background overflow-y-auto p-4 md:p-8 animate-slide-in">
         <div className="flex items-start justify-between mb-8">
           <div>
             <h2 className="text-2xl font-display italic text-foreground">{t("identify.title")}</h2>

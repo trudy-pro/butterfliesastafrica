@@ -128,7 +128,7 @@ const CategoryBrowseModal = ({ category, onClose, onSelect }: CategoryBrowseModa
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-8 py-6">
+      <div className="flex-1 overflow-y-auto px-4 md:px-8 py-4 md:py-6">
         {category === "all" ? (() => {
           // Merge all items into one alphabetical list
           const allItems = filteredSections.flatMap((section) => {

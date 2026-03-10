@@ -77,26 +77,26 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
   const toggleLang = () => setLang(lang === "en" ? "de" : "en");
 
   return (
-    <div className="w-[90%] mx-auto">
+    <div className="w-[95%] md:w-[90%] mx-auto">
       {/* Search bar */}
-      <div className="flex items-center bg-search-bar p-3 rounded-xl gap-3">
+      <div className="flex items-center bg-search-bar p-2 md:p-3 rounded-xl gap-2 md:gap-3">
         {/* Dropdown */}
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setDropdownOpen((o) => !o)}
-            className="flex items-center gap-2 bg-search-bar-btn text-primary-foreground px-5 py-3.5 rounded-lg font-body text-lg cursor-pointer border-none whitespace-nowrap hover:opacity-90 transition-opacity"
+            className="flex items-center gap-1.5 md:gap-2 bg-search-bar-btn text-primary-foreground px-3 md:px-5 py-2.5 md:py-3.5 rounded-lg font-body text-sm md:text-lg cursor-pointer border-none whitespace-nowrap hover:opacity-90 transition-opacity"
           >
             {activeLabel}
-            <ChevronDown size={16} className={`transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
+            <ChevronDown size={14} className={`transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
           </button>
 
           {dropdownOpen && (
-            <div className="absolute bottom-full left-0 mb-1 z-50 min-w-[220px] bg-card border border-border rounded-lg shadow-lg overflow-hidden">
+            <div className="absolute bottom-full left-0 mb-1 z-50 min-w-[200px] md:min-w-[220px] bg-card border border-border rounded-lg shadow-lg overflow-hidden">
               {categories.map((cat) => (
                 <button
                   key={cat.key}
                   onClick={() => { onCategoryChange(cat.key); setDropdownOpen(false); }}
-                  className={`w-full flex items-center justify-between px-4 py-3 text-left font-body text-sm transition-colors hover:bg-secondary ${
+                  className={`w-full flex items-center justify-between px-3 md:px-4 py-2.5 md:py-3 text-left font-body text-sm transition-colors hover:bg-secondary ${
                     activeCategory === cat.key ? "bg-secondary text-foreground font-medium" : "text-muted-foreground"
                   }`}
                 >
@@ -114,20 +114,20 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
           value={query}
           onChange={(e) => onQueryChange(e.target.value)}
           placeholder={t("search.placeholder")}
-          className="flex-1 px-5 py-4 rounded-lg border-none font-body text-xl text-foreground bg-background outline-none placeholder:text-muted-foreground"
+          className="flex-1 min-w-0 px-3 md:px-5 py-2.5 md:py-4 rounded-lg border-none font-body text-base md:text-xl text-foreground bg-background outline-none placeholder:text-muted-foreground"
         />
 
         {/* Language toggle */}
         <button
           onClick={toggleLang}
-          className="w-11 h-11 rounded-full bg-background border-2 border-search-bar flex items-center justify-center font-body font-bold text-sm text-foreground shrink-0 hover:opacity-80 transition-opacity cursor-pointer"
+          className="w-9 h-9 md:w-11 md:h-11 rounded-full bg-background border-2 border-search-bar flex items-center justify-center font-body font-bold text-xs md:text-sm text-foreground shrink-0 hover:opacity-80 transition-opacity cursor-pointer"
         >
           {lang}
         </button>
       </div>
 
       {/* Categories row */}
-      <div className="flex flex-wrap justify-between mt-3 gap-y-2">
+      <div className="flex overflow-x-auto scrollbar-hide mt-2 md:mt-3 gap-x-3 md:gap-x-0 md:flex-wrap md:justify-between gap-y-2 pb-1">
         {categories.map((cat) => (
           <button
             key={cat.key}
@@ -137,7 +137,7 @@ const SearchBar = ({ query, onQueryChange, activeCategory, onCategoryChange, onC
                 onCategoryBrowse(cat.key);
               }
             }}
-            className={`mr-4 last:mr-0 font-body text-sm transition-colors cursor-pointer bg-transparent border-none text-left ${
+            className={`md:mr-4 md:last:mr-0 font-body text-xs md:text-sm transition-colors cursor-pointer bg-transparent border-none text-left whitespace-nowrap shrink-0 ${
               activeCategory === cat.key ? "text-foreground font-medium" : "text-search-cat"
             }`}
           >
