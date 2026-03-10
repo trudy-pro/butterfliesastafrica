@@ -27,18 +27,18 @@ const MonthScrubber = ({ previewMonth, onMonthChange }: MonthScrubberProps) => {
 
   if (!open) {
     return (
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 md:gap-3">
         <button
           onClick={() => setOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-border bg-card/90 backdrop-blur-sm text-[11px] font-body uppercase tracking-wider text-muted-foreground hover:bg-card transition-colors"
+          className="flex items-center gap-1.5 px-2 md:px-3 py-1.5 rounded-md border border-border bg-card/90 backdrop-blur-sm text-[10px] md:text-[11px] font-body uppercase tracking-wider text-muted-foreground hover:bg-card transition-colors"
         >
-          <Calendar className="w-3.5 h-3.5" />
+          <Calendar className="w-3 h-3 md:w-3.5 md:h-3.5" />
           {MONTH_LABELS[activeMonth]}
           {previewMonth !== null && (
             <span className="ml-1 px-1.5 py-0.5 rounded bg-primary/10 text-primary text-[9px]">Preview</span>
           )}
         </button>
-        <div className="flex items-center gap-2 text-[10px] font-body uppercase tracking-wider">
+        <div className="hidden sm:flex items-center gap-2 text-[10px] font-body uppercase tracking-wider">
           <span className="text-foreground">{counts.active} active</span>
           <span className="text-muted-foreground">·</span>
           <span className="text-muted-foreground">{counts.low} low</span>
