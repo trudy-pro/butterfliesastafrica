@@ -2,9 +2,9 @@
 
 **An interactive digital archive for exploring African butterflies through visual discovery, ecological information, and interactive interfaces.**
 
-[Explore the website](https://trudy-pro.github.io/butterfliesastafrica/) · [View source code](https://github.com/trudy-pro/butterfliesastafrica)
+[View source code](https://github.com/trudy-pro/butterfliesastafrica)
 
-> The public website depends on a successful GitHub Pages deployment. Some account and contribution features also require a configured Supabase backend.
+> Some account and contribution features require a configured Supabase backend.
 
 ## About the project
 
@@ -35,7 +35,6 @@ Some features require a user account. AI-assisted identifications are suggestion
 | Maps | Leaflet, React Leaflet |
 | Data visualization | Recharts |
 | Backend and authentication | Supabase |
-| Deployment | GitHub Pages, GitHub Actions |
 
 ## Run locally
 
@@ -80,7 +79,6 @@ This is an evolving web project. Potential improvements include better documenta
 ## Project links
 
 - **Repository:** https://github.com/trudy-pro/butterfliesastafrica
-- **GitHub Pages:** https://trudy-pro.github.io/butterfliesastafrica/
 
 ## Credits
 
