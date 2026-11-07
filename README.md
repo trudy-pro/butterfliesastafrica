@@ -1,73 +1,87 @@
-# Welcome to your Lovable project
+# Butterflies Across Africa 🦋
 
-## Project info
+**An interactive digital archive for exploring African butterflies through visual discovery, ecological information, and interactive interfaces.**
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+[Explore the website](https://trudy-pro.github.io/butterfliesastafrica/) · [View source code](https://github.com/trudy-pro/butterfliesastafrica)
 
-## How can I edit this code?
+> The public website depends on a successful GitHub Pages deployment. Some account and contribution features also require a configured Supabase backend.
 
-There are several ways of editing your application.
+## About the project
 
-**Use Lovable**
+Butterflies Across Africa explores how interaction design can make biodiversity information more accessible and engaging. Instead of navigating a static catalogue, visitors can discover butterfly species through appearance, habitat, geographical distribution, and seasonal activity.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+The project brings together visual communication, UX design, frontend development, and interactive information exploration.
 
-Changes made via Lovable will be committed automatically to this repo.
+## Features
 
-**Use your preferred IDE**
+- **Species explorer:** browse illustrated butterfly specimens and open detailed profiles.
+- **Search and filters:** explore by common or scientific name, family, wing colour, pattern, shape, habitat, and region.
+- **Visual comparison:** compare specimens and their distinguishing characteristics.
+- **Geographical exploration:** browse butterflies through an interactive map.
+- **Seasonality:** explore flight periods, seasonal activity, and what may be flying in a given month.
+- **Personal collection:** save examined specimens and track collection progress.
+- **Contributor portal:** approved contributors can upload photographs for AI-assisted identification.
+- **Administration:** contributor approval and submission-management interfaces.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Some features require a user account. AI-assisted identifications are suggestions, not authoritative scientific determinations.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Technology
 
-Follow these steps:
+| Area | Tools |
+| --- | --- |
+| Frontend | React, TypeScript, Vite |
+| Interface | Tailwind CSS, shadcn/ui |
+| Animation | Framer Motion |
+| Maps | Leaflet, React Leaflet |
+| Data visualization | Recharts |
+| Backend and authentication | Supabase |
+| Deployment | GitHub Pages, GitHub Actions |
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Run locally
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+You will need **Git**, **Node.js**, and **npm**.
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+git clone https://github.com/trudy-pro/butterfliesastafrica.git
+cd butterfliesastafrica
+npm install --no-package-lock --legacy-peer-deps
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Open **http://localhost:8080/** in your browser.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+The repository currently uses an installation workaround because its `package-lock.json` is not fully synchronized with `package.json`. This can be resolved by regenerating and committing a consistent lockfile.
 
-**Use GitHub Codespaces**
+### Environment configuration
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Account and contribution features depend on Supabase configuration. For local development, place the following variables in an untracked `.env.local` file, using your own project values:
 
-## What technologies are used for this project?
+```env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_PUBLISHABLE_KEY=your_publishable_key
+VITE_SUPABASE_PROJECT_ID=your_project_id
+```
 
-This project is built with:
+Do not commit private API tokens, passwords, or Supabase service-role keys. A publishable client key is not a substitute for properly configured Supabase authorization and row-level security.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Design considerations
 
-## How can I deploy this project?
+The interface experiments with different ways to make scientific information approachable:
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+- **Visual discovery:** beginning with observable differences in colour, wing shape, and pattern.
+- **Progressive disclosure:** offering detailed specimen information when a visitor chooses to explore further.
+- **Multiple exploration paths:** combining search, filtering, comparison, maps, and seasonal views.
+- **Personal engagement:** using collected specimens to encourage continued exploration.
 
-## Can I connect a custom domain to my Lovable project?
+## Status and next steps
 
-Yes, you can!
+This is an evolving web project. Potential improvements include better documentation of biodiversity data sources, accessibility testing, verified species information, expanded ecological datasets, and more robust visual comparisons.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Project links
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- **Repository:** https://github.com/trudy-pro/butterfliesastafrica
+- **GitHub Pages:** https://trudy-pro.github.io/butterfliesastafrica/
+
+## Credits
+
+An interactive web project combining interface design, frontend development, and biodiversity exploration. Built with React, TypeScript, Vite, Supabase, and open-source libraries.
