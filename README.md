@@ -1,4 +1,4 @@
-# Butterflies Across Africa 🦋
+# Butterflies Web platform🦋
 
 **An interactive digital archive for exploring African butterflies through visual discovery, ecological information, and interactive interfaces.**
 
